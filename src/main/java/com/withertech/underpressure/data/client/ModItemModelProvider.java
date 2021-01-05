@@ -19,6 +19,7 @@ public class ModItemModelProvider extends ItemModelProvider
         withExistingParent("orichalcum_ore", modLoc("block/orichalcum_ore"));
         withExistingParent("orichalcum_block", modLoc("block/orichalcum_block"));
         withExistingParent("wave_cell", modLoc("block/wave_cell"));
+        withExistingParent("wave_cap", modLoc("block/wave_cap"));
 
 
         ModelFile itemGenerated = getExistingFile(mcLoc("item/generated"));

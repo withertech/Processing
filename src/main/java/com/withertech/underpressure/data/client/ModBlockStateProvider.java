@@ -24,6 +24,8 @@ public class ModBlockStateProvider extends BlockStateProvider
         simpleBlock(ModBlocks.ORICHALCUM_ORE.get());
         simpleBlock(ModBlocks.ORICHALCUM_BLOCK.get());
         simpleBlock(ModBlocks.WAVE_CELL.get(), models().getExistingFile(modLoc("wave_cell")));
+        horizontalBlock(ModBlocks.WAVE_CAP.get(), models().getExistingFile(modLoc("wave_cap")));
+
     }
 
 

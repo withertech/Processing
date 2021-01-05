@@ -55,6 +55,8 @@ public class UnderPressure
         // do something that can only be done on the client
         LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().gameSettings);
         RenderTypeLookup.setRenderLayer(ModBlocks.WAVE_CELL.get(), (layer) -> layer == RenderType.getSolid() || layer == RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(ModBlocks.WAVE_CAP.get(), (layer) -> layer == RenderType.getSolid() || layer == RenderType.getTranslucent());
+
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

@@ -1,8 +1,10 @@
 package com.withertech.underpressure.setup;
 
+import com.withertech.underpressure.blocks.BlockWaveCap;
 import com.withertech.underpressure.blocks.BlockWaveCell;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
@@ -34,13 +36,23 @@ public class ModBlocks
     );
 
     public static final RegistryObject<BlockWaveCell> WAVE_CELL = register("wave_cell", () ->
-            new BlockWaveCell(AbstractBlock.Properties.create(Material.IRON)
-                    .hardnessAndResistance(25, 1200)
-                    .harvestLevel(3)
-                    .sound(SoundType.METAL)
-                    .harvestTool(ToolType.PICKAXE)
-            )
+        new BlockWaveCell(AbstractBlock.Properties.create(Material.IRON)
+            .hardnessAndResistance(25, 1200)
+            .harvestLevel(3)
+            .sound(SoundType.METAL)
+            .harvestTool(ToolType.PICKAXE)
+        )
     );
+
+    public static final RegistryObject<BlockWaveCap> WAVE_CAP = register("wave_cap", () ->
+        new BlockWaveCap(Block.Properties.create(Material.IRON)
+            .hardnessAndResistance(25, 1200)
+            .harvestLevel(3)
+            .sound(SoundType.METAL)
+            .harvestTool(ToolType.PICKAXE)
+        )
+    );
+
     public static void register() {}
 
     private static <T extends Block> RegistryObject<T> registerNoItem(String name, Supplier<T> block)
