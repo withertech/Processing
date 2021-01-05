@@ -1,3 +1,11 @@
+# UnderPressure
+
+Under Pressure is a mod about using pressure waves from explosions (e.g., tnt, creepers, and ghasts),
+to do work (e.g., smelt things, make plates and rods, and craft items). Pressure waves can be stored
+in pressure cells and travel through pressure conduits in pulses. Don't worry, the wave generator
+prevents the explosions from destroying blocks, but if you're missing an end cap on a pipe, have fun
+cleaning up automated creeper holes!
+
 -------------------------------------------
 Source installation information for modders
 -------------------------------------------
