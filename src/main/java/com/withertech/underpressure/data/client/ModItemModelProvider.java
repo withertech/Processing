@@ -16,9 +16,9 @@ public class ModItemModelProvider extends ItemModelProvider
     @Override
     protected void registerModels()
     {
-        withExistingParent("orichalcum_ore", modLoc("orichalcum_ore"));
-        withExistingParent("orichalcum_block", modLoc("orichalcum_block"));
-        withExistingParent("wave_cell", modLoc("wave_cell"));
+        withExistingParent("orichalcum_ore", modLoc("block/orichalcum_ore"));
+        withExistingParent("orichalcum_block", modLoc("block/orichalcum_block"));
+        withExistingParent("wave_cell", modLoc("block/wave_cell"));
 
 
         ModelFile itemGenerated = getExistingFile(mcLoc("item/generated"));

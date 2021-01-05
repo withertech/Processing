@@ -3,7 +3,7 @@
 	"parent": "block/block",
 	"texture_size": [64, 64],
 	"textures": {
-		"1": "underpressure:block/wave_generator",
+		"1": "underpressure:block/wave_cell",
 		"particle": "underpressure:block/orichalcum_block"
 	},
 	"display": {
@@ -129,7 +129,7 @@
 		"solid": {
 			"parent": "block/block",
 			"textures": {
-				"1": "underpressure:block/wave_generator",
+				"1": "underpressure:block/wave_cell",
 				"particle": "underpressure:block/orichalcum_block"
 			},
 			"elements": [
@@ -632,7 +632,7 @@
 		"translucent": {
 			"parent": "block/block",
 			"textures": {
-				"1": "underpressure:block/wave_generator",
+				"1": "underpressure:block/wave_cell",
 				"particle": "underpressure:block/orichalcum_block"
 			},
 			"elements": [
