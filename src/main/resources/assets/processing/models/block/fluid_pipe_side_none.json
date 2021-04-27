@@ -1,0 +1,54 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"textures": {
+		"0": "processing:block/fluid_pipe_side_none",
+		"particle": "processing:block/fluid_pipe_side_none"
+	},
+	"groups": [
+		{
+			"name": "solid",
+			"origin": [8, 8, 8],
+			"children": []
+		},
+		{
+			"name": "translucent",
+			"origin": [8, 8, 8],
+			"children": [0]
+		}
+	],
+	"loader": "forge:multi-layer",
+	"layers": {
+		"solid": {
+			"parent": "block/block",
+			"textures": {
+				"0": "processing:block/fluid_pipe_side_none",
+				"particle": "processing:block/fluid_pipe_side_none"
+			},
+			"elements": []
+		},
+		"translucent": {
+			"parent": "block/block",
+			"textures": {
+				"0": "processing:block/fluid_pipe_side_none",
+				"particle": "processing:block/fluid_pipe_side_none"
+			},
+			"elements": [
+				{
+					"name": "face",
+					"from": [6, 6, 5],
+					"to": [10, 10, 6],
+					"rotation": {"angle": 0, "axis": "y", "origin": [14, 14, 13]},
+					"faces": {
+						"north": {"uv": [0, 0, 4, 4], "texture": "#0"},
+						"east": {"uv": [4, 4, 5, 8], "texture": "#0"},
+						"south": {"uv": [0, 4, 4, 8], "texture": "#0"},
+						"west": {"uv": [4, 0, 5, 4], "texture": "#0"},
+						"up": {"uv": [9, 6, 5, 5], "texture": "#0"},
+						"down": {"uv": [9, 0, 5, 1], "texture": "#0"}
+					}
+				}
+			]
+		}
+	}
+}

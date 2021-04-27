@@ -1,0 +1,13 @@
+{
+  "type": "processing:crushing",
+  "process_time": 200,
+  "ingredient": {
+    "tag": "forge:rods/blaze"
+  },
+  "results": [
+    {
+      "item": "minecraft:blaze_powder",
+      "count": 6
+    }
+  ]
+}

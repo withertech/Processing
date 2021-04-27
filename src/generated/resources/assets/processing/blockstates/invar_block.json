@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "processing:block/invar_block"
+    }
+  }
+}

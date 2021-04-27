@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "processing:block/bismuth_steel_block"
+    }
+  }
+}

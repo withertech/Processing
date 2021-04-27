@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "processing:block/electrum_block"
+    }
+  }
+}

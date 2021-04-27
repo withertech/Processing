@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "processing:block/steel_block"
+    }
+  }
+}

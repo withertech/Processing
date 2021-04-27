@@ -1,0 +1,17 @@
+{
+  "type": "processing:crushing",
+  "process_time": 400,
+  "ingredient": {
+    "tag": "forge:ores/tin"
+  },
+  "results": [
+    {
+      "item": "processing:tin_dust",
+      "count": 2
+    },
+    {
+      "item": "minecraft:cobblestone",
+      "chance": 0.1
+    }
+  ]
+}
