@@ -50,8 +50,12 @@ public class ModItemModelProvider extends ItemModelProvider
 				builder(upgrade.asItem(), itemGenerated));
 
 		blockBuilder(ModBlocks.FLUID_TANK.get());
+		blockBuilder(ModBlocks.BASIC_CRUSHER.get());
+		blockBuilder(ModBlocks.ADVANCED_CRUSHER.get());
+		blockBuilder(ModBlocks.ULTIMATE_CRUSHER.get());
 		blockBuilder(ModBlocks.BASIC_FURNACE.get());
-		blockBuilder(ModBlocks.FURNACE.get());
+		blockBuilder(ModBlocks.ADVANCED_FURNACE.get());
+		blockBuilder(ModBlocks.ULTIMATE_FURNACE.get());
 
 		builder(ModItems.WRENCH.get(), itemHandheld);
 	}

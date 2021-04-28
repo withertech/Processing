@@ -3,7 +3,8 @@ package com.withertech.processing.util;
 public enum MachineTier
 {
 	BASIC(0, 10_000, 1.0f),
-	STANDARD(4, 50_000, 2.0f),
+	ADVANCED(4, 50_000, 2.0f),
+	ULTIMATE(8, 100_000, 8.0f),
 	;
 
 	private final int upgradeSlots;

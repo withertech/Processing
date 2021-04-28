@@ -14,6 +14,7 @@ import net.minecraft.item.crafting.*;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
@@ -27,10 +28,7 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class ElectricFurnaceTile extends AbstractMachineTileEntity<AbstractCookingRecipe> implements IAnimatable, IRestorableTileEntity
 {
@@ -43,7 +41,7 @@ public class ElectricFurnaceTile extends AbstractMachineTileEntity<AbstractCooki
 	private static final int[] SLOTS_INPUT = {0};
 	private static final int[] SLOTS_OUTPUT = {1};
 	private static final int[] SLOTS_ALL = {0, 1};
-	@SyncVariable(name = "deployed")
+//	@SyncVariable(name = "deployed")
 	public boolean deployed = false;
 	private final AnimationFactory factory = new AnimationFactory(this);
 	private boolean wrenched = false;
@@ -51,7 +49,7 @@ public class ElectricFurnaceTile extends AbstractMachineTileEntity<AbstractCooki
 
 	public ElectricFurnaceTile()
 	{
-		this(MachineTier.STANDARD);
+		this(MachineTier.ADVANCED);
 	}
 
 	public ElectricFurnaceTile(MachineTier tier)
@@ -122,7 +120,7 @@ public class ElectricFurnaceTile extends AbstractMachineTileEntity<AbstractCooki
 	@Override
 	protected ITextComponent getDefaultName()
 	{
-		return TextUtil.translate("container", "furnace");
+		return TextUtil.translate("container", this.getMachineTier().name().toLowerCase(Locale.ROOT) + "_furnace");
 	}
 
 	@Nonnull
@@ -143,7 +141,7 @@ public class ElectricFurnaceTile extends AbstractMachineTileEntity<AbstractCooki
 		);
 	}
 
-	private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event)
+	private <E extends TileEntity & IAnimatable> PlayState predicate(AnimationEvent<E> event)
 	{
 		AnimationController<?> controller = event.getController();
 		controller.transitionLengthTicks = 0;
@@ -158,7 +156,7 @@ public class ElectricFurnaceTile extends AbstractMachineTileEntity<AbstractCooki
 			}
 		}
 
-		if (this.isRunning())
+		if (event.getAnimatable().getBlockState().get(ElectricFurnaceBlock.LIT))
 		{
 			controller.setAnimation(new AnimationBuilder().addAnimation("furnace.animation.run", true));
 		} else
@@ -196,6 +194,7 @@ public class ElectricFurnaceTile extends AbstractMachineTileEntity<AbstractCooki
 	{
 		super.read(state, tags);
 		SyncVariable.Helper.readSyncVars(this, tags);
+		this.deployed = tags.getBoolean("deployed");
 	}
 
 	@Nonnull
@@ -204,13 +203,14 @@ public class ElectricFurnaceTile extends AbstractMachineTileEntity<AbstractCooki
 	{
 		super.write(tags);
 		SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.WRITE);
+		tags.putBoolean("deployed", this.deployed);
 		return tags;
 	}
 
 	@Override
 	public void registerControllers(AnimationData data)
 	{
-		data.addAnimationController(new AnimationController<>(this, "controller", 0, this::predicate));
+		data.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
 	}
 
 	@Override
@@ -225,6 +225,7 @@ public class ElectricFurnaceTile extends AbstractMachineTileEntity<AbstractCooki
 	{
 		CompoundNBT tags = super.getUpdateTag();
 		SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.PACKET);
+		tags.putBoolean("deployed", this.deployed);
 		return tags;
 	}
 
@@ -239,6 +240,7 @@ public class ElectricFurnaceTile extends AbstractMachineTileEntity<AbstractCooki
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet)
 	{
 		SyncVariable.Helper.readSyncVars(this, packet.getNbtCompound());
+		this.deployed = packet.getNbtCompound().getBoolean("deployed");
 	}
 
 	@Override
@@ -258,6 +260,7 @@ public class ElectricFurnaceTile extends AbstractMachineTileEntity<AbstractCooki
 	{
 		SyncVariable.Helper.readSyncVars(this, compound);
 		readEnergy(compound);
+		this.deployed = compound.getBoolean("deployed");
 		this.redstoneMode = EnumUtils.byOrdinal(compound.getByte("RedstoneMode"), RedstoneMode.IGNORED);
 		items = NonNullList.withSize(getSizeInventory(), ItemStack.EMPTY);
 		ItemStackHelper.loadAllItems(compound, items);
@@ -268,6 +271,7 @@ public class ElectricFurnaceTile extends AbstractMachineTileEntity<AbstractCooki
 	{
 		SyncVariable.Helper.writeSyncVars(this, compound, SyncVariable.Type.WRITE);
 		writeEnergy(compound);
+		compound.putBoolean("deployed", this.deployed);
 		compound.putByte("RedstoneMode", (byte) this.redstoneMode.ordinal());
 		ItemStackHelper.saveAllItems(compound, items);
 	}
@@ -279,4 +283,21 @@ public class ElectricFurnaceTile extends AbstractMachineTileEntity<AbstractCooki
 			super(MachineTier.BASIC);
 		}
 	}
+
+	public static class Advanced extends ElectricFurnaceTile
+	{
+		public Advanced()
+		{
+			super(MachineTier.ADVANCED);
+		}
+	}
+	public static class Ultimate extends ElectricFurnaceTile
+	{
+		public Ultimate()
+		{
+			super(MachineTier.ULTIMATE);
+		}
+	}
+
+
 }

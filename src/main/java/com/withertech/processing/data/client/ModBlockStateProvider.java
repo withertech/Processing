@@ -28,17 +28,41 @@ public class ModBlockStateProvider extends BlockStateProvider
 	@Override
 	protected void registerStatesAndModels()
 	{
+		horizontalBlock(ModBlocks.BASIC_CRUSHER.get(), models().orientableWithBottom("basic_crusher",
+				new ResourceLocation("processing", "block/basic_package"),
+				new ResourceLocation("processing", "block/basic_package"),
+				new ResourceLocation("processing", "block/basic_package"),
+				new ResourceLocation("processing", "block/basic_package_top")
+		));
+		horizontalBlock(ModBlocks.ADVANCED_CRUSHER.get(), models().orientableWithBottom("advanced_crusher",
+				new ResourceLocation("processing", "block/advanced_package"),
+				new ResourceLocation("processing", "block/advanced_package"),
+				new ResourceLocation("processing", "block/advanced_package"),
+				new ResourceLocation("processing", "block/advanced_package_top")
+		));
+		horizontalBlock(ModBlocks.ULTIMATE_CRUSHER.get(), models().orientableWithBottom("ultimate_crusher",
+				new ResourceLocation("processing", "block/ultimate_package"),
+				new ResourceLocation("processing", "block/ultimate_package"),
+				new ResourceLocation("processing", "block/ultimate_package"),
+				new ResourceLocation("processing", "block/ultimate_package_top")
+		));
 		horizontalBlock(ModBlocks.BASIC_FURNACE.get(), models().orientableWithBottom("basic_furnace",
 				new ResourceLocation("processing", "block/basic_package"),
 				new ResourceLocation("processing", "block/basic_package"),
 				new ResourceLocation("processing", "block/basic_package"),
 				new ResourceLocation("processing", "block/basic_package_top")
 		));
-		horizontalBlock(ModBlocks.FURNACE.get(), models().orientableWithBottom("furnace",
-				new ResourceLocation("processing", "block/package"),
-				new ResourceLocation("processing", "block/package"),
-				new ResourceLocation("processing", "block/package"),
-				new ResourceLocation("processing", "block/package_top")
+		horizontalBlock(ModBlocks.ADVANCED_FURNACE.get(), models().orientableWithBottom("advanced_furnace",
+				new ResourceLocation("processing", "block/advanced_package"),
+				new ResourceLocation("processing", "block/advanced_package"),
+				new ResourceLocation("processing", "block/advanced_package"),
+				new ResourceLocation("processing", "block/advanced_package_top")
+		));
+		horizontalBlock(ModBlocks.ULTIMATE_FURNACE.get(), models().orientableWithBottom("ultimate_furnace",
+				new ResourceLocation("processing", "block/ultimate_package"),
+				new ResourceLocation("processing", "block/ultimate_package"),
+				new ResourceLocation("processing", "block/ultimate_package"),
+				new ResourceLocation("processing", "block/ultimate_package_top")
 		));
 		Arrays.stream(ModMetals.values()).forEach(metal ->
 		{

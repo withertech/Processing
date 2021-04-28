@@ -1,32 +1,37 @@
 package com.withertech.processing.blocks.crusher;
 
+import com.withertech.processing.api.RedstoneMode;
 import com.withertech.processing.blocks.AbstractMachineTileEntity;
 import com.withertech.processing.crafting.recipe.RecipeCrushing;
 import com.withertech.processing.init.MachineType;
 import com.withertech.processing.init.ModRecipes;
-import com.withertech.processing.util.MachineTier;
-import com.withertech.processing.util.TextUtil;
+import com.withertech.processing.util.*;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraftforge.client.model.animation.ModelBlockAnimation;
-import net.minecraftforge.client.model.data.IModelData;
-import net.minecraftforge.client.model.data.ModelDataMap;
-import net.minecraftforge.common.animation.TimeValues;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.model.animation.CapabilityAnimation;
-import net.minecraftforge.common.model.animation.IAnimationStateMachine;
-import net.minecraftforge.common.property.Properties;
-import net.minecraftforge.common.util.LazyOptional;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.stream.IntStream;
 
-public class ElectricCrusherTile extends AbstractMachineTileEntity<RecipeCrushing>
+public class ElectricCrusherTile extends AbstractMachineTileEntity<RecipeCrushing> implements IAnimatable, IRestorableTileEntity
 {
 	// Energy constant
 	private static final int MAX_ENERGY = 50_000;
@@ -39,31 +44,14 @@ public class ElectricCrusherTile extends AbstractMachineTileEntity<RecipeCrushin
 	private static final int[] SLOTS_INPUT = {0};
 	private static final int[] SLOTS_OUTPUT = IntStream.range(INPUT_SLOT_COUNT, INVENTORY_SIZE).toArray();
 	private static final int[] SLOTS_ALL = IntStream.range(0, INVENTORY_SIZE).toArray();
-	private final TimeValues.VariableValue cycleLength = new TimeValues.VariableValue(4);
-	private IAnimationStateMachine asm;
-	private ModelBlockAnimation arm;
-	private final ModelDataMap.Builder builder = new ModelDataMap.Builder();
-	private final ModelDataMap modelData = builder.withProperty(Properties.AnimationProperty).build();
-
-	public ElectricCrusherTile()
-	{
-		this(MachineTier.STANDARD);
-	}
+	public boolean deployed = false;
+	private final AnimationFactory factory = new AnimationFactory(this);
+	private boolean wrenched = false;
+	private int tickCount = 0;
 
 	public ElectricCrusherTile(MachineTier tier)
 	{
 		super(MachineType.CRUSHER.getTileEntityType(tier), INVENTORY_SIZE, tier);
-	}
-
-	@Override
-	public void onLoad()
-	{
-//		asm = UnderPressure.loadASM(UnderPressure.getId("asms/block/crusher.json"), ImmutableMap.of("cycle_length", cycleLength));
-//		arm = UnderPressure.loadARM(UnderPressure.getId("armatures/block/crusher.json"));
-//		arm.getClips().keySet().forEach(s -> UnderPressure.LOGGER.debug("arm clip: " + s));
-//		asm.keySet().forEach(s -> UnderPressure.LOGGER.debug("arm clip: " + s));
-//		requestModelDataUpdate();
-//		UnderPressure.LOGGER.debug(asm.currentState());
 	}
 
 	@Override
@@ -78,21 +66,59 @@ public class ElectricCrusherTile extends AbstractMachineTileEntity<RecipeCrushin
 	{
 		return SLOTS_OUTPUT;
 	}
+	private <E extends TileEntity & IAnimatable> PlayState predicate(AnimationEvent<E> event)
+	{
+		AnimationController<?> controller = event.getController();
+		controller.transitionLengthTicks = 0;
+		if ((controller.getCurrentAnimation() != null && controller.getCurrentAnimation().animationName.equals("crusher.animation.deploy")) || controller.isJustStarting)
+		{
+			if (!this.deployed)
+			{
+				controller.setAnimation(new AnimationBuilder().addAnimation("crusher.animation.deploy", false).addAnimation("crusher.animation.idle", true));
 
+				return PlayState.CONTINUE;
+			}
+		}
+
+		if (event.getAnimatable().getBlockState().get(ElectricCrusherBlock.LIT))
+		{
+			controller.setAnimation(new AnimationBuilder().addAnimation("crusher.animation.run", true));
+		} else
+		{
+			controller.setAnimation(new AnimationBuilder().addAnimation("crusher.animation.idle", true));
+		}
+		return PlayState.CONTINUE;
+	}
+	@Override
+	public void registerControllers(AnimationData data)
+	{
+		data.addAnimationController(new AnimationController(this, "controller", 0, this::predicate));
+	}
+
+	@Override
+	public AnimationFactory getFactory()
+	{
+		return this.factory;
+	}
 	@Override
 	public void tick()
 	{
 		super.tick();
-//		if (this.isRunning() && asm.currentState() == "off")
-//		{
-//			asm.transition("on");
-//			requestModelDataUpdate();
-//		}
-//		else if(!this.isRunning() && asm.currentState() == "on")
-//		{
-//			asm.transition("off");
-//			requestModelDataUpdate();
-//		}
+		if (tickCount < 80 && tickCount != -1)
+		{
+			tickCount++;
+		} else
+		{
+			tickCount = -1;
+		}
+		if (tickCount == 80)
+		{
+			if (!this.deployed)
+			{
+				this.deployed = true;
+				this.markDirty();
+			}
+		}
 	}
 
 	@Nullable
@@ -155,29 +181,99 @@ public class ElectricCrusherTile extends AbstractMachineTileEntity<RecipeCrushin
 		return new ElectricCrusherContainer(id, playerInventory, this, this.fields);
 	}
 
-	@Nonnull
 	@Override
-	public IModelData getModelData()
+	public void read(@Nonnull BlockState state, @Nonnull CompoundNBT tags)
 	{
-		return modelData;
+		super.read(state, tags);
+		SyncVariable.Helper.readSyncVars(this, tags);
+		this.deployed = tags.getBoolean("deployed");
 	}
 
 	@Nonnull
 	@Override
-	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side)
+	public CompoundNBT write(@Nonnull CompoundNBT tags)
 	{
-		if (!this.removed && cap == CapabilityAnimation.ANIMATION_CAPABILITY)
-		{
-			return CapabilityAnimation.ANIMATION_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> asm));
-		}
-		return super.getCapability(cap, side);
+		super.write(tags);
+		SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.WRITE);
+		tags.putBoolean("deployed", this.deployed);
+		return tags;
+	}
+	@Nonnull
+	@Override
+	public CompoundNBT getUpdateTag()
+	{
+		CompoundNBT tags = super.getUpdateTag();
+		SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.PACKET);
+		tags.putBoolean("deployed", this.deployed);
+		return tags;
 	}
 
+	@Nullable
+	@Override
+	public SUpdateTileEntityPacket getUpdatePacket()
+	{
+		return new SUpdateTileEntityPacket(pos, 1, getUpdateTag());
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet)
+	{
+		SyncVariable.Helper.readSyncVars(this, packet.getNbtCompound());
+		this.deployed = packet.getNbtCompound().getBoolean("deployed");
+	}
+
+	@Override
+	public boolean isWrenched()
+	{
+		return this.wrenched;
+	}
+
+	@Override
+	public void setWrenched(boolean wrenched)
+	{
+		this.wrenched = wrenched;
+	}
+	@Override
+	public void readRestorableFromNBT(CompoundNBT compound)
+	{
+		SyncVariable.Helper.readSyncVars(this, compound);
+		readEnergy(compound);
+		this.deployed = compound.getBoolean("deployed");
+		this.redstoneMode = EnumUtils.byOrdinal(compound.getByte("RedstoneMode"), RedstoneMode.IGNORED);
+		items = NonNullList.withSize(getSizeInventory(), ItemStack.EMPTY);
+		ItemStackHelper.loadAllItems(compound, items);
+	}
+
+	@Override
+	public void writeRestorableToNBT(CompoundNBT compound)
+	{
+		SyncVariable.Helper.writeSyncVars(this, compound, SyncVariable.Type.WRITE);
+		writeEnergy(compound);
+		compound.putBoolean("deployed", this.deployed);
+		compound.putByte("RedstoneMode", (byte) this.redstoneMode.ordinal());
+		ItemStackHelper.saveAllItems(compound, items);
+	}
 	public static class Basic extends ElectricCrusherTile
 	{
 		public Basic()
 		{
 			super(MachineTier.BASIC);
+		}
+	}
+
+	public static class Advanced extends ElectricCrusherTile
+	{
+		public Advanced()
+		{
+			super(MachineTier.ADVANCED);
+		}
+	}
+
+	public static class Ultimate extends ElectricCrusherTile
+	{
+		public Ultimate()
+		{
+			super(MachineTier.ULTIMATE);
 		}
 	}
 }

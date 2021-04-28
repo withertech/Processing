@@ -2,6 +2,7 @@ package com.withertech.processing.blocks.furnace;
 
 import com.withertech.processing.Processing;
 import com.withertech.processing.blocks.AbstractMachineScreen;
+import com.withertech.processing.util.MachineTier;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -13,16 +14,20 @@ public class ElectricFurnaceScreen extends AbstractMachineScreen<ElectricFurnace
 	public ElectricFurnaceScreen(ElectricFurnaceContainer containerIn, PlayerInventory playerInventory, ITextComponent titleIn)
 	{
 		super(containerIn, playerInventory, titleIn);
-		switch (containerIn.getTileEntity().getMachineTier())
+		MachineTier tier = containerIn.getTileEntity().getMachineTier();
+		switch (tier)
 		{
 			case BASIC:
 				TEXTURE = Processing.getId("textures/gui/basic_furnace.png");
 				break;
-			case STANDARD:
-				TEXTURE = Processing.getId("textures/gui/furnace.png");
+			case ADVANCED:
+				TEXTURE = Processing.getId("textures/gui/advanced_furnace.png");
+				break;
+			case ULTIMATE:
+				TEXTURE = Processing.getId("textures/gui/ultimate_furnace.png");
 				break;
 			default:
-				TEXTURE = Processing.getId("textures/gui/furnace.png");
+				throw new IllegalArgumentException("Unknown MachineTier: " + tier);
 		}
 
 	}

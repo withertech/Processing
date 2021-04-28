@@ -99,9 +99,12 @@ public class UnderPressureJeiPlugin implements IModPlugin
 	{
 //		registration.addRecipeCatalyst(new ItemStack(ModBlocks.ALLOY_SMELTER), Constants.ALLOY_SMELTING);
 //		registration.addRecipeCatalyst(new ItemStack(ModBlocks.COMPRESSOR), Constants.COMPRESSING);
-		registration.addRecipeCatalyst(new ItemStack(ModBlocks.CRUSHER.get()), Constants.CRUSHING);
-		registration.addRecipeCatalyst(new ItemStack(ModBlocks.FURNACE.get()),
-				VanillaRecipeCategoryUid.BLASTING, VanillaRecipeCategoryUid.FURNACE);
+		registration.addRecipeCatalyst(new ItemStack(ModBlocks.BASIC_CRUSHER.get()), Constants.CRUSHING);
+		registration.addRecipeCatalyst(new ItemStack(ModBlocks.ADVANCED_CRUSHER.get()), Constants.CRUSHING);
+		registration.addRecipeCatalyst(new ItemStack(ModBlocks.ULTIMATE_CRUSHER.get()), Constants.CRUSHING);
+		registration.addRecipeCatalyst(new ItemStack(ModBlocks.BASIC_FURNACE.get()), VanillaRecipeCategoryUid.BLASTING, VanillaRecipeCategoryUid.FURNACE);
+		registration.addRecipeCatalyst(new ItemStack(ModBlocks.ADVANCED_FURNACE.get()), VanillaRecipeCategoryUid.BLASTING, VanillaRecipeCategoryUid.FURNACE);
+		registration.addRecipeCatalyst(new ItemStack(ModBlocks.ULTIMATE_FURNACE.get()), VanillaRecipeCategoryUid.BLASTING, VanillaRecipeCategoryUid.FURNACE);
 //		registration.addRecipeCatalyst(new ItemStack(ModBlocks.INFUSER), Constants.INFUSING);
 //		registration.addRecipeCatalyst(new ItemStack(ModBlocks.MIXER), Constants.MIXING);
 //		registration.addRecipeCatalyst(new ItemStack(ModBlocks.REFINERY), Constants.REFINING);

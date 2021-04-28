@@ -15,7 +15,7 @@ import net.minecraftforge.common.util.Lazy;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class MachineType<T extends AbstractMachineBaseTileEntity, B extends T, S extends T, C extends Container>
+public class MachineType<T extends AbstractMachineBaseTileEntity, B extends T, A extends T, U extends T, C extends Container>
 {
 	//	public static final MachineType<AlloySmelterTileEntity, AlloySmelterTileEntity.Basic, AlloySmelterTileEntity, AlloySmelterContainer> ALLOY_SMELTER = new MachineType<>(
 //			() -> TileEntityType.Builder.create(AlloySmelterTileEntity.Basic::new, ModBlocks.BASIC_ALLOY_SMELTER.get()),
@@ -23,37 +23,49 @@ public class MachineType<T extends AbstractMachineBaseTileEntity, B extends T, S
 //			(id, inv) -> new AlloySmelterContainer(id, inv, MachineTier.BASIC),
 //			(id, inv) -> new AlloySmelterContainer(id, inv, MachineTier.STANDARD)
 //	);
-	public static final MachineType<ElectricCrusherTile, ElectricCrusherTile.Basic, ElectricCrusherTile, ElectricCrusherContainer> CRUSHER = new MachineType<>(
+	public static final MachineType<ElectricCrusherTile, ElectricCrusherTile.Basic, ElectricCrusherTile.Advanced, ElectricCrusherTile.Ultimate, ElectricCrusherContainer> CRUSHER = new MachineType<>(
 			() -> TileEntityType.Builder.create(ElectricCrusherTile.Basic::new, ModBlocks.BASIC_CRUSHER.get()),
-			() -> TileEntityType.Builder.create(ElectricCrusherTile::new, ModBlocks.CRUSHER.get()),
+			() -> TileEntityType.Builder.create(ElectricCrusherTile.Advanced::new, ModBlocks.ADVANCED_CRUSHER.get()),
+			() -> TileEntityType.Builder.create(ElectricCrusherTile.Ultimate::new, ModBlocks.ULTIMATE_CRUSHER.get()),
 			(id, inv) -> new ElectricCrusherContainer(id, inv, MachineTier.BASIC),
-			(id, inv) -> new ElectricCrusherContainer(id, inv, MachineTier.STANDARD)
+			(id, inv) -> new ElectricCrusherContainer(id, inv, MachineTier.ADVANCED),
+			(id, inv) -> new ElectricCrusherContainer(id, inv, MachineTier.ULTIMATE)
 	);
 
-	public static final MachineType<ElectricFurnaceTile, ElectricFurnaceTile.Basic, ElectricFurnaceTile, ElectricFurnaceContainer> FURNACE = new MachineType<>(
+	public static final MachineType<ElectricFurnaceTile, ElectricFurnaceTile.Basic, ElectricFurnaceTile.Advanced, ElectricFurnaceTile.Ultimate, ElectricFurnaceContainer> FURNACE = new MachineType<>(
 			() -> TileEntityType.Builder.create(ElectricFurnaceTile.Basic::new, ModBlocks.BASIC_FURNACE.get()),
-			() -> TileEntityType.Builder.create(ElectricFurnaceTile::new, ModBlocks.FURNACE.get()),
+			() -> TileEntityType.Builder.create(ElectricFurnaceTile.Advanced::new, ModBlocks.ADVANCED_FURNACE.get()),
+			() -> TileEntityType.Builder.create(ElectricFurnaceTile.Ultimate::new, ModBlocks.ULTIMATE_FURNACE.get()),
 			(id, inv) -> new ElectricFurnaceContainer(id, inv, MachineTier.BASIC),
-			(id, inv) -> new ElectricFurnaceContainer(id, inv, MachineTier.STANDARD)
+			(id, inv) -> new ElectricFurnaceContainer(id, inv, MachineTier.ADVANCED),
+			(id, inv) -> new ElectricFurnaceContainer(id, inv, MachineTier.ULTIMATE)
 	);
 
 	private final Lazy<TileEntityType<B>> basicTileEntityType;
-	private final Lazy<TileEntityType<S>> standardTileEntityType;
+	private final Lazy<TileEntityType<A>> advancedTileEntityType;
+	private final Lazy<TileEntityType<U>> ultimateTileEntityType;
 	private final Lazy<ContainerType<C>> basicContainerType;
-	private final Lazy<ContainerType<C>> standardContainerType;
+	private final Lazy<ContainerType<C>> advancedContainerType;
+	private final Lazy<ContainerType<C>> ultimateContainerType;
 
 	public MachineType(
 			Supplier<TileEntityType.Builder<B>> basic,
-			Supplier<TileEntityType.Builder<S>> standard,
+			Supplier<TileEntityType.Builder<A>> advanced,
+			Supplier<TileEntityType.Builder<U>> ultimate,
 			ContainerType.IFactory<C> basicContainer,
-			ContainerType.IFactory<C> standardContainer
+			ContainerType.IFactory<C> advancedContainer,
+			ContainerType.IFactory<C> ultimateContainer
 	)
 	{
 		this.basicTileEntityType = Lazy.of(() -> basic.get().build(null));
-		this.standardTileEntityType = Lazy.of(() -> standard.get().build(null));
+		this.advancedTileEntityType = Lazy.of(() -> advanced.get().build(null));
+		this.ultimateTileEntityType = Lazy.of(() -> ultimate.get().build(null));
 		this.basicContainerType = Lazy.of(() -> new ContainerType<>(basicContainer));
-		this.standardContainerType = Lazy.of(() -> new ContainerType<>(standardContainer));
+		this.advancedContainerType = Lazy.of(() -> new ContainerType<>(advancedContainer));
+		this.ultimateContainerType = Lazy.of(() -> new ContainerType<>(ultimateContainer));
 	}
+
+
 
 	public TileEntityType<? extends T> getTileEntityType(MachineTier tier)
 	{
@@ -61,8 +73,10 @@ public class MachineType<T extends AbstractMachineBaseTileEntity, B extends T, S
 		{
 			case BASIC:
 				return basicTileEntityType.get();
-			case STANDARD:
-				return standardTileEntityType.get();
+			case ADVANCED:
+				return advancedTileEntityType.get();
+			case ULTIMATE:
+				return ultimateTileEntityType.get();
 			default:
 				throw new IllegalArgumentException("Unknown MachineTier: " + tier);
 		}
@@ -73,9 +87,14 @@ public class MachineType<T extends AbstractMachineBaseTileEntity, B extends T, S
 		return basicTileEntityType.get();
 	}
 
-	public TileEntityType<S> getStandardTileEntityType()
+	public TileEntityType<A> getAdvancedTileEntityType()
 	{
-		return standardTileEntityType.get();
+		return advancedTileEntityType.get();
+	}
+
+	public TileEntityType<U> getUltimateTileEntityType()
+	{
+		return ultimateTileEntityType.get();
 	}
 
 	public T create(MachineTier tier)
@@ -89,8 +108,10 @@ public class MachineType<T extends AbstractMachineBaseTileEntity, B extends T, S
 		{
 			case BASIC:
 				return basicContainerType.get();
-			case STANDARD:
-				return standardContainerType.get();
+			case ADVANCED:
+				return advancedContainerType.get();
+			case ULTIMATE:
+				return ultimateContainerType.get();
 			default:
 				throw new IllegalArgumentException("Unknown MachineTier: " + tier);
 		}

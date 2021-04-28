@@ -4,6 +4,7 @@ import com.withertech.processing.blocks.AbstractPortedMachineBlock;
 import com.withertech.processing.init.MachineType;
 import com.withertech.processing.init.ModItems;
 import com.withertech.processing.util.MachineTier;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
@@ -16,6 +17,9 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
@@ -25,7 +29,7 @@ import java.util.Random;
 
 public class ElectricFurnaceBlock extends AbstractPortedMachineBlock
 {
-	private static final Direction[] FACING_VALUES = Direction.values();
+	private static final VoxelShape SHAPE = VoxelShapes.or(Block.makeCuboidShape(2, 0, 2, 14, 25, 14));
 
 	public ElectricFurnaceBlock(MachineTier tier)
 	{
@@ -33,13 +37,34 @@ public class ElectricFurnaceBlock extends AbstractPortedMachineBlock
 	}
 
 	@Override
-	protected void interactWith(World worldIn, @Nonnull BlockPos pos, PlayerEntity player)
+	protected void interactWith(World worldIn, @Nonnull BlockPos pos, @Nonnull PlayerEntity player)
 	{
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
 		if (tileEntity instanceof ElectricFurnaceTile && !player.getHeldItemMainhand().isItemEqual(ModItems.WRENCH.get().getDefaultInstance()))
 		{
 			player.openContainer((INamedContainerProvider) tileEntity);
 		}
+	}
+
+	@Nonnull
+	@Override
+	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos, @Nonnull ISelectionContext context)
+	{
+		return SHAPE;
+	}
+
+	@Nonnull
+	@Override
+	public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, ISelectionContext context)
+	{
+		return SHAPE;
+	}
+
+	@Nonnull
+	@Override
+	public VoxelShape getRayTraceShape(@Nonnull BlockState state, @Nonnull IBlockReader reader, BlockPos pos, @Nonnull ISelectionContext context)
+	{
+		return SHAPE;
 	}
 
 	@Nonnull

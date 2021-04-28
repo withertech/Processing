@@ -108,9 +108,16 @@ repositories
     }
 
     maven {
+        name = "cloth"
+        url = "https://maven.shedaniel.me/"
+    }
+
+    maven {
         name = 'cursemaven'
         url = 'https://www.cursemaven.com'
     }
+
+
 }
 
 dependencies {
@@ -127,6 +134,8 @@ dependencies {
     }
 
     compile fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.31')
+
+    compile fg.deobf("me.shedaniel.cloth:cloth-config-forge:4.11.19")
 
     runtimeOnly fg.deobf('curse.maven:mekanism-268560:3206392')
 
@@ -152,9 +161,11 @@ dependencies {
 shadowJar {
     dependencies {
         include(dependency('software.bernie.geckolib:.*'))
+        include(dependency('me.shedaniel.cloth:.*'))
     }
 
     relocate 'software.bernie.geckolib', 'software.bernie.shadowed.geckolib'
+    relocate 'me.shedaniel.cloth', 'me.shedaniel.shadowed.cloth'
 
     classifier ''
 }

@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "processing:furnace"
+          "name": "processing:ultimate_crusher"
         }
       ],
       "conditions": [

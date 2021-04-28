@@ -1,17 +1,16 @@
 package com.withertech.processing.blocks.crusher;
 
-import com.withertech.processing.blocks.AbstractMachineBlock;
+import com.withertech.processing.blocks.AbstractPortedMachineBlock;
 import com.withertech.processing.init.MachineType;
+import com.withertech.processing.init.ModItems;
 import com.withertech.processing.util.MachineTier;
-import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
@@ -24,28 +23,26 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class ElectricCrusherBlock extends AbstractMachineBlock
+public class ElectricCrusherBlock extends AbstractPortedMachineBlock
 {
-	public static final BooleanProperty STATIC = net.minecraftforge.common.property.Properties.StaticProperty;
-
 	public ElectricCrusherBlock(MachineTier tier)
 	{
-		super(tier, Properties.create(Material.IRON).hardnessAndResistance(6, 20).sound(SoundType.METAL));
-		this.setDefaultState(this.getDefaultState().with(STATIC, false));
+		super(tier, Properties.create(Material.IRON).hardnessAndResistance(6, 20).sound(SoundType.METAL).notSolid());
 	}
 
-
+	@Nonnull
+	@SuppressWarnings("deprecation")
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	public BlockRenderType getRenderType(@Nonnull BlockState state)
 	{
-		super.fillStateContainer(builder.add(STATIC));
+		return BlockRenderType.ENTITYBLOCK_ANIMATED;
 	}
 
 	@Override
-	protected void interactWith(World worldIn, @Nonnull BlockPos pos, PlayerEntity player)
+	protected void interactWith(World worldIn, @Nonnull BlockPos pos, @Nonnull PlayerEntity player)
 	{
 		TileEntity tileentity = worldIn.getTileEntity(pos);
-		if (tileentity instanceof ElectricCrusherTile)
+		if (tileentity instanceof ElectricCrusherTile && !player.getHeldItemMainhand().isItemEqual(ModItems.WRENCH.get().getDefaultInstance()))
 		{
 			player.openContainer((INamedContainerProvider) tileentity);
 //            player.addStat(Stats.INTERACT_WITH_BLAST_FURNACE);

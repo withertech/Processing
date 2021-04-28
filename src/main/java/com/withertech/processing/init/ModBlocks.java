@@ -18,9 +18,11 @@ public class ModBlocks
 	public static final RegistryObject<BlockFluidTank> FLUID_TANK = register("fluid_tank", BlockFluidTank::new);
 	public static final RegistryObject<BlockFluidPipe> FLUID_PIPE = register("fluid_pipe", BlockFluidPipe::new);
 	public static final RegistryObject<ElectricCrusherBlock> BASIC_CRUSHER = register("basic_crusher", () -> new ElectricCrusherBlock(MachineTier.BASIC));
-	public static final RegistryObject<ElectricCrusherBlock> CRUSHER = register("crusher", () -> new ElectricCrusherBlock(MachineTier.STANDARD));
+	public static final RegistryObject<ElectricCrusherBlock> ADVANCED_CRUSHER = register("advanced_crusher", () -> new ElectricCrusherBlock(MachineTier.ADVANCED));
+	public static final RegistryObject<ElectricCrusherBlock> ULTIMATE_CRUSHER = register("ultimate_crusher", () -> new ElectricCrusherBlock(MachineTier.ULTIMATE));
 	public static final RegistryObject<ElectricFurnaceBlock> BASIC_FURNACE = register("basic_furnace", () -> new ElectricFurnaceBlock(MachineTier.BASIC));
-	public static final RegistryObject<ElectricFurnaceBlock> FURNACE = register("furnace", () -> new ElectricFurnaceBlock(MachineTier.STANDARD));
+	public static final RegistryObject<ElectricFurnaceBlock> ADVANCED_FURNACE = register("advanced_furnace", () -> new ElectricFurnaceBlock(MachineTier.ADVANCED));
+	public static final RegistryObject<ElectricFurnaceBlock> ULTIMATE_FURNACE = register("ultimate_furnace", () -> new ElectricFurnaceBlock(MachineTier.ULTIMATE));
 
 	static
 	{

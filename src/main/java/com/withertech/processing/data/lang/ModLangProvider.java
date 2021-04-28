@@ -3,11 +3,13 @@ package com.withertech.processing.data.lang;
 import com.withertech.processing.init.ModBlocks;
 import com.withertech.processing.init.ModItems;
 import com.withertech.processing.init.ModMetals;
+import com.withertech.processing.init.ModOres;
 import com.withertech.processing.items.MachineUpgrades;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
 import org.apache.commons.lang3.text.WordUtils;
 
+@SuppressWarnings("deprecation")
 public class ModLangProvider extends LanguageProvider
 {
 	public ModLangProvider(DataGenerator gen, String modid, String locale)
@@ -37,10 +39,22 @@ public class ModLangProvider extends LanguageProvider
 			if (metal.getNugget().isPresent())
 				add(metal.getNugget().get(), getEntryName(metal, "Nugget"));
 		}
+		add("config.processing.title", "Processing");
+		add("config.processing.world", "World");
+		add("config.processing.world.ores", "Ores");
+		add("config.processing.world.ores.master", "Master Switch");
+		for (ModOres ore : ModOres.values())
+		{
+			add("config.processing.world.ores." + ore.getName(), WordUtils.capitalize(ore.getName()));
+			add("config.processing.world.ores." + ore.getName() + ".enable", "Enable");
+			add("config.processing.world.ores." + ore.getName() + ".veinCount", "Vein Count");
+			add("config.processing.world.ores." + ore.getName() + ".veinSize", "Vein Size");
+			add("config.processing.world.ores." + ore.getName() + ".minHeight", "Min Height");
+			add("config.processing.world.ores." + ore.getName() + ".maxHeight", "Max Height");
+		}
 
 		for (MachineUpgrades upgrade : MachineUpgrades.values())
 		{
-			//noinspection deprecation
 			add(upgrade.asItem(), WordUtils.capitalize(upgrade.getName().replace("_", " ")));
 			add(upgrade.asItem().getTranslationKey() + ".desc", upgrade.getDesc());
 
@@ -50,8 +64,12 @@ public class ModLangProvider extends LanguageProvider
 
 		add(ModBlocks.FLUID_PIPE.get(), "Fluid Pipe");
 		add(ModBlocks.FLUID_TANK.get(), "Fluid Tank");
-		add(ModBlocks.CRUSHER.get(), "Electric Crusher");
-		add(ModBlocks.FURNACE.get(), "Electric Furnace");
+		add(ModBlocks.BASIC_CRUSHER.get(), "Basic Electric Crusher");
+		add(ModBlocks.ADVANCED_CRUSHER.get(), "Advanced Electric Crusher");
+		add(ModBlocks.ULTIMATE_CRUSHER.get(), "Ultimate Electric Crusher");
+		add(ModBlocks.BASIC_FURNACE.get(), "Basic Electric Furnace");
+		add(ModBlocks.ADVANCED_FURNACE.get(), "Advanced Electric Furnace");
+		add(ModBlocks.ULTIMATE_FURNACE.get(), "Ultimate Electric Furnace");
 
 		add(ModItems.WRENCH.get(), "Wrench");
 
@@ -59,8 +77,12 @@ public class ModLangProvider extends LanguageProvider
 
 		add("message.processing.tank", "@aFluid: %s");
 
-		add("container.processing.crusher", "Electric Crusher");
-		add("container.processing.furnace", "Electric Furnace");
+		add("container.processing.basic_crusher", "Basic Electric Crusher");
+		add("container.processing.advanced_crusher", "Advanced Electric Crusher");
+		add("container.processing.ultimate_crusher", "Ultimate Electric Crusher");
+		add("container.processing.basic_furnace", "Basic Electric Furnace");
+		add("container.processing.advanced_furnace", "Advanced Electric Furnace");
+		add("container.processing.ultimate_furnace", "Ultimate Electric Furnace");
 
 		add("jei.processing.category.crushing", "Crushing");
 

@@ -3,6 +3,8 @@ package com.withertech.processing.init;
 import com.withertech.processing.Processing;
 import com.withertech.processing.config.Config;
 import com.withertech.processing.network.Network;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
@@ -24,7 +26,6 @@ public class Registration
 	public static void register()
 	{
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-		Config.init();
 		Network.init();
 		BLOCKS.register(modEventBus);
 		ITEMS.register(modEventBus);
