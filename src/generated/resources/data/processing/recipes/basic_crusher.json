@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "trt",
+    "brb",
+    "tct"
+  ],
+  "key": {
+    "t": {
+      "tag": "forge:ingots/tin"
+    },
+    "r": {
+      "tag": "forge:dusts/redstone"
+    },
+    "b": {
+      "item": "minecraft:flint"
+    },
+    "c": {
+      "tag": "forge:ingots/copper"
+    }
+  },
+  "result": {
+    "item": "processing:basic_crusher"
+  }
+}

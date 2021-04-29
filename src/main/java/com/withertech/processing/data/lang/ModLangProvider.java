@@ -5,6 +5,7 @@ import com.withertech.processing.init.ModItems;
 import com.withertech.processing.init.ModMetals;
 import com.withertech.processing.init.ModOres;
 import com.withertech.processing.items.MachineUpgrades;
+import com.withertech.processing.util.MachineTier;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
 import org.apache.commons.lang3.text.WordUtils;
@@ -51,6 +52,15 @@ public class ModLangProvider extends LanguageProvider
 			add("config.processing.world.ores." + ore.getName() + ".veinSize", "Vein Size");
 			add("config.processing.world.ores." + ore.getName() + ".minHeight", "Min Height");
 			add("config.processing.world.ores." + ore.getName() + ".maxHeight", "Max Height");
+		}
+		add("config.processing.machines", "Machines");
+		add("config.processing.machines.tiers", "Tiers");
+		for (MachineTier tier : MachineTier.values())
+		{
+			add("config.processing.machines.tiers." + tier.getName(), WordUtils.capitalize(tier.getName()));
+			add("config.processing.machines.tiers." + tier.getName() + ".upgradeSlots", "Upgrade Slots");
+			add("config.processing.machines.tiers." + tier.getName() + ".energyCapacity", "Energy Capacity");
+			add("config.processing.machines.tiers." + tier.getName() + ".processingSpeed", "Processing Speed");
 		}
 
 		for (MachineUpgrades upgrade : MachineUpgrades.values())

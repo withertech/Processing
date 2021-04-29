@@ -208,6 +208,76 @@ public class ModRecipeProvider extends RecipeProvider
 				.addCriterion("has_item", hasItem(ModMetals.TIN.getIngotTag().get()))
 				.build(consumer);
 
+		ShapedRecipeBuilder.shapedRecipe(ModBlocks.BASIC_FURNACE.get(), 1)
+				.patternLine("trt")
+				.patternLine("brb")
+				.patternLine("tct")
+				.key('t', ModMetals.TIN.getIngotTag().get())
+				.key('r', Tags.Items.DUSTS_REDSTONE)
+				.key('b', Items.COAL)
+				.key('c', ModMetals.COPPER.getIngotTag().get())
+				.addCriterion("has_item", hasItem(ModMetals.TIN.getIngotTag().get()))
+				.build(consumer);
+
+		ShapedRecipeBuilder.shapedRecipe(ModBlocks.ADVANCED_FURNACE.get(), 1)
+				.patternLine("srs")
+				.patternLine("bfb")
+				.patternLine("sgs")
+				.key('f', ModBlocks.BASIC_FURNACE.get())
+				.key('s', ModMetals.SILVER.getIngotTag().get())
+				.key('r', Tags.Items.DUSTS_REDSTONE)
+				.key('b', Items.COAL)
+				.key('g', ModMetals.GOLD.getIngotTag().get())
+				.addCriterion("has_item", hasItem(ModMetals.SILVER.getIngotTag().get()))
+				.build(consumer);
+
+		ShapedRecipeBuilder.shapedRecipe(ModBlocks.ULTIMATE_FURNACE.get(), 1)
+				.patternLine("grg")
+				.patternLine("bfb")
+				.patternLine("gpg")
+				.key('f', ModBlocks.ADVANCED_FURNACE.get())
+				.key('g', ModMetals.GOLD.getIngotTag().get())
+				.key('r', Tags.Items.DUSTS_REDSTONE)
+				.key('b', Tags.Items.STORAGE_BLOCKS_COAL)
+				.key('p', ModMetals.PLATINUM.getIngotTag().get())
+				.addCriterion("has_item", hasItem(ModMetals.PLATINUM.getIngotTag().get()))
+				.build(consumer);
+
+		ShapedRecipeBuilder.shapedRecipe(ModBlocks.BASIC_CRUSHER.get(), 1)
+				.patternLine("trt")
+				.patternLine("brb")
+				.patternLine("tct")
+				.key('t', ModMetals.TIN.getIngotTag().get())
+				.key('r', Tags.Items.DUSTS_REDSTONE)
+				.key('b', Items.FLINT)
+				.key('c', ModMetals.COPPER.getIngotTag().get())
+				.addCriterion("has_item", hasItem(ModMetals.TIN.getIngotTag().get()))
+				.build(consumer);
+
+		ShapedRecipeBuilder.shapedRecipe(ModBlocks.ADVANCED_CRUSHER.get(), 1)
+				.patternLine("srs")
+				.patternLine("bfb")
+				.patternLine("sgs")
+				.key('f', ModBlocks.BASIC_CRUSHER.get())
+				.key('s', ModMetals.SILVER.getIngotTag().get())
+				.key('r', Tags.Items.DUSTS_REDSTONE)
+				.key('b', Items.FLINT)
+				.key('g', ModMetals.GOLD.getIngotTag().get())
+				.addCriterion("has_item", hasItem(ModMetals.SILVER.getIngotTag().get()))
+				.build(consumer);
+
+		ShapedRecipeBuilder.shapedRecipe(ModBlocks.ULTIMATE_CRUSHER.get(), 1)
+				.patternLine("grg")
+				.patternLine("bfb")
+				.patternLine("gpg")
+				.key('f', ModBlocks.ADVANCED_CRUSHER.get())
+				.key('g', ModMetals.GOLD.getIngotTag().get())
+				.key('r', Tags.Items.DUSTS_REDSTONE)
+				.key('b', Tags.Items.OBSIDIAN)
+				.key('p', ModMetals.PLATINUM.getIngotTag().get())
+				.addCriterion("has_item", hasItem(ModMetals.PLATINUM.getIngotTag().get()))
+				.build(consumer);
+
 
 	}
 

@@ -46,6 +46,7 @@ public class ElectricFurnaceBlock extends AbstractPortedMachineBlock
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@Nonnull
 	@Override
 	public VoxelShape getShape(@Nonnull BlockState state, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos, @Nonnull ISelectionContext context)
@@ -53,6 +54,7 @@ public class ElectricFurnaceBlock extends AbstractPortedMachineBlock
 		return SHAPE;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Nonnull
 	@Override
 	public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, ISelectionContext context)
@@ -60,6 +62,7 @@ public class ElectricFurnaceBlock extends AbstractPortedMachineBlock
 		return SHAPE;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Nonnull
 	@Override
 	public VoxelShape getRayTraceShape(@Nonnull BlockState state, @Nonnull IBlockReader reader, BlockPos pos, @Nonnull ISelectionContext context)

@@ -5,12 +5,12 @@ import net.minecraftforge.common.ForgeConfigSpec;
 
 public class OreConfig
 {
-	private ForgeConfigSpec.BooleanValue masterSwitch;
-	private ForgeConfigSpec.BooleanValue enabled;
-	private ForgeConfigSpec.IntValue veinCount;
-	private ForgeConfigSpec.IntValue veinSize;
-	private ForgeConfigSpec.IntValue minHeight;
-	private ForgeConfigSpec.IntValue maxHeight;
+	private final ForgeConfigSpec.BooleanValue masterSwitch;
+	private final ForgeConfigSpec.BooleanValue enabled;
+	private final ForgeConfigSpec.IntValue veinCount;
+	private final ForgeConfigSpec.IntValue veinSize;
+	private final ForgeConfigSpec.IntValue minHeight;
+	private final ForgeConfigSpec.IntValue maxHeight;
 
 	public OreConfig(ModOres ore, ForgeConfigSpec.Builder builder, ForgeConfigSpec.BooleanValue masterSwitch)
 	{
@@ -48,7 +48,6 @@ public class OreConfig
 	public void setEnabled(boolean enabled)
 	{
 		this.enabled.set(enabled);
-		this.enabled.save();
 	}
 
 	public int getVeinCount()
@@ -59,7 +58,6 @@ public class OreConfig
 	public void setVeinCount(int veinCount)
 	{
 		this.veinCount.set(veinCount);
-		this.veinCount.save();
 	}
 
 	public int getVeinSize()
@@ -70,7 +68,6 @@ public class OreConfig
 	public void setVeinSize(int veinSize)
 	{
 		this.veinSize.set(veinSize);
-		this.veinSize.save();
 	}
 
 	public int getMinHeight()
@@ -81,7 +78,6 @@ public class OreConfig
 	public void setMinHeight(int minHeight)
 	{
 		this.minHeight.set(minHeight);
-		this.minHeight.save();
 	}
 
 	public int getMaxHeight()
@@ -92,6 +88,5 @@ public class OreConfig
 	public void setMaxHeight(int maxHeight)
 	{
 		this.maxHeight.set(maxHeight);
-		this.maxHeight.save();
 	}
 }

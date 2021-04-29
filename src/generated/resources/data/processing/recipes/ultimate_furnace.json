@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "grg",
+    "bfb",
+    "gpg"
+  ],
+  "key": {
+    "f": {
+      "item": "processing:advanced_furnace"
+    },
+    "g": {
+      "tag": "forge:ingots/gold"
+    },
+    "r": {
+      "tag": "forge:dusts/redstone"
+    },
+    "b": {
+      "tag": "forge:storage_blocks/coal"
+    },
+    "p": {
+      "tag": "forge:ingots/platinum"
+    }
+  },
+  "result": {
+    "item": "processing:ultimate_furnace"
+  }
+}

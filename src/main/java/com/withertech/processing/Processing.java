@@ -46,9 +46,9 @@ public class Processing
 
 	public Processing()
 	{
+		Config.init();
 		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST, () -> Pair.of(() -> "OHNOES\ud83d\ude31\ud83d\ude31\ud83d\ude31\ud83d\ude31\ud83d\ude31\ud83d\ude31\ud83d\ude31\ud83d\ude31\ud83d\ude31\ud83d\ude31\ud83d\ude31\ud83d\ude31\ud83d\ude31\ud83d\ude31\ud83d\ude31\ud83d\ude31\ud83d\ude31", (a, b) -> true));
 		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> Config::registerModsPage);
-		Config.init();
 		GeckoLib.initialize();
 		Registration.register();
 
@@ -75,7 +75,6 @@ public class Processing
 	{
 		RenderTypeLookup.setRenderLayer(ModBlocks.FLUID_TANK.get(), (layer) -> layer == RenderType.getSolid() || layer == RenderType.getTranslucent());
 		RenderTypeLookup.setRenderLayer(ModBlocks.FLUID_PIPE.get(), (layer) -> layer == RenderType.getSolid() || layer == RenderType.getTranslucent());
-		RenderTypeLookup.setRenderLayer(ModBlocks.ADVANCED_CRUSHER.get(), (layer) -> layer == RenderType.getSolid() || layer == RenderType.getTranslucent());
 		ModTiles.registerRenderers(event);
 		ModContainers.registerScreens(event);
 	}

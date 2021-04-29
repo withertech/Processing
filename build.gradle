@@ -6,14 +6,12 @@ buildscript {
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
-        classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
-apply plugin: 'com.github.johnrengelman.shadow'
 
 version = '1.0'
 group = 'com.withertech.processing' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -158,17 +156,6 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
 }
-shadowJar {
-    dependencies {
-        include(dependency('software.bernie.geckolib:.*'))
-        include(dependency('me.shedaniel.cloth:.*'))
-    }
-
-    relocate 'software.bernie.geckolib', 'software.bernie.shadowed.geckolib'
-    relocate 'me.shedaniel.cloth', 'me.shedaniel.shadowed.cloth'
-
-    classifier ''
-}
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {
     manifest {
@@ -182,9 +169,6 @@ jar {
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
-}
-reobf{
-    shadowJar{}
 }
 
 // Example configuration to allow publishing using the maven-publish task

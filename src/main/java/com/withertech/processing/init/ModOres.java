@@ -54,7 +54,7 @@ public enum ModOres implements IBlockProvider
 
 	public OreConfig getConfig()
 	{
-		return Config.getConfig(this);
+		return Config.getOreConfig(this);
 	}
 
 	public String getName()

@@ -53,3 +53,17 @@ description='''
     versionRange="[1.16.5]"
     ordering="NONE"
     side="BOTH"
+
+[[dependencies.processing]]
+    modId="cloth-config"
+    mandatory=true
+    versionRange="[4.11.19,)"
+    ordering="NONE"
+    side="CLIENT"
+
+[[dependencies.processing]]
+    modId="geckolib3"
+    mandatory=true
+    versionRange="[3.0.31,)"
+    ordering="NONE"
+    side="BOTH"
