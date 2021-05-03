@@ -12,17 +12,21 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public abstract class AbstractEnergyInventoryTileEntity extends LockableSidedInventoryTileEntity implements IEnergyHandler, ITickableTileEntity
+public abstract class AbstractEnergyInventoryTileEntity extends LockableBigInventoryTileEntity implements IEnergyHandler, ITickableTileEntity
 {
 	protected final EnergyStorageImpl energy;
 	private final int maxExtract;
+
 
 	private final IIntArray fields = new IIntArray()
 	{
@@ -62,9 +66,9 @@ public abstract class AbstractEnergyInventoryTileEntity extends LockableSidedInv
 		}
 	};
 
-	protected AbstractEnergyInventoryTileEntity(TileEntityType<?> typeIn, int inventorySize, int maxEnergy, int maxReceive, int maxExtract)
+	protected AbstractEnergyInventoryTileEntity(TileEntityType<?> typeIn, int inventorySize, int stackLimit, int maxEnergy, int maxReceive, int maxExtract)
 	{
-		super(typeIn, inventorySize);
+		super(typeIn, inventorySize, stackLimit);
 		this.energy = new EnergyStorageImpl(maxEnergy, maxReceive, maxExtract, this);
 		this.maxExtract = maxExtract;
 	}
@@ -127,13 +131,14 @@ public abstract class AbstractEnergyInventoryTileEntity extends LockableSidedInv
 		return tags;
 	}
 
+
 	@Nonnull
 	@Override
 	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side)
 	{
 		if (!this.removed && cap == CapabilityEnergy.ENERGY)
 		{
-			if (this.getBlockState().get(AbstractPortedMachineBlock.FACING_TO_PROPERTY_MAP.get(Face.getFaceFromDirection(side, this.getBlockState()))))
+			if (this.getBlockState().get(AbstractFactoryMachineBlock.FACING_TO_PROPERTY_MAP.get(Face.getFaceFromDirection(side, this.getBlockState()))))
 				return getEnergy(side).cast();
 		}
 		return super.getCapability(cap, side);

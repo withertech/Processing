@@ -1,15 +1,17 @@
 package com.withertech.processing;
 
 import com.withertech.processing.config.Config;
+import com.withertech.processing.event.Greetings;
 import com.withertech.processing.init.*;
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
-import me.shedaniel.clothconfig.ClothConfigForgeDemo;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.DistExecutor;
@@ -25,6 +27,8 @@ import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib3.GeckoLib;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Comparator;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Processing.MODID)
@@ -34,13 +38,49 @@ public class Processing
 	public static final String MODID = "processing";
 	// Directly reference a log4j logger.
 	public static final Logger LOGGER = LogManager.getLogger();
-	public static final ItemGroup ITEM_GROUP = new ItemGroup(MODID)
+	static Comparator<ItemStack> sorter = (o1, o2) -> o1.getDisplayName().getString().compareToIgnoreCase(o2.getDisplayName().getString());
+	public static final ItemGroup MACHINES_ITEM_GROUP = new ItemGroup(MODID + ".machines")
 	{
+		@Override
+		public boolean hasSearchBar()
+		{
+			return true;
+		}
+
+		@Override
+		public void fill(NonNullList<ItemStack> items)
+		{
+			super.fill(items);
+			items.sort(sorter);
+		}
+
 		@Nonnull
 		@Override
 		public ItemStack createIcon()
 		{
 			return new ItemStack(ModItems.WRENCH.get());
+		}
+	};
+	public static final ItemGroup MATERIALS_ITEM_GROUP = new ItemGroup(MODID + ".materials")
+	{
+		@Override
+		public boolean hasSearchBar()
+		{
+			return true;
+		}
+
+		@Override
+		public void fill(NonNullList<ItemStack> items)
+		{
+			super.fill(items);
+			items.sort(sorter);
+		}
+
+		@Nonnull
+		@Override
+		public ItemStack createIcon()
+		{
+			return new ItemStack(ModMetals.COPPER.getIngot().get());
 		}
 	};
 
@@ -59,6 +99,15 @@ public class Processing
 
 		// Register ourselves for server and other game events we are interested in
 		MinecraftForge.EVENT_BUS.register(this);
+		Greetings.addMessage(Processing::getBetaWelcomeMessage);
+	}
+
+	@Nullable
+	private static ITextComponent getBetaWelcomeMessage(PlayerEntity p)
+	{
+		return Config.showBetaWelcomeMessage.get()
+				? new StringTextComponent("Thanks for trying Processing! This mod is early in development, expect bugs and changes. You can disable this message in the config.")
+				: null;
 	}
 
 	public static ResourceLocation getId(String path)

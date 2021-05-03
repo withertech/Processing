@@ -67,7 +67,7 @@ public abstract class AbstractMachineBaseTileEntity extends AbstractEnergyInvent
 
 	protected AbstractMachineBaseTileEntity(TileEntityType<?> typeIn, int inventorySize, int maxEnergy, int maxReceive, int maxExtract, MachineTier tier)
 	{
-		super(typeIn, inventorySize + tier.getUpgradeSlots(), maxEnergy, maxReceive, maxExtract);
+		super(typeIn, inventorySize + tier.getUpgradeSlots(), 64 * tier.getStorageMultiplier(), maxEnergy, maxReceive, maxExtract);
 		this.tier = tier;
 	}
 

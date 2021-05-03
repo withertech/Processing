@@ -1,10 +1,7 @@
 package com.withertech.processing.init;
 
 import com.withertech.processing.Processing;
-import com.withertech.processing.config.Config;
 import com.withertech.processing.network.Network;
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;

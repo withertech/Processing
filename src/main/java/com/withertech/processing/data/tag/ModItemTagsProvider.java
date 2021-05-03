@@ -2,10 +2,12 @@ package com.withertech.processing.data.tag;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.withertech.processing.Processing;
+import com.withertech.processing.init.ModGems;
+import com.withertech.processing.init.ModItems;
 import com.withertech.processing.init.ModMetals;
+import com.withertech.processing.init.ModTags;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
 import net.minecraft.data.ItemTagsProvider;
@@ -53,7 +55,16 @@ public class ModItemTagsProvider extends ItemTagsProvider
 	protected void registerTags()
 	{
 		// Empties
-
+		getOrCreateBuilder(ModTags.Items.PLATE_PRESS)
+				.add(ModItems.PLATE_PRESS.get());
+		getOrCreateBuilder(ModTags.Items.ROD_PRESS)
+				.add(ModItems.ROD_PRESS.get());
+		getOrCreateBuilder(ModTags.Items.GEAR_PRESS)
+				.add(ModItems.GEAR_PRESS.get());
+		getOrCreateBuilder(ModTags.Items.PRESSES)
+				.addTag(ModTags.Items.PLATE_PRESS)
+				.addTag(ModTags.Items.ROD_PRESS)
+				.addTag(ModTags.Items.GEAR_PRESS);
 
 		for (ModMetals metal : ModMetals.values())
 		{
@@ -72,19 +83,64 @@ public class ModItemTagsProvider extends ItemTagsProvider
 			metal.getNuggetTag().ifPresent(tag ->
 					metal.getNugget().ifPresent(item ->
 							getOrCreateBuilder(tag).add(item)));
+			metal.getPlateTag().ifPresent(tag ->
+					metal.getPlate().ifPresent(item ->
+							getOrCreateBuilder(tag).add(item)));
+			metal.getRodTag().ifPresent(tag ->
+					metal.getRod().ifPresent(item ->
+							getOrCreateBuilder(tag).add(item)));
+			metal.getGearTag().ifPresent(tag ->
+					metal.getGear().ifPresent(item ->
+							getOrCreateBuilder(tag).add(item)));
 		}
 
+		for (ModGems gem : ModGems.values())
+		{
+			gem.getOreTag().ifPresent(tag ->
+					gem.getOreItemTag().ifPresent(ore ->
+							copy(tag, ore)));
+			gem.getStorageBlockTag().ifPresent(tag ->
+					gem.getStorageBlockItemTag().ifPresent(block ->
+							copy(tag, block)));
+			gem.getDustTag().ifPresent(tag ->
+					gem.getDust().ifPresent(dust ->
+							getOrCreateBuilder(tag).add(dust)));
+			gem.getGemTag().ifPresent(tag ->
+					gem.getGem().ifPresent(item ->
+							getOrCreateBuilder(tag).add(item)));
+		}
 		copy(Tags.Blocks.ORES, Tags.Items.ORES);
 		copy(Tags.Blocks.STORAGE_BLOCKS, Tags.Items.STORAGE_BLOCKS);
-		groupBuilder(Tags.Items.INGOTS, ModMetals::getIngotTag);
-		groupBuilder(Tags.Items.NUGGETS, ModMetals::getNuggetTag);
+		groupMetalBuilder(Tags.Items.INGOTS, ModMetals::getIngotTag);
+		groupMetalBuilder(Tags.Items.DUSTS, ModMetals::getDustTag);
+		groupMetalBuilder(Tags.Items.NUGGETS, ModMetals::getNuggetTag);
+		groupMetalBuilder(ModTags.Items.PLATES, ModMetals::getPlateTag);
+		groupMetalBuilder(ModTags.Items.RODS, ModMetals::getRodTag);
+		groupMetalBuilder(ModTags.Items.GEAR, ModMetals::getGearTag);
+
+		groupGemBuilder(Tags.Items.GEMS, ModGems::getGemTag);
+		groupGemBuilder(Tags.Items.DUSTS, ModGems::getDustTag);
 	}
 
 	@SafeVarargs
-	private final void groupBuilder(ITag.INamedTag<Item> tag, Function<ModMetals, Optional<ITag.INamedTag<Item>>> tagGetter, ITag.INamedTag<Item>... extras)
+	private final void groupMetalBuilder(ITag.INamedTag<Item> tag, Function<ModMetals, Optional<ITag.INamedTag<Item>>> tagGetter, ITag.INamedTag<Item>... extras)
 	{
 		Builder<Item> builder = getOrCreateBuilder(tag);
 		for (ModMetals metal : ModMetals.values())
+		{
+			tagGetter.apply(metal).ifPresent(builder::addTag);
+		}
+		for (ITag.INamedTag<Item> extraTag : extras)
+		{
+			builder.addTag(extraTag);
+		}
+	}
+
+	@SafeVarargs
+	private final void groupGemBuilder(ITag.INamedTag<Item> tag, Function<ModGems, Optional<ITag.INamedTag<Item>>> tagGetter, ITag.INamedTag<Item>... extras)
+	{
+		Builder<Item> builder = getOrCreateBuilder(tag);
+		for (ModGems metal : ModGems.values())
 		{
 			tagGetter.apply(metal).ifPresent(builder::addTag);
 		}

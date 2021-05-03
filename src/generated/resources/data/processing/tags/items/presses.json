@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "#processing:presses/plate",
+    "#processing:presses/rod",
+    "#processing:presses/gear"
+  ]
+}

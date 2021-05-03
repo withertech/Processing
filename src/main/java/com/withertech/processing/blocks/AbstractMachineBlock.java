@@ -56,6 +56,11 @@ public abstract class AbstractMachineBlock extends AbstractFurnaceBlock
 		return MathHelper.floor(fillRatio * 14.0F) + (slotsFilled > 0 ? 1 : 0);
 	}
 
+	public MachineTier getTier()
+	{
+		return this.tier;
+	}
+
 	@Override
 	protected void interactWith(World worldIn, @Nonnull BlockPos pos, @Nonnull PlayerEntity player)
 	{

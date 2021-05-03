@@ -7,17 +7,17 @@ import com.withertech.processing.init.MachineType;
 import com.withertech.processing.init.ModRecipes;
 import com.withertech.processing.util.*;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.NonNullList;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -44,8 +44,8 @@ public class ElectricCrusherTile extends AbstractMachineTileEntity<RecipeCrushin
 	private static final int[] SLOTS_INPUT = {0};
 	private static final int[] SLOTS_OUTPUT = IntStream.range(INPUT_SLOT_COUNT, INVENTORY_SIZE).toArray();
 	private static final int[] SLOTS_ALL = IntStream.range(0, INVENTORY_SIZE).toArray();
-	public boolean deployed = false;
 	private final AnimationFactory factory = new AnimationFactory(this);
+	public boolean deployed = false;
 	private boolean wrenched = false;
 	private int tickCount = 0;
 
@@ -60,12 +60,19 @@ public class ElectricCrusherTile extends AbstractMachineTileEntity<RecipeCrushin
 		return ENERGY_USED_PER_TICK;
 	}
 
+	@Override
+	protected int[] getInputSlots()
+	{
+		return SLOTS_INPUT;
+	}
+
 	@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
 	@Override
 	protected int[] getOutputSlots()
 	{
 		return SLOTS_OUTPUT;
 	}
+
 	private <E extends TileEntity & IAnimatable> PlayState predicate(AnimationEvent<E> event)
 	{
 		AnimationController<?> controller = event.getController();
@@ -89,6 +96,7 @@ public class ElectricCrusherTile extends AbstractMachineTileEntity<RecipeCrushin
 		}
 		return PlayState.CONTINUE;
 	}
+
 	@Override
 	public void registerControllers(AnimationData data)
 	{
@@ -100,6 +108,7 @@ public class ElectricCrusherTile extends AbstractMachineTileEntity<RecipeCrushin
 	{
 		return this.factory;
 	}
+
 	@Override
 	public void tick()
 	{
@@ -136,6 +145,13 @@ public class ElectricCrusherTile extends AbstractMachineTileEntity<RecipeCrushin
 	}
 
 	@Override
+	public boolean isIngredient(ItemStack stack)
+	{
+		assert Minecraft.getInstance().world != null;
+		return Minecraft.getInstance().world.getRecipeManager().getRecipesForType(ModRecipes.Types.CRUSHING).stream().anyMatch(recipeCrushing -> recipeCrushing.getIngredient().test(stack));
+	}
+
+	@Override
 	protected Collection<ItemStack> getProcessResults(RecipeCrushing recipe)
 	{
 		return recipe.getResults(this);
@@ -147,31 +163,25 @@ public class ElectricCrusherTile extends AbstractMachineTileEntity<RecipeCrushin
 		return recipe.getPossibleResults(this);
 	}
 
-	@Nonnull
-	@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
-	@Override
-	public int[] getSlotsForFace(@Nonnull Direction side)
-	{
-		return SLOTS_ALL;
-	}
-
-	@Override
-	public boolean canInsertItem(int index, @Nonnull ItemStack itemStackIn, @Nullable Direction direction)
-	{
-		return index < INPUT_SLOT_COUNT;
-	}
-
-	@Override
-	public boolean canExtractItem(int index, @Nonnull ItemStack stack, @Nonnull Direction direction)
-	{
-		return index >= INPUT_SLOT_COUNT;
-	}
 
 	@Nonnull
 	@Override
 	protected ITextComponent getDefaultName()
 	{
-		return TextUtil.translate("container", "crusher");
+		IFormattableTextComponent name = TextUtil.translate("container", this.getMachineTier().getName() + "_crusher");
+		switch (getMachineTier())
+		{
+			case BASIC:
+				return name.mergeStyle(TextFormatting.DARK_GREEN);
+			case ADVANCED:
+				return name.mergeStyle(TextFormatting.DARK_RED);
+			case ELITE:
+				return name.mergeStyle(TextFormatting.DARK_AQUA);
+			case ULTIMATE:
+				return name.mergeStyle(TextFormatting.DARK_PURPLE);
+			default:
+				return name;
+		}
 	}
 
 	@Nonnull
@@ -198,6 +208,7 @@ public class ElectricCrusherTile extends AbstractMachineTileEntity<RecipeCrushin
 		tags.putBoolean("deployed", this.deployed);
 		return tags;
 	}
+
 	@Nonnull
 	@Override
 	public CompoundNBT getUpdateTag()
@@ -233,6 +244,7 @@ public class ElectricCrusherTile extends AbstractMachineTileEntity<RecipeCrushin
 	{
 		this.wrenched = wrenched;
 	}
+
 	@Override
 	public void readRestorableFromNBT(CompoundNBT compound)
 	{
@@ -240,8 +252,7 @@ public class ElectricCrusherTile extends AbstractMachineTileEntity<RecipeCrushin
 		readEnergy(compound);
 		this.deployed = compound.getBoolean("deployed");
 		this.redstoneMode = EnumUtils.byOrdinal(compound.getByte("RedstoneMode"), RedstoneMode.IGNORED);
-		items = NonNullList.withSize(getSizeInventory(), ItemStack.EMPTY);
-		ItemStackHelper.loadAllItems(compound, items);
+		getHandler().deserializeNBT(compound);
 	}
 
 	@Override
@@ -251,8 +262,9 @@ public class ElectricCrusherTile extends AbstractMachineTileEntity<RecipeCrushin
 		writeEnergy(compound);
 		compound.putBoolean("deployed", this.deployed);
 		compound.putByte("RedstoneMode", (byte) this.redstoneMode.ordinal());
-		ItemStackHelper.saveAllItems(compound, items);
+		compound.merge(getHandler().serializeNBT());
 	}
+
 	public static class Basic extends ElectricCrusherTile
 	{
 		public Basic()
@@ -266,6 +278,14 @@ public class ElectricCrusherTile extends AbstractMachineTileEntity<RecipeCrushin
 		public Advanced()
 		{
 			super(MachineTier.ADVANCED);
+		}
+	}
+
+	public static class Elite extends ElectricCrusherTile
+	{
+		public Elite()
+		{
+			super(MachineTier.ELITE);
 		}
 	}
 

@@ -6,8 +6,8 @@ import com.withertech.processing.blocks.AbstractMachineTileEntity;
 import com.withertech.processing.init.MachineType;
 import com.withertech.processing.util.*;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.*;
@@ -15,9 +15,9 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.NonNullList;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -28,7 +28,10 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 public class ElectricFurnaceTile extends AbstractMachineTileEntity<AbstractCookingRecipe> implements IAnimatable, IRestorableTileEntity
 {
@@ -41,16 +44,11 @@ public class ElectricFurnaceTile extends AbstractMachineTileEntity<AbstractCooki
 	private static final int[] SLOTS_INPUT = {0};
 	private static final int[] SLOTS_OUTPUT = {1};
 	private static final int[] SLOTS_ALL = {0, 1};
-//	@SyncVariable(name = "deployed")
-	public boolean deployed = false;
 	private final AnimationFactory factory = new AnimationFactory(this);
+	//	@SyncVariable(name = "deployed")
+	public boolean deployed = false;
 	private boolean wrenched = false;
 	private int tickCount = 0;
-
-	public ElectricFurnaceTile()
-	{
-		this(MachineTier.ADVANCED);
-	}
 
 	public ElectricFurnaceTile(MachineTier tier)
 	{
@@ -61,6 +59,13 @@ public class ElectricFurnaceTile extends AbstractMachineTileEntity<AbstractCooki
 	protected int getEnergyUsedPerTick()
 	{
 		return ENERGY_USED_PER_TICK;
+	}
+
+
+	@Override
+	protected int[] getInputSlots()
+	{
+		return SLOTS_INPUT;
 	}
 
 	@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
@@ -91,36 +96,36 @@ public class ElectricFurnaceTile extends AbstractMachineTileEntity<AbstractCooki
 	}
 
 	@Override
+	public boolean isIngredient(ItemStack stack)
+	{
+		assert Minecraft.getInstance().world != null;
+		return Minecraft.getInstance().world.getRecipeManager().getRecipesForType(IRecipeType.SMELTING).stream().anyMatch(recipeSmelting -> recipeSmelting.getIngredients().stream().anyMatch(ingredient -> ingredient.test(stack)));
+	}
+
+	@Override
 	protected Collection<ItemStack> getProcessResults(AbstractCookingRecipe recipe)
 	{
 		return Collections.singleton(recipe.getCraftingResult(this));
 	}
 
 	@Nonnull
-	@SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
-	@Override
-	public int[] getSlotsForFace(@Nonnull Direction side)
-	{
-		return SLOTS_ALL;
-	}
-
-	@Override
-	public boolean canInsertItem(int index, @Nonnull ItemStack itemStackIn, @Nullable Direction direction)
-	{
-		return index == 0;
-	}
-
-	@Override
-	public boolean canExtractItem(int index, @Nonnull ItemStack stack, @Nonnull Direction direction)
-	{
-		return index == 1;
-	}
-
-	@Nonnull
 	@Override
 	protected ITextComponent getDefaultName()
 	{
-		return TextUtil.translate("container", this.getMachineTier().name().toLowerCase(Locale.ROOT) + "_furnace");
+		IFormattableTextComponent name = TextUtil.translate("container", this.getMachineTier().getName() + "_furnace");
+		switch (getMachineTier())
+		{
+			case BASIC:
+				return name.mergeStyle(TextFormatting.DARK_GREEN);
+			case ADVANCED:
+				return name.mergeStyle(TextFormatting.DARK_RED);
+			case ELITE:
+				return name.mergeStyle(TextFormatting.DARK_AQUA);
+			case ULTIMATE:
+				return name.mergeStyle(TextFormatting.DARK_PURPLE);
+			default:
+				return name;
+		}
 	}
 
 	@Nonnull
@@ -262,8 +267,7 @@ public class ElectricFurnaceTile extends AbstractMachineTileEntity<AbstractCooki
 		readEnergy(compound);
 		this.deployed = compound.getBoolean("deployed");
 		this.redstoneMode = EnumUtils.byOrdinal(compound.getByte("RedstoneMode"), RedstoneMode.IGNORED);
-		items = NonNullList.withSize(getSizeInventory(), ItemStack.EMPTY);
-		ItemStackHelper.loadAllItems(compound, items);
+		getHandler().deserializeNBT(compound);
 	}
 
 	@Override
@@ -273,7 +277,7 @@ public class ElectricFurnaceTile extends AbstractMachineTileEntity<AbstractCooki
 		writeEnergy(compound);
 		compound.putBoolean("deployed", this.deployed);
 		compound.putByte("RedstoneMode", (byte) this.redstoneMode.ordinal());
-		ItemStackHelper.saveAllItems(compound, items);
+		compound.merge(getHandler().serializeNBT());
 	}
 
 	public static class Basic extends ElectricFurnaceTile
@@ -291,6 +295,15 @@ public class ElectricFurnaceTile extends AbstractMachineTileEntity<AbstractCooki
 			super(MachineTier.ADVANCED);
 		}
 	}
+
+	public static class Elite extends ElectricFurnaceTile
+	{
+		public Elite()
+		{
+			super(MachineTier.ELITE);
+		}
+	}
+
 	public static class Ultimate extends ElectricFurnaceTile
 	{
 		public Ultimate()

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/redstone_alloy"
+    },
+    {
+      "tag": "forge:ingots/redstone_alloy"
+    },
+    {
+      "item": "processing:file"
+    }
+  ],
+  "result": {
+    "item": "processing:redstone_alloy_rod"
+  }
+}

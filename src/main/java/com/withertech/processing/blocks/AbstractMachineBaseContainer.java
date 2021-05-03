@@ -1,7 +1,7 @@
 package com.withertech.processing.blocks;
 
 import com.withertech.processing.api.RedstoneMode;
-import com.withertech.processing.inventory.SlotMachineUpgrade;
+import com.withertech.processing.inventory.UpgradeSlot;
 import com.withertech.processing.util.EnumUtils;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.util.IIntArray;
@@ -21,7 +21,7 @@ public class AbstractMachineBaseContainer<T extends AbstractMachineBaseTileEntit
 		{
 			int index = inventorySize - upgradeSlots + i;
 			int xPosition = 6 + 18 * i;
-			this.addSlot(new SlotMachineUpgrade(this.tileEntity, index, xPosition, -13));
+			this.addSlot(new UpgradeSlot(this.tileEntity, index, xPosition, -13));
 		}
 	}
 

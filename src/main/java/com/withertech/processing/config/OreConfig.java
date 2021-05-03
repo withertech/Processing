@@ -33,10 +33,9 @@ public class OreConfig
 	}
 
 
-
 	public boolean isEnabled()
 	{
-		return masterSwitch.get() && getVeinCount() > 0 && getVeinSize() > 0;
+		return masterSwitch.get() && getEnabled() && getVeinCount() > 0 && getVeinSize() > 0;
 	}
 
 

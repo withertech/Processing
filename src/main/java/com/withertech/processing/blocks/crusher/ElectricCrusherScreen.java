@@ -9,7 +9,7 @@ import net.minecraft.util.text.ITextComponent;
 
 public class ElectricCrusherScreen extends AbstractMachineScreen<ElectricCrusherContainer>
 {
-	public static final ResourceLocation JEI_TEXTURE = Processing.getId("textures/gui/crusher.png");;
+	public static final ResourceLocation JEI_TEXTURE = Processing.getId("textures/gui/crusher.png");
 	public final ResourceLocation TEXTURE;
 
 	public ElectricCrusherScreen(ElectricCrusherContainer containerIn, PlayerInventory playerInventoryIn, ITextComponent titleIn)
@@ -23,6 +23,9 @@ public class ElectricCrusherScreen extends AbstractMachineScreen<ElectricCrusher
 				break;
 			case ADVANCED:
 				TEXTURE = Processing.getId("textures/gui/advanced_crusher.png");
+				break;
+			case ELITE:
+				TEXTURE = Processing.getId("textures/gui/elite_crusher.png");
 				break;
 			case ULTIMATE:
 				TEXTURE = Processing.getId("textures/gui/ultimate_crusher.png");

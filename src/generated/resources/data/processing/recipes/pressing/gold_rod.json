@@ -1,0 +1,15 @@
+{
+  "type": "processing:pressing",
+  "process_time": 200,
+  "ingredient": {
+    "tag": "forge:ingots/gold"
+  },
+  "press": {
+    "tag": "processing:presses/rod"
+  },
+  "results": [
+    {
+      "item": "processing:gold_rod"
+    }
+  ]
+}

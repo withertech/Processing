@@ -106,6 +106,8 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
 		return currentState.with(AbstractFurnaceBlock.LIT, false);
 	}
 
+	protected abstract int[] getInputSlots();
+
 	/**
 	 * Indexes of output slots. Recipe outputs will be merged into these slots.
 	 *
@@ -141,6 +143,8 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
 		int speedUpgrades = getUpgradeCount(MachineUpgrades.PROCESSING_SPEED);
 		return tier.getProcessingSpeed() * (1f + speedUpgrades * Constants.UPGRADE_PROCESSING_SPEED_AMOUNT);
 	}
+
+	public abstract boolean isIngredient(ItemStack stack);
 
 	/**
 	 * Get the results of the recipe.
@@ -207,14 +211,21 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
 			if (progress >= processTime)
 			{
 				// Create result
-				getProcessResults(recipe).forEach(this::storeResultItem);
-				consumeIngredients(recipe);
+				for (int i = 1; i <= this.getMachineTier().getOperationsPerTick(); i++)
+				{
+					if (getRecipe() == null)
+					{
+						setInactiveState();
+						break;
+
+					}
+					getProcessResults(recipe).forEach(this::storeResultItem);
+					consumeIngredients(recipe);
+
+
+				}
 				progress = 0;
 
-				if (getRecipe() == null)
-				{
-					setInactiveState();
-				}
 			} else
 			{
 				sendUpdate(getActiveState(world.getBlockState(pos)));
@@ -227,10 +238,12 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
 				progress = 0;
 			}
 			setInactiveState();
+
 		}
+
 	}
 
-	private boolean canMachineRun(R recipe)
+	protected boolean canMachineRun(R recipe)
 	{
 		return world != null
 				&& getEnergyStored() >= getEnergyUsedPerTick()
@@ -281,6 +294,12 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
 				return;
 			}
 		}
+	}
+
+	@Override
+	public int getInventoryStackLimit()
+	{
+		return super.getHandler().stacklimit * this.getMachineTier().getStorageMultiplier();
 	}
 
 	protected void consumeIngredients(R recipe)

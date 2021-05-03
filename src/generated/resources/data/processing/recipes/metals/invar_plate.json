@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/invar"
+    },
+    {
+      "tag": "forge:ingots/invar"
+    },
+    {
+      "item": "processing:hammer"
+    }
+  ],
+  "result": {
+    "item": "processing:invar_plate"
+  }
+}

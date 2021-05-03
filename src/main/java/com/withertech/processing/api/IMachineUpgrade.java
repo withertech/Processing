@@ -1,7 +1,7 @@
 package com.withertech.processing.api;
 
-import com.withertech.processing.items.MachineUpgrades;
 import com.withertech.processing.items.ItemMachineUpgrade;
+import com.withertech.processing.items.MachineUpgrades;
 
 /**
  * A machine upgrade item, which goes into the upgrade slots of machines. Also see

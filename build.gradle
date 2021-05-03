@@ -1,15 +1,18 @@
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
+        maven { url = "https://plugins.gradle.org/m2/" }
         jcenter()
         mavenCentral()
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.4.0"
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+apply plugin: "com.matthewprenger.cursegradle"
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
@@ -29,7 +32,7 @@ minecraft {
     mappings channel: 'snapshot', version: '20210309-1.16.5'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
     
-    // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
@@ -137,6 +140,8 @@ dependencies {
 
     runtimeOnly fg.deobf('curse.maven:mekanism-268560:3206392')
 
+    runtimeOnly fg.deobf('curse.maven:scannable-266784:3176012')
+
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
     // compile "some.group:artifact:version"
@@ -176,7 +181,24 @@ jar {
 jar.finalizedBy('reobfJar') 
 // However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
 //publish.dependsOn('reobfJar')
+curseforge {
+    apiKey = System.getenv('CURSEFORGE_API_KEY') ?: 'unset'
+    project {
+        id = '478173'
+        changelog = 'Initial Release'
+        releaseType = 'alpha'
+        addGameVersion '1.16.5'
+        relations {
+            requiredDependency 'cloth-config-forge'
+            requiredDependency 'geckolib' +
+                    ''
+        }
+        mainArtifact(jar) {
+            displayName = "Processing-Alpha-$project.version"
 
+        }
+    }
+}
 publishing {
     publications {
         mavenJava(MavenPublication) {

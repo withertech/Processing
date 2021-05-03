@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " % ",
+    "$@$",
+    " * "
+  ],
+  "key": {
+    "@": {
+      "item": "processing:ultimate_chassis"
+    },
+    "%": {
+      "tag": "forge:storage_blocks/redstone"
+    },
+    "$": {
+      "tag": "forge:obsidian"
+    },
+    "*": {
+      "tag": "forge:ingots/platinum"
+    }
+  },
+  "result": {
+    "item": "processing:ultimate_crusher"
+  }
+}

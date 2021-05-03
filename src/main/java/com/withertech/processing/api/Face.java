@@ -1,6 +1,6 @@
 package com.withertech.processing.api;
 
-import com.withertech.processing.blocks.AbstractPortedMachineBlock;
+import com.withertech.processing.blocks.AbstractFactoryMachineBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Direction;
 
@@ -15,7 +15,7 @@ public enum Face
 
 	public static Face getFaceFromDirection(Direction dir, BlockState state)
 	{
-		switch (state.get(AbstractPortedMachineBlock.FACING))
+		switch (state.get(AbstractFactoryMachineBlock.FACING))
 		{
 			case NORTH:
 				switch (dir)
@@ -88,7 +88,7 @@ public enum Face
 
 	public static Direction getDirectionFromFace(Face face, BlockState state)
 	{
-		return getDirectionFromFace(face, state.get(AbstractPortedMachineBlock.FACING));
+		return getDirectionFromFace(face, state.get(AbstractFactoryMachineBlock.FACING));
 	}
 
 	public static Direction getDirectionFromFace(Face face, Direction facing)

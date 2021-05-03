@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_top",
+  "textures": {
+    "side": "processing:block/advanced_package",
+    "top": "processing:block/advanced_package_top"
+  }
+}

@@ -58,7 +58,7 @@ public class TERFluidPipe extends TileEntityRenderer<TileFluidPipe>
 			float b = FluidUtils.getBlue(color);
 			float a = FluidUtils.getAlpha(color);
 			int light = 15728880;
-			switch (tileEntity.getBlockState().get(BlockFluidPipe.UP))
+			switch (tileEntity.getBlockState().get(FluidPipeBlock.UP))
 			{
 				case NONE:
 				{
@@ -92,7 +92,7 @@ public class TERFluidPipe extends TileEntityRenderer<TileFluidPipe>
 					renderer.pos(matrix4f, 0.375f, 1.0f, 0.625f).color(r, g, b, a).tex(u1, v1).lightmap(light).endVertex();
 				}
 			}
-			switch (tileEntity.getBlockState().get(BlockFluidPipe.DOWN))
+			switch (tileEntity.getBlockState().get(FluidPipeBlock.DOWN))
 			{
 				case NONE:
 				{
@@ -126,7 +126,7 @@ public class TERFluidPipe extends TileEntityRenderer<TileFluidPipe>
 					renderer.pos(matrix4f, 0.375f, 0.3125f, 0.625f).color(r, g, b, a).tex(u1, v1).lightmap(light).endVertex();
 				}
 			}
-			switch (tileEntity.getBlockState().get(BlockFluidPipe.NORTH))
+			switch (tileEntity.getBlockState().get(FluidPipeBlock.NORTH))
 			{
 				case NONE:
 				{
@@ -161,7 +161,7 @@ public class TERFluidPipe extends TileEntityRenderer<TileFluidPipe>
 					break;
 				}
 			}
-			switch (tileEntity.getBlockState().get(BlockFluidPipe.SOUTH))
+			switch (tileEntity.getBlockState().get(FluidPipeBlock.SOUTH))
 			{
 				case NONE:
 				{
@@ -196,7 +196,7 @@ public class TERFluidPipe extends TileEntityRenderer<TileFluidPipe>
 					break;
 				}
 			}
-			switch (tileEntity.getBlockState().get(BlockFluidPipe.EAST))
+			switch (tileEntity.getBlockState().get(FluidPipeBlock.EAST))
 			{
 				case NONE:
 				{
@@ -231,7 +231,7 @@ public class TERFluidPipe extends TileEntityRenderer<TileFluidPipe>
 					break;
 				}
 			}
-			switch (tileEntity.getBlockState().get(BlockFluidPipe.WEST))
+			switch (tileEntity.getBlockState().get(FluidPipeBlock.WEST))
 			{
 				case NONE:
 				{

@@ -40,6 +40,15 @@ public class ModTags
 
 	public static final class Items
 	{
+		public static final ITag.INamedTag<Item> PRESSES = mod("presses");
+		public static final ITag.INamedTag<Item> PLATE_PRESS = mod("presses/plate");
+		public static final ITag.INamedTag<Item> ROD_PRESS = mod("presses/rod");
+		public static final ITag.INamedTag<Item> GEAR_PRESS = mod("presses/gear");
+
+
+		public static final ITag.INamedTag<Item> PLATES = forge("plates");
+		public static final ITag.INamedTag<Item> RODS = forge("rods");
+		public static final ITag.INamedTag<Item> GEAR = forge("gear");
 
 		private Items()
 		{

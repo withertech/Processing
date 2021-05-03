@@ -24,6 +24,6 @@ public class ModBlockLootTables extends BlockLootTables
 	@Override
 	protected Iterable<Block> getKnownBlocks()
 	{
-		return Registration.BLOCKS.getEntries().stream().map(RegistryObject::get).collect(Collectors.toList());
+		return Registration.BLOCKS.getEntries().stream().map(RegistryObject::get).filter(block -> block.asItem() != Items.AIR).collect(Collectors.toList());
 	}
 }

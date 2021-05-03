@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/aluminum_steel"
+    },
+    {
+      "tag": "forge:ingots/aluminum_steel"
+    },
+    {
+      "item": "processing:hammer"
+    }
+  ],
+  "result": {
+    "item": "processing:aluminum_steel_plate"
+  }
+}

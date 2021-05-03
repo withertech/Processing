@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "processing:chassis/ultimate_chassis"
+    ]
+  },
+  "criteria": {
+    "has_invar": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:plates/electrum"
+          }
+        ]
+      }
+    },
+    "has_parent": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "processing:elite_chassis"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "processing:chassis/ultimate_chassis"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_invar",
+      "has_parent",
+      "has_the_recipe"
+    ]
+  ]
+}

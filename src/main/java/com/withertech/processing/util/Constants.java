@@ -9,6 +9,7 @@ public final class Constants
 	public static final ResourceLocation ALLOY_SMELTING = Processing.getId("alloy_smelting");
 	public static final ResourceLocation COMPRESSING = Processing.getId("compressing");
 	public static final ResourceLocation CRUSHING = Processing.getId("crushing");
+	public static final ResourceLocation PRESSING = Processing.getId("pressing");
 	public static final ResourceLocation DRYING = Processing.getId("drying");
 	public static final ResourceLocation INFUSING = Processing.getId("infusing");
 	public static final ResourceLocation MIXING = Processing.getId("mixing");

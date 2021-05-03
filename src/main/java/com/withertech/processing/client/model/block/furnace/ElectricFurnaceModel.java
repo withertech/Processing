@@ -22,6 +22,8 @@ public class ElectricFurnaceModel extends AnimatedGeoModel<ElectricFurnaceTile>
 				return Processing.getId("textures/block/basic_furnace.png");
 			case ADVANCED:
 				return Processing.getId("textures/block/advanced_furnace.png");
+			case ELITE:
+				return Processing.getId("textures/block/elite_furnace.png");
 			case ULTIMATE:
 				return Processing.getId("textures/block/ultimate_furnace.png");
 			default:

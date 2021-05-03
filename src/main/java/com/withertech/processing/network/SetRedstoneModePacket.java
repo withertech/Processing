@@ -6,7 +6,6 @@ import com.withertech.processing.blocks.AbstractMachineBaseTileEntity;
 import com.withertech.processing.util.EnumUtils;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;

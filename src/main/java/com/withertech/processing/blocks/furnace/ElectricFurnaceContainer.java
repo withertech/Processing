@@ -3,7 +3,7 @@ package com.withertech.processing.blocks.furnace;
 import com.withertech.processing.blocks.AbstractMachineContainer;
 import com.withertech.processing.blocks.AbstractMachineTileEntity;
 import com.withertech.processing.init.MachineType;
-import com.withertech.processing.inventory.SlotOutputOnly;
+import com.withertech.processing.inventory.BigSlot;
 import com.withertech.processing.util.InventoryUtils;
 import com.withertech.processing.util.MachineTier;
 import net.minecraft.entity.player.PlayerEntity;
@@ -26,8 +26,22 @@ public class ElectricFurnaceContainer extends AbstractMachineContainer<ElectricF
 	{
 		super(MachineType.FURNACE.getContainerType(tileEntity.getMachineTier()), id, tileEntity, fieldsIn);
 
-		this.addSlot(new Slot(this.tileEntity, 0, 56, 35));
-		this.addSlot(new SlotOutputOnly(this.tileEntity, 1, 117, 35));
+		this.addSlot(new BigSlot(this.tileEntity.getHandler(), 0, 56, 35)
+		{
+			@Override
+			public boolean isItemValid(ItemStack stack)
+			{
+				return tileEntity.isIngredient(stack);
+			}
+		});
+		this.addSlot(new Slot(this.tileEntity, 1, 117, 35)
+		{
+			@Override
+			public boolean isItemValid(ItemStack stack)
+			{
+				return false;
+			}
+		});
 
 		InventoryUtils.createPlayerSlots(playerInventory, 8, 84).forEach(this::addSlot);
 
@@ -59,7 +73,7 @@ public class ElectricFurnaceContainer extends AbstractMachineContainer<ElectricF
 				slot.onSlotChange(itemstack1, itemstack);
 			} else if (index != 0)
 			{
-				if (this.isSmeltingIngredient(itemstack1))
+				if (tileEntity.isIngredient(itemstack1))
 				{
 					if (!this.mergeItemStack(itemstack1, 0, 1, false))
 					{

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.withertech.processing.Processing;
+import com.withertech.processing.init.ModGems;
 import com.withertech.processing.init.ModMetals;
 import net.minecraft.block.Block;
 import net.minecraft.data.BlockTagsProvider;
@@ -49,14 +50,36 @@ public class ModBlockTagsProvider extends BlockTagsProvider
 							getOrCreateBuilder(tag).add(block)));
 		}
 
-		groupBuilder(Tags.Blocks.ORES, ModMetals::getOreTag);
-		groupBuilder(Tags.Blocks.STORAGE_BLOCKS, ModMetals::getStorageBlockTag);
+		for (ModGems gems : ModGems.values())
+		{
+			gems.getOreTag().ifPresent(tag ->
+					gems.getOre().ifPresent(ore ->
+							getOrCreateBuilder(tag).add(ore)));
+			gems.getStorageBlockTag().ifPresent(tag ->
+					gems.getStorageBlock().ifPresent(block ->
+							getOrCreateBuilder(tag).add(block)));
+		}
+
+		groupMetalBuilder(Tags.Blocks.ORES, ModMetals::getOreTag);
+		groupMetalBuilder(Tags.Blocks.STORAGE_BLOCKS, ModMetals::getStorageBlockTag);
+
+		groupGemBuilder(Tags.Blocks.ORES, ModGems::getOreTag);
+		groupGemBuilder(Tags.Blocks.STORAGE_BLOCKS, ModGems::getStorageBlockTag);
 	}
 
-	private void groupBuilder(ITag.INamedTag<Block> tag, Function<ModMetals, Optional<ITag.INamedTag<Block>>> tagGetter)
+	private void groupMetalBuilder(ITag.INamedTag<Block> tag, Function<ModMetals, Optional<ITag.INamedTag<Block>>> tagGetter)
 	{
 		Builder<Block> builder = getOrCreateBuilder(tag);
 		for (ModMetals metal : ModMetals.values())
+		{
+			tagGetter.apply(metal).ifPresent(builder::addTag);
+		}
+	}
+
+	private void groupGemBuilder(ITag.INamedTag<Block> tag, Function<ModGems, Optional<ITag.INamedTag<Block>>> tagGetter)
+	{
+		Builder<Block> builder = getOrCreateBuilder(tag);
+		for (ModGems metal : ModGems.values())
 		{
 			tagGetter.apply(metal).ifPresent(builder::addTag);
 		}

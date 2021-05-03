@@ -22,6 +22,8 @@ public class ElectricCrusherModel extends AnimatedGeoModel<ElectricCrusherTile>
 				return Processing.getId("textures/block/basic_crusher.png");
 			case ADVANCED:
 				return Processing.getId("textures/block/advanced_crusher.png");
+			case ELITE:
+				return Processing.getId("textures/block/elite_crusher.png");
 			case ULTIMATE:
 				return Processing.getId("textures/block/ultimate_crusher.png");
 			default:

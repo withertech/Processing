@@ -1,6 +1,6 @@
 package com.withertech.processing.blocks.crusher;
 
-import com.withertech.processing.blocks.AbstractPortedMachineBlock;
+import com.withertech.processing.blocks.AbstractFactoryMachineBlock;
 import com.withertech.processing.init.MachineType;
 import com.withertech.processing.init.ModItems;
 import com.withertech.processing.util.MachineTier;
@@ -27,7 +27,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class ElectricCrusherBlock extends AbstractPortedMachineBlock
+public class ElectricCrusherBlock extends AbstractFactoryMachineBlock
 {
 	private static final VoxelShape SHAPE = VoxelShapes.or(Block.makeCuboidShape(2, 0, 2, 14, 25, 14));
 
@@ -44,21 +44,6 @@ public class ElectricCrusherBlock extends AbstractPortedMachineBlock
 		return SHAPE;
 	}
 
-	@SuppressWarnings("deprecation")
-	@Nonnull
-	@Override
-	public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, ISelectionContext context)
-	{
-		return SHAPE;
-	}
-
-	@SuppressWarnings("deprecation")
-	@Nonnull
-	@Override
-	public VoxelShape getRayTraceShape(@Nonnull BlockState state, @Nonnull IBlockReader reader, BlockPos pos, @Nonnull ISelectionContext context)
-	{
-		return SHAPE;
-	}
 	@Nonnull
 	@SuppressWarnings("deprecation")
 	@Override

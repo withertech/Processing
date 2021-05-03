@@ -1,6 +1,7 @@
 package com.withertech.processing.init;
 
 import com.withertech.processing.crafting.recipe.RecipeCrushing;
+import com.withertech.processing.crafting.recipe.RecipePressing;
 import com.withertech.processing.util.Constants;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
@@ -16,6 +17,7 @@ public final class ModRecipes
 	//	public static final RegistryObject<IRecipeSerializer<?>> ALLOY_SMELTING = registerSerializer(Constants.ALLOY_SMELTING, AlloySmeltingRecipe.Serializer::new);
 //	public static final RegistryObject<IRecipeSerializer<?>> COMPRESSING = registerSerializer(Constants.COMPRESSING, CompressingRecipe.Serializer::new);
 	public static final RegistryObject<IRecipeSerializer<?>> CRUSHING = registerSerializer(Constants.CRUSHING, RecipeCrushing.Serializer::new);
+	public static final RegistryObject<IRecipeSerializer<?>> PRESSING = registerSerializer(Constants.PRESSING, RecipePressing.Serializer::new);
 
 	private ModRecipes()
 	{
@@ -51,7 +53,8 @@ public final class ModRecipes
 	{
 		//		public static final IRecipeType<AlloySmeltingRecipe> ALLOY_SMELTING = registerType(Constants.ALLOY_SMELTING);
 //		public static final IRecipeType<CompressingRecipe> COMPRESSING = registerType(Constants.ALLOY_SMELTING);
-		public static final IRecipeType<RecipeCrushing> CRUSHING = registerType(Constants.ALLOY_SMELTING);
+		public static final IRecipeType<RecipeCrushing> CRUSHING = registerType(Constants.CRUSHING);
+		public static final IRecipeType<RecipePressing> PRESSING = registerType(Constants.PRESSING);
 //		public static final IRecipeType<DryingRecipe> DRYING = registerType(Constants.ALLOY_SMELTING);
 //		public static final IRecipeType<InfusingRecipe> INFUSING = registerType(Constants.INFUSING);
 //		public static final IRecipeType<MixingRecipe> MIXING = registerType(Constants.MIXING);

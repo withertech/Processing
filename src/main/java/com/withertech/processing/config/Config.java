@@ -16,7 +16,6 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
@@ -25,6 +24,7 @@ import java.util.Map;
 public final class Config
 {
 
+	public static final ForgeConfigSpec.BooleanValue showBetaWelcomeMessage;
 	private static final ForgeConfigSpec commonSpec;
 	private static final ForgeConfigSpec.BooleanValue oreWorldGenMasterSwitch;
 	private static final Map<ModOres, OreConfig> oreConfigs = new EnumMap<>(ModOres.class);
@@ -35,10 +35,14 @@ public final class Config
 		ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
 		// World Gen/Ores
 		{
+			builder.push("general");
+			showBetaWelcomeMessage = builder
+					.comment("Toggle beta welcome message on world join")
+					.define("showBetaWelcomeMessage", true);
+			builder.pop();
+
 			builder.push("world");
 
-
-			builder.comment("Configs for ore generation. Set veinCount to zero to disable an ore.");
 			builder.push("ores");
 			oreWorldGenMasterSwitch = builder
 					.comment("Set to 'false' to completely disable ore generation from this mod, ignoring all other settings.",
@@ -50,6 +54,8 @@ public final class Config
 			builder.push("tiers");
 			Arrays.stream(MachineTier.values()).forEach(tier -> tierConfigs.put(tier, new TierConfig(tier, builder)));
 			builder.pop(2);
+
+
 		}
 		commonSpec = builder.build();
 	}
@@ -63,35 +69,50 @@ public final class Config
 		ConfigBuilder builder = ConfigBuilder.create().setTitle(new TranslationTextComponent("config.processing.title"));
 		builder.setDefaultBackgroundTexture(new ResourceLocation("minecraft:textures/block/soul_soil.png"));
 		ConfigEntryBuilder entryBuilder = builder.entryBuilder();
+		ConfigCategory general = builder.getOrCreateCategory(new TranslationTextComponent("config.processing.general"));
+		general.addEntry(entryBuilder.startBooleanToggle(new TranslationTextComponent("config.processing.general.showBetaWelcomeMessage"), getShowBetaWelcomeMessage())
+				.setTooltip(new TranslationTextComponent("config.processing.general.showBetaWelcomeMessage.desc"))
+				.setSaveConsumer(Config::setShowBetaWelcomeMessage)
+				.setDefaultValue(true)
+				.build());
 		ConfigCategory world = builder.getOrCreateCategory(new TranslationTextComponent("config.processing.world"));
 		SubCategoryBuilder ores = entryBuilder.startSubCategory(new TranslationTextComponent("config.processing.world.ores"));
-		ores.add(entryBuilder.startBooleanToggle(new TranslationTextComponent("config.processing.world.ores.master"), getOreWorldGenMasterSwitch()).setSaveConsumer(Config::setOreWorldGenMasterSwitch).setDefaultValue(true).build());
+		ores.add(entryBuilder.startBooleanToggle(new TranslationTextComponent("config.processing.world.ores.master"), getOreWorldGenMasterSwitch())
+				.setTooltip(new TranslationTextComponent("config.processing.world.ores.master.desc"))
+				.setSaveConsumer(Config::setOreWorldGenMasterSwitch)
+				.setDefaultValue(true)
+				.build());
 		oreConfigs.forEach((key, value) ->
 		{
 			SubCategoryBuilder ore = entryBuilder.startSubCategory(new TranslationTextComponent("config.processing.world.ores." + key.getName()));
 			ore.addAll(Arrays.asList(
 					entryBuilder
 							.startBooleanToggle(new TranslationTextComponent("config.processing.world.ores." + key.getName() + ".enable"), value.getEnabled())
+							.setTooltip(new TranslationTextComponent("config.processing.world.ores." + key.getName() + ".enable.desc"))
 							.setSaveConsumer(value::setEnabled)
 							.setDefaultValue(key.getDefaultOreConfigs().getEnabled())
 							.build(),
 					entryBuilder
 							.startIntSlider(new TranslationTextComponent("config.processing.world.ores." + key.getName() + ".veinCount"), value.getVeinCount(), 0, Integer.MAX_VALUE)
+							.setTooltip(new TranslationTextComponent("config.processing.world.ores." + key.getName() + ".veinCount.desc"))
 							.setSaveConsumer(value::setVeinCount)
 							.setDefaultValue(key.getDefaultOreConfigs().getVeinCount())
 							.build(),
 					entryBuilder
 							.startIntSlider(new TranslationTextComponent("config.processing.world.ores." + key.getName() + ".veinSize"), value.getVeinSize(), 0, 100)
+							.setTooltip(new TranslationTextComponent("config.processing.world.ores." + key.getName() + ".veinSize.desc"))
 							.setSaveConsumer(value::setVeinSize)
 							.setDefaultValue(key.getDefaultOreConfigs().getVeinSize())
 							.build(),
 					entryBuilder
 							.startIntSlider(new TranslationTextComponent("config.processing.world.ores." + key.getName() + ".minHeight"), value.getMinHeight(), 0, 255)
+							.setTooltip(new TranslationTextComponent("config.processing.world.ores." + key.getName() + ".minHeight.desc"))
 							.setSaveConsumer(value::setMinHeight)
 							.setDefaultValue(key.getDefaultOreConfigs().getMinHeight())
 							.build(),
 					entryBuilder
 							.startIntSlider(new TranslationTextComponent("config.processing.world.ores." + key.getName() + ".maxHeight"), value.getMaxHeight(), 0, 255)
+							.setTooltip(new TranslationTextComponent("config.processing.world.ores." + key.getName() + ".maxHeight.desc"))
 							.setSaveConsumer(value::setMaxHeight)
 							.setDefaultValue(key.getDefaultOreConfigs().getMaxHeight())
 							.build()
@@ -108,6 +129,7 @@ public final class Config
 			tier.addAll(Arrays.asList(
 					entryBuilder
 							.startIntField(new TranslationTextComponent("config.processing.machines.tiers." + key.getName() + ".upgradeSlots"), value.getUpgradeSlots())
+							.setTooltip(new TranslationTextComponent("config.processing.machines.tiers." + key.getName() + ".upgradeSlots.desc"))
 							.setMin(0)
 							.setMax(9)
 							.setSaveConsumer(value::setUpgradeSlots)
@@ -115,13 +137,31 @@ public final class Config
 							.build(),
 					entryBuilder
 							.startIntField(new TranslationTextComponent("config.processing.machines.tiers." + key.getName() + ".energyCapacity"), value.getEnergyCapacity())
+							.setTooltip(new TranslationTextComponent("config.processing.machines.tiers." + key.getName() + ".energyCapacity.desc"))
 							.setMin(0)
 							.setMax(1_000_000_000)
 							.setSaveConsumer(value::setEnergyCapacity)
 							.setDefaultValue(key.getDefaultTier().getEnergyCapacity())
 							.build(),
 					entryBuilder
+							.startIntField(new TranslationTextComponent("config.processing.machines.tiers." + key.getName() + ".storageMultiplier"), value.getStorageMultiplier())
+							.setTooltip(new TranslationTextComponent("config.processing.machines.tiers." + key.getName() + ".storageMultiplier.desc"))
+							.setMin(0)
+							.setMax(64)
+							.setSaveConsumer(value::setStorageMultiplier)
+							.setDefaultValue(key.getDefaultTier().getStorageMultiplier())
+							.build(),
+					entryBuilder
+							.startIntField(new TranslationTextComponent("config.processing.machines.tiers." + key.getName() + ".operationsPerTick"), value.getOperationsPerTick())
+							.setTooltip(new TranslationTextComponent("config.processing.machines.tiers." + key.getName() + ".operationsPerTick.desc"))
+							.setMin(0)
+							.setMax(64)
+							.setSaveConsumer(value::setOperationsPerTick)
+							.setDefaultValue(key.getDefaultTier().getOperationsPerTick())
+							.build(),
+					entryBuilder
 							.startFloatField(new TranslationTextComponent("config.processing.machines.tiers." + key.getName() + ".processingSpeed"), value.getProcessingSpeed())
+							.setTooltip(new TranslationTextComponent("config.processing.machines.tiers." + key.getName() + ".processingSpeed.desc"))
 							.setMin(0.0f)
 							.setMax(1000.0f)
 							.setSaveConsumer(value::setProcessingSpeed)
@@ -149,6 +189,16 @@ public final class Config
 	public static void setOreWorldGenMasterSwitch(boolean oreWorldGenMasterSwitch)
 	{
 		Config.oreWorldGenMasterSwitch.set(oreWorldGenMasterSwitch);
+	}
+
+	public static boolean getShowBetaWelcomeMessage()
+	{
+		return showBetaWelcomeMessage.get();
+	}
+
+	public static void setShowBetaWelcomeMessage(boolean showBetaWelcomeMessage)
+	{
+		Config.showBetaWelcomeMessage.set(showBetaWelcomeMessage);
 	}
 
 	public static OreConfig getOreConfig(ModOres ore)

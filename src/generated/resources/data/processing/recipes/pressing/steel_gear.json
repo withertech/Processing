@@ -1,0 +1,15 @@
+{
+  "type": "processing:pressing",
+  "process_time": 200,
+  "ingredient": {
+    "tag": "forge:ingots/steel"
+  },
+  "press": {
+    "tag": "processing:presses/gear"
+  },
+  "results": [
+    {
+      "item": "processing:steel_gear"
+    }
+  ]
+}

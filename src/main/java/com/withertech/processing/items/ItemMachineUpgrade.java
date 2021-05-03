@@ -21,7 +21,7 @@ public class ItemMachineUpgrade extends Item
 
 	public ItemMachineUpgrade(IMachineUpgrade upgrade)
 	{
-		super(new Properties().group(Processing.ITEM_GROUP));
+		super(new Properties().group(Processing.MACHINES_ITEM_GROUP));
 		this.upgrade = upgrade;
 	}
 

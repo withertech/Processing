@@ -1,17 +1,12 @@
 package com.withertech.processing.items;
 
-import com.withertech.processing.api.Face;
 import com.withertech.processing.api.IWrenchable;
-import com.withertech.processing.blocks.AbstractPortedMachineBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.state.Property;
-import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Rotation;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -54,18 +49,6 @@ public class ItemWrench extends Item
 			if (result != ActionResultType.PASS)
 			{
 				return result;
-			}
-		}
-
-		if (player.isCrouching() && state.hasProperty(BlockStateProperties.HORIZONTAL_FACING) && state.getBlock() instanceof AbstractPortedMachineBlock)
-		{
-			Direction side = context.getFace();
-			Face face = Face.getFaceFromDirection(side, state);
-			if (face == Face.UP)
-			{
-				BlockState state1 = state.rotate(world, pos, Rotation.CLOCKWISE_90);
-				world.setBlockState(pos, state1, 18);
-				return ActionResultType.SUCCESS;
 			}
 		}
 

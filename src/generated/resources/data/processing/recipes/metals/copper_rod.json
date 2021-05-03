@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/copper"
+    },
+    {
+      "tag": "forge:ingots/copper"
+    },
+    {
+      "item": "processing:file"
+    }
+  ],
+  "result": {
+    "item": "processing:copper_rod"
+  }
+}

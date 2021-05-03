@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "#$#",
+    " # "
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:ingots/tin"
+    },
+    "$": {
+      "tag": "forge:rods"
+    }
+  },
+  "result": {
+    "item": "processing:rod_press"
+  }
+}

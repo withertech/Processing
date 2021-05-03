@@ -140,7 +140,7 @@ public final class NetFluidPipe implements IFluidHandler
 			TileEntity te = world.getTileEntity(pos.offset(direction));
 			if (te != null && !(te instanceof TileFluidPipe) && te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).isPresent() && world.getBlockState(pos).getBlock() != Blocks.AIR)
 			{
-				ConnectionType type = BlockFluidPipe.getConnection(world.getBlockState(pos), direction);
+				ConnectionType type = FluidPipeBlock.getConnection(world.getBlockState(pos), direction);
 				connections.add(new Connection(this, direction, type));
 			}
 		}

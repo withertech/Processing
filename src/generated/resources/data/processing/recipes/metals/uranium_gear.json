@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "$#%",
+    "# #",
+    " # "
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:ingots/uranium"
+    },
+    "$": {
+      "item": "processing:hammer"
+    },
+    "%": {
+      "item": "processing:file"
+    }
+  },
+  "result": {
+    "item": "processing:uranium_gear",
+    "count": 2
+  }
+}

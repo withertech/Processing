@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/bismuth"
+    },
+    {
+      "tag": "forge:ingots/bismuth"
+    },
+    {
+      "item": "processing:hammer"
+    }
+  ],
+  "result": {
+    "item": "processing:bismuth_plate"
+  }
+}

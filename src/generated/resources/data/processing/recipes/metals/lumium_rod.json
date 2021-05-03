@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/lumium"
+    },
+    {
+      "tag": "forge:ingots/lumium"
+    },
+    {
+      "item": "processing:file"
+    }
+  ],
+  "result": {
+    "item": "processing:lumium_rod"
+  }
+}

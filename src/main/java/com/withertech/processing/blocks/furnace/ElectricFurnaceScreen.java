@@ -23,6 +23,9 @@ public class ElectricFurnaceScreen extends AbstractMachineScreen<ElectricFurnace
 			case ADVANCED:
 				TEXTURE = Processing.getId("textures/gui/advanced_furnace.png");
 				break;
+			case ELITE:
+				TEXTURE = Processing.getId("textures/gui/elite_furnace.png");
+				break;
 			case ULTIMATE:
 				TEXTURE = Processing.getId("textures/gui/ultimate_furnace.png");
 				break;

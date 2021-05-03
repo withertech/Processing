@@ -23,12 +23,12 @@ import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-public enum ModMetals
+public enum ModMetals implements IModResource
 {
 	REDSTONE_ALLOY(builderAlloy("redstone_alloy")),
 	REFINED_IRON(builder("refined_iron").ingot()),
-	IRON(builder("iron").dust().ingotTagOnly().nuggetTagOnly()),
-	GOLD(builder("gold").dust().ingotTagOnly().nuggetTagOnly()),
+	IRON(builder("iron").dust().plate().gear().rod().ingotTagOnly().nuggetTagOnly()),
+	GOLD(builder("gold").dust().plate().gear().rod().ingotTagOnly().nuggetTagOnly()),
 	COPPER(builderBaseWithOre("copper", ModOres.COPPER)),
 	TIN(builderBaseWithOre("tin", ModOres.TIN)),
 	SILVER(builderBaseWithOre("silver", ModOres.SILVER)),
@@ -58,14 +58,19 @@ public enum ModMetals
 	private final Supplier<Item> dustSupplier;
 	private final Supplier<Item> ingotSupplier;
 	private final Supplier<Item> nuggetSupplier;
+	private final Supplier<Item> plateSupplier;
+	private final Supplier<Item> gearSupplier;
+	private final Supplier<Item> rodSupplier;
 	private final ITag.INamedTag<Block> storageBlockTag;
 	private final ITag.INamedTag<Block> oreTag;
 	private final ITag.INamedTag<Item> storageBlockItemTag;
 	private final ITag.INamedTag<Item> oreItemTag;
-	private final ITag.INamedTag<Item> chunksTag;
 	private final ITag.INamedTag<Item> dustTag;
 	private final ITag.INamedTag<Item> ingotTag;
 	private final ITag.INamedTag<Item> nuggetTag;
+	private final ITag.INamedTag<Item> plateTag;
+	private final ITag.INamedTag<Item> gearTag;
+	private final ITag.INamedTag<Item> rodTag;
 	@SuppressWarnings("NonFinalFieldInEnum")
 	private BlockRegistryObject<Block> ore;
 	@SuppressWarnings("NonFinalFieldInEnum")
@@ -76,6 +81,12 @@ public enum ModMetals
 	private ItemRegistryObject<Item> ingot;
 	@SuppressWarnings("NonFinalFieldInEnum")
 	private ItemRegistryObject<Item> nugget;
+	@SuppressWarnings("NonFinalFieldInEnum")
+	private ItemRegistryObject<Item> plate;
+	@SuppressWarnings("NonFinalFieldInEnum")
+	private ItemRegistryObject<Item> gear;
+	@SuppressWarnings("NonFinalFieldInEnum")
+	private ItemRegistryObject<Item> rod;
 
 	ModMetals(Builder builder)
 	{
@@ -94,14 +105,19 @@ public enum ModMetals
 		this.dustSupplier = builder.dust;
 		this.ingotSupplier = builder.ingot;
 		this.nuggetSupplier = builder.nugget;
+		this.plateSupplier = builder.plate;
+		this.gearSupplier = builder.gear;
+		this.rodSupplier = builder.rod;
 		this.oreTag = builder.oreTag;
 		this.storageBlockTag = builder.storageBlockTag;
 		this.oreItemTag = this.oreTag != null ? Builder.itemTag(this.oreTag.getName()) : null;
 		this.storageBlockItemTag = this.storageBlockTag != null ? Builder.itemTag(this.storageBlockTag.getName()) : null;
-		this.chunksTag = builder.chunksTag;
 		this.dustTag = builder.dustTag;
 		this.ingotTag = builder.ingotTag;
 		this.nuggetTag = builder.nuggetTag;
+		this.plateTag = builder.plateTag;
+		this.gearTag = builder.gearTag;
+		this.rodTag = builder.rodTag;
 	}
 
 	public static void registerBlocks()
@@ -113,7 +129,7 @@ public enum ModMetals
 				String name = metal.oreName + "_ore";
 				metal.ore = new BlockRegistryObject<>(Registration.BLOCKS.register(name, metal.oreSupplier));
 				Registration.ITEMS.register(name, () ->
-						new BlockItem(metal.ore.get(), new Item.Properties().group(Processing.ITEM_GROUP)));
+						new BlockItem(metal.ore.get(), new Item.Properties().group(Processing.MATERIALS_ITEM_GROUP)));
 			}
 		}
 		for (ModMetals metal : values())
@@ -123,7 +139,7 @@ public enum ModMetals
 				String name = metal.getName() + "_block";
 				metal.storageBlock = new BlockRegistryObject<>(Registration.BLOCKS.register(name, metal.storageBlockSupplier));
 				Registration.ITEMS.register(name, () ->
-						new BlockItem(metal.storageBlock.get(), new Item.Properties().group(Processing.ITEM_GROUP)));
+						new BlockItem(metal.storageBlock.get(), new Item.Properties().group(Processing.MATERIALS_ITEM_GROUP)));
 			}
 		}
 	}
@@ -147,6 +163,21 @@ public enum ModMetals
 				metal.nugget = new ItemRegistryObject<>(Registration.ITEMS.register(
 						metal.getName() + "_nugget", metal.nuggetSupplier));
 			}
+			if (metal.plateSupplier != null)
+			{
+				metal.plate = new ItemRegistryObject<>(Registration.ITEMS.register(
+						metal.getName() + "_plate", metal.plateSupplier));
+			}
+			if (metal.gearSupplier != null)
+			{
+				metal.gear = new ItemRegistryObject<>(Registration.ITEMS.register(
+						metal.getName() + "_gear", metal.gearSupplier));
+			}
+			if (metal.rodSupplier != null)
+			{
+				metal.rod = new ItemRegistryObject<>(Registration.ITEMS.register(
+						metal.getName() + "_rod", metal.rodSupplier));
+			}
 		}
 	}
 
@@ -157,12 +188,12 @@ public enum ModMetals
 
 	private static Builder builderBaseWithOre(String name, ModOres ore)
 	{
-		return builder(name).storageBlock().ore(ore).dust().ingot().nugget();
+		return builder(name).storageBlock().ore(ore).dust().ingot().nugget().plate().gear().rod();
 	}
 
 	private static Builder builderAlloy(String name)
 	{
-		return builder(name).storageBlock().dust().ingot().nugget();
+		return builder(name).storageBlock().dust().ingot().nugget().plate().gear().rod();
 	}
 
 	public String getName()
@@ -193,6 +224,21 @@ public enum ModMetals
 	public Optional<Item> getNugget()
 	{
 		return nugget != null ? Optional.of(nugget.get()) : Optional.empty();
+	}
+
+	public Optional<Item> getPlate()
+	{
+		return plate != null ? Optional.of(plate.get()) : Optional.empty();
+	}
+
+	public Optional<Item> getGear()
+	{
+		return gear != null ? Optional.of(gear.get()) : Optional.empty();
+	}
+
+	public Optional<Item> getRod()
+	{
+		return rod != null ? Optional.of(rod.get()) : Optional.empty();
 	}
 
 	public Optional<ITag.INamedTag<Block>> getOreTag()
@@ -230,6 +276,21 @@ public enum ModMetals
 		return nuggetTag != null ? Optional.of(nuggetTag) : Optional.empty();
 	}
 
+	public Optional<ITag.INamedTag<Item>> getPlateTag()
+	{
+		return plateTag != null ? Optional.of(plateTag) : Optional.empty();
+	}
+
+	public Optional<ITag.INamedTag<Item>> getGearTag()
+	{
+		return gearTag != null ? Optional.of(gearTag) : Optional.empty();
+	}
+
+	public Optional<ITag.INamedTag<Item>> getRodTag()
+	{
+		return rodTag != null ? Optional.of(rodTag) : Optional.empty();
+	}
+
 	public Ingredient getSmeltables()
 	{
 		return getSmeltables(true);
@@ -254,12 +315,17 @@ public enum ModMetals
 		Supplier<Item> dust;
 		Supplier<Item> ingot;
 		Supplier<Item> nugget;
+		Supplier<Item> plate;
+		Supplier<Item> gear;
+		Supplier<Item> rod;
 		ITag.INamedTag<Block> oreTag;
 		ITag.INamedTag<Block> storageBlockTag;
-		ITag.INamedTag<Item> chunksTag;
 		ITag.INamedTag<Item> dustTag;
 		ITag.INamedTag<Item> ingotTag;
 		ITag.INamedTag<Item> nuggetTag;
+		ITag.INamedTag<Item> plateTag;
+		ITag.INamedTag<Item> gearTag;
+		ITag.INamedTag<Item> rodTag;
 
 		Builder(String name)
 		{
@@ -303,14 +369,14 @@ public enum ModMetals
 
 		Builder dust()
 		{
-			this.dust = () -> new Item(new Item.Properties().group(Processing.ITEM_GROUP));
+			this.dust = () -> new Item(new Item.Properties().group(Processing.MATERIALS_ITEM_GROUP));
 			this.dustTag = itemTag("dusts/" + name);
 			return this;
 		}
 
 		Builder ingot()
 		{
-			this.ingot = () -> new Item(new Item.Properties().group(Processing.ITEM_GROUP));
+			this.ingot = () -> new Item(new Item.Properties().group(Processing.MATERIALS_ITEM_GROUP));
 			this.ingotTag = itemTag("ingots/" + name);
 			return this;
 		}
@@ -323,7 +389,7 @@ public enum ModMetals
 
 		Builder nugget()
 		{
-			this.nugget = () -> new Item(new Item.Properties().group(Processing.ITEM_GROUP));
+			this.nugget = () -> new Item(new Item.Properties().group(Processing.MATERIALS_ITEM_GROUP));
 			this.nuggetTag = itemTag("nuggets/" + name);
 			return this;
 		}
@@ -331,6 +397,27 @@ public enum ModMetals
 		Builder nuggetTagOnly()
 		{
 			this.nuggetTag = itemTag("nuggets/" + name);
+			return this;
+		}
+
+		Builder plate()
+		{
+			this.plate = () -> new Item(new Item.Properties().group(Processing.MATERIALS_ITEM_GROUP));
+			this.plateTag = itemTag("plates/" + name);
+			return this;
+		}
+
+		Builder gear()
+		{
+			this.gear = () -> new Item(new Item.Properties().group(Processing.MATERIALS_ITEM_GROUP));
+			this.gearTag = itemTag("gear/" + name);
+			return this;
+		}
+
+		Builder rod()
+		{
+			this.rod = () -> new Item(new Item.Properties().group(Processing.MATERIALS_ITEM_GROUP));
+			this.rodTag = itemTag("rods/" + name);
 			return this;
 		}
 	}

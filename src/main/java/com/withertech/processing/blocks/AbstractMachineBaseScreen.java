@@ -4,9 +4,10 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.withertech.processing.api.RedstoneMode;
 import com.withertech.processing.client.button.RedstoneModeButton;
-import com.withertech.processing.inventory.SlotMachineUpgrade;
+import com.withertech.processing.inventory.UpgradeSlot;
 import com.withertech.processing.network.Network;
 import com.withertech.processing.network.SetRedstoneModePacket;
+import com.withertech.processing.util.MachineTier;
 import com.withertech.processing.util.TextUtil;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.Widget;
@@ -19,9 +20,12 @@ import javax.annotation.Nonnull;
 
 public abstract class AbstractMachineBaseScreen<C extends AbstractMachineBaseContainer<?>> extends ContainerScreen<C>
 {
+	private MachineTier tier;
 	public AbstractMachineBaseScreen(C screenContainer, PlayerInventory inv, ITextComponent titleIn)
 	{
 		super(screenContainer, inv, titleIn);
+		this.tier = screenContainer.getTileEntity().getMachineTier();
+
 	}
 
 	public abstract ResourceLocation getGuiTexture();
@@ -45,7 +49,7 @@ public abstract class AbstractMachineBaseScreen<C extends AbstractMachineBaseCon
 			IFormattableTextComponent text = TextUtil.energyWithMax(container.getEnergyStored(), container.getMaxEnergyStored());
 			renderTooltip(matrixStack, text, x, y);
 		}
-		if (hoveredSlot instanceof SlotMachineUpgrade && !hoveredSlot.getHasStack())
+		if (hoveredSlot instanceof UpgradeSlot && !hoveredSlot.getHasStack())
 		{
 			renderTooltip(matrixStack, TextUtil.translate("misc", "upgradeSlot"), x, y);
 		}
@@ -73,7 +77,7 @@ public abstract class AbstractMachineBaseScreen<C extends AbstractMachineBaseCon
 	@Override
 	protected void drawGuiContainerForegroundLayer(@Nonnull MatrixStack matrixStack, int x, int y)
 	{
-		this.font.drawString(matrixStack, this.title.getString(), 8.0F, 6.0F, 4210752);
+		this.font.drawString(matrixStack, this.title.getString(), 8.0F, 6.0F, this.title.getStyle().getColor().getColor());
 //        this.font.drawString(this.playerInventory.getDisplayName().getFormattedText(), 8.0F, (float)(this.ySize - 96 + 2), 4210752);
 
 		for (Widget widget : this.buttons)

@@ -1,0 +1,54 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "processing:furnace/ultimate_upgrade"
+    ]
+  },
+  "criteria": {
+    "has_electrum": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:plates/electrum"
+          }
+        ]
+      }
+    },
+    "has_platinum": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:ingots/platinum"
+          }
+        ]
+      }
+    },
+    "has_parent": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "processing:elite_furnace"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "processing:furnace/ultimate_upgrade"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_electrum",
+      "has_platinum",
+      "has_parent",
+      "has_the_recipe"
+    ]
+  ]
+}

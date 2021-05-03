@@ -40,6 +40,7 @@ public class FluidUtils
 	{
 		return (color >> 24 & 0xFF) / 255.0F;
 	}
+
 	public static void color(int color)
 	{
 		//noinspection deprecation

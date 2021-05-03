@@ -1,0 +1,15 @@
+{
+  "type": "processing:pressing",
+  "process_time": 200,
+  "ingredient": {
+    "tag": "forge:ingots/lead"
+  },
+  "press": {
+    "tag": "processing:presses/plate"
+  },
+  "results": [
+    {
+      "item": "processing:lead_plate"
+    }
+  ]
+}

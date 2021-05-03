@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/electrum"
+    },
+    {
+      "tag": "forge:ingots/electrum"
+    },
+    {
+      "item": "processing:file"
+    }
+  ],
+  "result": {
+    "item": "processing:electrum_rod"
+  }
+}

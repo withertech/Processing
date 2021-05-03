@@ -11,15 +11,16 @@ import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.Map;
 
 @Mod.EventBusSubscriber
 public class OreGeneration
 {
 
-	private static final ArrayList<ConfiguredFeature<?, ?>> overworldOres = new ArrayList<>();
-	private static final ArrayList<ConfiguredFeature<?, ?>> netherOres = new ArrayList<>();
-	private static final ArrayList<ConfiguredFeature<?, ?>> endOres = new ArrayList<>();
+	private static final Map<ModOres, ConfiguredFeature<?, ?>> overworldOres = new EnumMap<>(ModOres.class);
+	private static final Map<ModOres, ConfiguredFeature<?, ?>> netherOres = new EnumMap<>(ModOres.class);
+	private static final Map<ModOres, ConfiguredFeature<?, ?>> endOres = new EnumMap<>(ModOres.class);
 
 	public static void registerOres()
 	{
@@ -30,7 +31,7 @@ public class OreGeneration
 		//Overworld Ore Register
 		for (ModOres ore : ModOres.values())
 		{
-			overworldOres.add(register(ore.getName(), ore.getConfiguredFeature()));
+			overworldOres.put(ore, register(ore.getName(), ore.getConfiguredFeature()));
 		}
 
 //		//Nether Ore Register
@@ -60,10 +61,7 @@ public class OreGeneration
 //				if (ore != null) generation.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, ore);
 //			}
 //		}
-		for (ConfiguredFeature<?, ?> ore : overworldOres)
-		{
-			if (ore != null) generation.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, ore);
-		}
+		overworldOres.entrySet().stream().filter(ore -> ore != null && ore.getKey().getConfig().isEnabled()).forEach(ore -> generation.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, ore.getValue()));
 	}
 
 	private static <FC extends IFeatureConfig> ConfiguredFeature<FC, ?> register(String name, ConfiguredFeature<FC, ?> configuredFeature)

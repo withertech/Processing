@@ -16,19 +16,21 @@ import java.util.function.Supplier;
 
 public enum ModOres implements IBlockProvider
 {
-	COPPER(() -> ModMetals.COPPER, 3, 1, new DefaultOreConfigs(true, 8, 8, 40, 90)),
-	TIN(() -> ModMetals.TIN, 3, 1, new DefaultOreConfigs(true, 8, 8, 20, 80)),
-	SILVER(() -> ModMetals.SILVER, 4, 2, new DefaultOreConfigs(true, 4, 8, 0, 40)),
-	LEAD(() -> ModMetals.LEAD, 4, 2, new DefaultOreConfigs(true, 4, 8, 0, 30)),
-	NICKEL(() -> ModMetals.NICKEL, 5, 2, new DefaultOreConfigs(true, 1, 6, 0, 24)),
-	PLATINUM(() -> ModMetals.PLATINUM, 5, 2, new DefaultOreConfigs(true, 1, 8, 5, 20)),
-	ZINC(() -> ModMetals.ZINC, 3, 1, new DefaultOreConfigs(true, 4, 8, 20, 60)),
-	BISMUTH(() -> ModMetals.BISMUTH, 3, 1, new DefaultOreConfigs(true, 4, 8, 16, 64)),
-	BAUXITE(() -> ModMetals.ALUMINUM, 4, 1, new DefaultOreConfigs(true, 6, 8, 15, 50)),
-	URANIUM(() -> ModMetals.URANIUM, 6, 2, new DefaultOreConfigs(true, 1, 4, 0, 18)),
+	COPPER(() -> ModMetals.COPPER, null, 3, 1, new DefaultOreConfigs(true, 8, 8, 40, 90)),
+	TIN(() -> ModMetals.TIN, null, 3, 1, new DefaultOreConfigs(true, 8, 8, 20, 80)),
+	SILVER(() -> ModMetals.SILVER, null, 4, 2, new DefaultOreConfigs(true, 4, 8, 0, 40)),
+	LEAD(() -> ModMetals.LEAD, null, 4, 2, new DefaultOreConfigs(true, 4, 8, 0, 30)),
+	NICKEL(() -> ModMetals.NICKEL, null, 5, 2, new DefaultOreConfigs(true, 1, 6, 0, 24)),
+	PLATINUM(() -> ModMetals.PLATINUM, null, 5, 2, new DefaultOreConfigs(true, 1, 8, 5, 20)),
+	ZINC(() -> ModMetals.ZINC, null, 3, 1, new DefaultOreConfigs(true, 4, 8, 20, 60)),
+	BISMUTH(() -> ModMetals.BISMUTH, null, 3, 1, new DefaultOreConfigs(true, 4, 8, 16, 64)),
+	BAUXITE(() -> ModMetals.ALUMINUM, null, 4, 1, new DefaultOreConfigs(true, 6, 8, 15, 50)),
+	URANIUM(() -> ModMetals.URANIUM, null, 6, 2, new DefaultOreConfigs(true, 1, 4, 0, 18)),
+	RUBY(null, () -> ModGems.RUBY, 6, 2, new DefaultOreConfigs(true, 1, 4, 0, 18)),
 	;
 
 	private final Supplier<ModMetals> metal;
+	private final Supplier<ModGems> gem;
 	private final DefaultOreConfigs defaultOreConfigs;
 	private final int hardness;
 	private final int harvestLevel;
@@ -44,9 +46,10 @@ public enum ModOres implements IBlockProvider
 				.count(config.getVeinCount());
 	});
 
-	ModOres(Supplier<ModMetals> metal, int hardness, int harvestLevel, DefaultOreConfigs defaultOreConfigs)
+	ModOres(Supplier<ModMetals> metal, Supplier<ModGems> gem, int hardness, int harvestLevel, DefaultOreConfigs defaultOreConfigs)
 	{
 		this.metal = metal;
+		this.gem = gem;
 		this.defaultOreConfigs = defaultOreConfigs;
 		this.hardness = hardness;
 		this.harvestLevel = harvestLevel;
@@ -85,7 +88,12 @@ public enum ModOres implements IBlockProvider
 	@Override
 	public Block asBlock()
 	{
-		return metal.get().getOre().orElse(null);
+		if (gem != null)
+			return gem.get().getOre().orElse(null);
+		if (metal != null)
+			return metal.get().getOre().orElse(null);
+		return null;
+
 	}
 
 	public static class DefaultOreConfigs
