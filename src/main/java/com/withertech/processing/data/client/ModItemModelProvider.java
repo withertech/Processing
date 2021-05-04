@@ -2,11 +2,9 @@ package com.withertech.processing.data.client;
 
 import com.withertech.processing.Processing;
 import com.withertech.processing.blocks.IBlockProvider;
-import com.withertech.processing.init.ModGems;
-import com.withertech.processing.init.ModItems;
-import com.withertech.processing.init.ModMetals;
-import com.withertech.processing.init.Registration;
+import com.withertech.processing.init.*;
 import com.withertech.processing.items.MachineUpgrades;
+import com.withertech.processing.util.MachineTier;
 import com.withertech.processing.util.NameUtils;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
@@ -60,6 +58,11 @@ public class ModItemModelProvider extends ItemModelProvider
 			gem.getGem().ifPresent(item -> builder(item, itemGenerated));
 		});
 
+		Arrays.stream(ModFactoryBlocks.values()).forEach(factory ->
+		{
+			Arrays.stream(MachineTier.values()).map(factory::getBlock).forEach(this::blockBuilder);
+		});
+
 		Arrays.stream(MachineUpgrades.values()).forEach(upgrade ->
 				builder(upgrade.asItem(), itemGenerated));
 
@@ -76,6 +79,7 @@ public class ModItemModelProvider extends ItemModelProvider
 
 		builder(ModItems.WRENCH.get(), itemHandheld);
 		builder(ModItems.HAMMER.get(), itemHandheld);
+		builder(ModItems.FILE.get(), itemHandheld);
 	}
 
 	private void blockBuilder(IBlockProvider block)

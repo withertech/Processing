@@ -55,16 +55,10 @@ public class ModItemTagsProvider extends ItemTagsProvider
 	protected void registerTags()
 	{
 		// Empties
-		getOrCreateBuilder(ModTags.Items.PLATE_PRESS)
-				.add(ModItems.PLATE_PRESS.get());
-		getOrCreateBuilder(ModTags.Items.ROD_PRESS)
-				.add(ModItems.ROD_PRESS.get());
-		getOrCreateBuilder(ModTags.Items.GEAR_PRESS)
-				.add(ModItems.GEAR_PRESS.get());
-		getOrCreateBuilder(ModTags.Items.PRESSES)
-				.addTag(ModTags.Items.PLATE_PRESS)
-				.addTag(ModTags.Items.ROD_PRESS)
-				.addTag(ModTags.Items.GEAR_PRESS);
+		builder(ModTags.Items.PLATE_PRESS.getName(), ModItems.PLATE_PRESS.get());
+		builder(ModTags.Items.ROD_PRESS.getName(), ModItems.ROD_PRESS.get());
+		builder(ModTags.Items.GEAR_PRESS.getName(), ModItems.GEAR_PRESS.get());
+		builderTag(ModTags.Items.PRESSES.getName(), ModTags.Items.PLATE_PRESS, ModTags.Items.ROD_PRESS, ModTags.Items.GEAR_PRESS);
 
 		for (ModMetals metal : ModMetals.values())
 		{
@@ -154,7 +148,10 @@ public class ModItemTagsProvider extends ItemTagsProvider
 	{
 		getOrCreateBuilder(itemTag(id)).add(Arrays.stream(items).map(IItemProvider::asItem).toArray(Item[]::new));
 	}
-
+	private void builderTag(ResourceLocation id, ITag.INamedTag<Item>... items)
+	{
+		getOrCreateBuilder(itemTag(id)).addTags(Arrays.stream(items).toArray(ITag.INamedTag[]::new));
+	}
 	@Nonnull
 	@Override
 	public String getName()

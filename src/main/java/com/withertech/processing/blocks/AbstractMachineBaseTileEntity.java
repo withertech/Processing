@@ -14,6 +14,7 @@ import net.minecraft.util.IIntArray;
 import net.minecraft.util.IItemProvider;
 
 import javax.annotation.Nonnull;
+import java.util.function.Supplier;
 
 public abstract class AbstractMachineBaseTileEntity extends AbstractEnergyInventoryTileEntity
 {

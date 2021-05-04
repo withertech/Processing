@@ -44,11 +44,20 @@ public final class PressingRecipeBuilder
 		return builder(Ingredient.fromTag(ingredient), Ingredient.fromTag(press), processTime);
 	}
 
+	public static PressingRecipeBuilder builder(ITag<Item> ingredient, IItemProvider press, int processTime)
+	{
+		return builder(Ingredient.fromTag(ingredient), Ingredient.fromItems(press), processTime);
+	}
+
 	public static PressingRecipeBuilder builder(Ingredient ingredient, Ingredient press, int processTime)
 	{
 		return new PressingRecipeBuilder(ingredient, press, processTime);
 	}
-
+	public static PressingRecipeBuilder pressing(ITag<Item> ingot, IItemProvider plate, IItemProvider press, int processTime)
+	{
+		return builder(ingot, press, processTime)
+				.result(plate, 1);
+	}
 	public static PressingRecipeBuilder pressing(ITag<Item> ingot, IItemProvider plate, ITag<Item> press, int processTime)
 	{
 		return builder(ingot, press, processTime)

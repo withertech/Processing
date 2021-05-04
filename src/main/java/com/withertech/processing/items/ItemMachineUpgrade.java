@@ -1,7 +1,7 @@
 package com.withertech.processing.items;
 
-import com.withertech.processing.Processing;
 import com.withertech.processing.api.IMachineUpgrade;
+import com.withertech.processing.init.ModGroups;
 import com.withertech.processing.util.MathUtils;
 import com.withertech.processing.util.TextUtil;
 import net.minecraft.client.util.ITooltipFlag;
@@ -21,7 +21,7 @@ public class ItemMachineUpgrade extends Item
 
 	public ItemMachineUpgrade(IMachineUpgrade upgrade)
 	{
-		super(new Properties().group(Processing.MACHINES_ITEM_GROUP));
+		super(new Properties().group(ModGroups.MISC_ITEM_GROUP));
 		this.upgrade = upgrade;
 	}
 

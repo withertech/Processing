@@ -1,7 +1,9 @@
 package com.withertech.processing.init;
 
-import com.withertech.processing.Processing;
-import com.withertech.processing.blocks.BlockMetal;
+import com.withertech.processing.blocks.MetalBlock;
+import com.withertech.processing.items.ResourceBlockItem;
+import com.withertech.processing.items.ResourceItem;
+import com.withertech.processing.items.ResourceItemType;
 import com.withertech.processing.registry.BlockRegistryObject;
 import com.withertech.processing.registry.ItemRegistryObject;
 import net.minecraft.block.AbstractBlock;
@@ -9,7 +11,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.OreBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.BlockTags;
@@ -129,7 +130,7 @@ public enum ModMetals implements IModResource
 				String name = metal.oreName + "_ore";
 				metal.ore = new BlockRegistryObject<>(Registration.BLOCKS.register(name, metal.oreSupplier));
 				Registration.ITEMS.register(name, () ->
-						new BlockItem(metal.ore.get(), new Item.Properties().group(Processing.MATERIALS_ITEM_GROUP)));
+						new ResourceBlockItem(metal.ore.get(), new Item.Properties().group(ModGroups.MATERIALS_ITEM_GROUP), ResourceItemType.ORE));
 			}
 		}
 		for (ModMetals metal : values())
@@ -139,7 +140,7 @@ public enum ModMetals implements IModResource
 				String name = metal.getName() + "_block";
 				metal.storageBlock = new BlockRegistryObject<>(Registration.BLOCKS.register(name, metal.storageBlockSupplier));
 				Registration.ITEMS.register(name, () ->
-						new BlockItem(metal.storageBlock.get(), new Item.Properties().group(Processing.MATERIALS_ITEM_GROUP)));
+						new ResourceBlockItem(metal.storageBlock.get(), new Item.Properties().group(ModGroups.MATERIALS_ITEM_GROUP), ResourceItemType.STORAGE));
 			}
 		}
 	}
@@ -361,7 +362,7 @@ public enum ModMetals implements IModResource
 
 		Builder storageBlock()
 		{
-			this.storageBlock = BlockMetal::new;
+			this.storageBlock = MetalBlock::new;
 			this.storageBlockTag = blockTag("storage_blocks/" + name);
 			return this;
 		}
@@ -369,14 +370,14 @@ public enum ModMetals implements IModResource
 
 		Builder dust()
 		{
-			this.dust = () -> new Item(new Item.Properties().group(Processing.MATERIALS_ITEM_GROUP));
+			this.dust = () -> new ResourceItem(new Item.Properties().group(ModGroups.MATERIALS_ITEM_GROUP), ResourceItemType.DUST);
 			this.dustTag = itemTag("dusts/" + name);
 			return this;
 		}
 
 		Builder ingot()
 		{
-			this.ingot = () -> new Item(new Item.Properties().group(Processing.MATERIALS_ITEM_GROUP));
+			this.ingot = () -> new ResourceItem(new Item.Properties().group(ModGroups.MATERIALS_ITEM_GROUP), ResourceItemType.INGOT);
 			this.ingotTag = itemTag("ingots/" + name);
 			return this;
 		}
@@ -389,7 +390,7 @@ public enum ModMetals implements IModResource
 
 		Builder nugget()
 		{
-			this.nugget = () -> new Item(new Item.Properties().group(Processing.MATERIALS_ITEM_GROUP));
+			this.nugget = () -> new ResourceItem(new Item.Properties().group(ModGroups.MATERIALS_ITEM_GROUP), ResourceItemType.NUGGET);
 			this.nuggetTag = itemTag("nuggets/" + name);
 			return this;
 		}
@@ -402,21 +403,21 @@ public enum ModMetals implements IModResource
 
 		Builder plate()
 		{
-			this.plate = () -> new Item(new Item.Properties().group(Processing.MATERIALS_ITEM_GROUP));
+			this.plate = () -> new ResourceItem(new Item.Properties().group(ModGroups.MATERIALS_ITEM_GROUP), ResourceItemType.PLATE);
 			this.plateTag = itemTag("plates/" + name);
 			return this;
 		}
 
 		Builder gear()
 		{
-			this.gear = () -> new Item(new Item.Properties().group(Processing.MATERIALS_ITEM_GROUP));
+			this.gear = () -> new ResourceItem(new Item.Properties().group(ModGroups.MATERIALS_ITEM_GROUP), ResourceItemType.GEAR);
 			this.gearTag = itemTag("gear/" + name);
 			return this;
 		}
 
 		Builder rod()
 		{
-			this.rod = () -> new Item(new Item.Properties().group(Processing.MATERIALS_ITEM_GROUP));
+			this.rod = () -> new ResourceItem(new Item.Properties().group(ModGroups.MATERIALS_ITEM_GROUP), ResourceItemType.ROD);
 			this.rodTag = itemTag("rods/" + name);
 			return this;
 		}

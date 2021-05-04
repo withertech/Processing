@@ -4,7 +4,7 @@ import com.google.common.collect.Maps;
 import com.withertech.processing.Processing;
 import com.withertech.processing.api.Face;
 import com.withertech.processing.api.IWrenchable;
-import com.withertech.processing.blocks.pipe.TileFluidPipe;
+import com.withertech.processing.blocks.pipe.FluidPipeTile;
 import com.withertech.processing.init.ModBlocks;
 import com.withertech.processing.util.MachineTier;
 import net.minecraft.block.Block;
@@ -107,7 +107,7 @@ public abstract class AbstractFactoryMachineBlock extends AbstractMachineBlock i
 		if (face != Face.FRONT && side != Direction.UP)
 		{
 			TileEntity other = world.getTileEntity(pos.offset(side));
-			if (!(other instanceof TileFluidPipe))
+			if (!(other instanceof FluidPipeTile))
 			{
 				BlockState state1 = cycleProperty(state, FACING_TO_PROPERTY_MAP.get(face));
 				world.setBlockState(pos, state1, 18);

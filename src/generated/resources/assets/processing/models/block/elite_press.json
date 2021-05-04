@@ -1,9 +1,0 @@
-{
-  "parent": "minecraft:block/orientable_with_bottom",
-  "textures": {
-    "side": "processing:block/elite_package",
-    "front": "processing:block/elite_package",
-    "bottom": "processing:block/elite_package",
-    "top": "processing:block/elite_package_top"
-  }
-}

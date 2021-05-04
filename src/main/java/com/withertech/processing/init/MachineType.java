@@ -2,12 +2,12 @@ package com.withertech.processing.init;
 
 
 import com.withertech.processing.blocks.AbstractMachineBaseTileEntity;
-import com.withertech.processing.blocks.crusher.ElectricCrusherContainer;
-import com.withertech.processing.blocks.crusher.ElectricCrusherTile;
-import com.withertech.processing.blocks.furnace.ElectricFurnaceContainer;
-import com.withertech.processing.blocks.furnace.ElectricFurnaceTile;
-import com.withertech.processing.blocks.press.ElectricPressContainer;
-import com.withertech.processing.blocks.press.ElectricPressTile;
+import com.withertech.processing.blocks.crusher.CrusherContainer;
+import com.withertech.processing.blocks.crusher.CrusherTile;
+import com.withertech.processing.blocks.furnace.FurnaceContainer;
+import com.withertech.processing.blocks.furnace.FurnaceTile;
+import com.withertech.processing.blocks.press.PressContainer;
+import com.withertech.processing.blocks.press.PressTile;
 import com.withertech.processing.util.MachineTier;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
@@ -25,37 +25,37 @@ public class MachineType<T extends AbstractMachineBaseTileEntity, B extends T, A
 //			(id, inv) -> new AlloySmelterContainer(id, inv, MachineTier.BASIC),
 //			(id, inv) -> new AlloySmelterContainer(id, inv, MachineTier.STANDARD)
 //	);
-	public static final MachineType<ElectricCrusherTile, ElectricCrusherTile.Basic, ElectricCrusherTile.Advanced, ElectricCrusherTile.Elite, ElectricCrusherTile.Ultimate, ElectricCrusherContainer> CRUSHER = new MachineType<>(
-			() -> TileEntityType.Builder.create(ElectricCrusherTile.Basic::new, ModBlocks.BASIC_CRUSHER.get()),
-			() -> TileEntityType.Builder.create(ElectricCrusherTile.Advanced::new, ModBlocks.ADVANCED_CRUSHER.get()),
-			() -> TileEntityType.Builder.create(ElectricCrusherTile.Elite::new, ModBlocks.ELITE_CRUSHER.get()),
-			() -> TileEntityType.Builder.create(ElectricCrusherTile.Ultimate::new, ModBlocks.ULTIMATE_CRUSHER.get()),
-			(id, inv) -> new ElectricCrusherContainer(id, inv, MachineTier.BASIC),
-			(id, inv) -> new ElectricCrusherContainer(id, inv, MachineTier.ADVANCED),
-			(id, inv) -> new ElectricCrusherContainer(id, inv, MachineTier.ELITE),
-			(id, inv) -> new ElectricCrusherContainer(id, inv, MachineTier.ULTIMATE)
+	public static final MachineType<CrusherTile, CrusherTile.Basic, CrusherTile.Advanced, CrusherTile.Elite, CrusherTile.Ultimate, CrusherContainer> CRUSHER = new MachineType<>(
+			() -> TileEntityType.Builder.create(CrusherTile.Basic::new, ModFactoryBlocks.CRUSHER.getBlock(MachineTier.BASIC)),
+			() -> TileEntityType.Builder.create(CrusherTile.Advanced::new, ModFactoryBlocks.CRUSHER.getBlock(MachineTier.ADVANCED)),
+			() -> TileEntityType.Builder.create(CrusherTile.Elite::new, ModFactoryBlocks.CRUSHER.getBlock(MachineTier.ELITE)),
+			() -> TileEntityType.Builder.create(CrusherTile.Ultimate::new, ModFactoryBlocks.CRUSHER.getBlock(MachineTier.ULTIMATE)),
+			(id, inv) -> new CrusherContainer(id, inv, MachineTier.BASIC),
+			(id, inv) -> new CrusherContainer(id, inv, MachineTier.ADVANCED),
+			(id, inv) -> new CrusherContainer(id, inv, MachineTier.ELITE),
+			(id, inv) -> new CrusherContainer(id, inv, MachineTier.ULTIMATE)
 	);
 
-	public static final MachineType<ElectricPressTile, ElectricPressTile.Basic, ElectricPressTile.Advanced, ElectricPressTile.Elite, ElectricPressTile.Ultimate, ElectricPressContainer> PRESS = new MachineType<>(
-			() -> TileEntityType.Builder.create(ElectricPressTile.Basic::new, ModBlocks.BASIC_PRESS.get()),
-			() -> TileEntityType.Builder.create(ElectricPressTile.Advanced::new, ModBlocks.ADVANCED_PRESS.get()),
-			() -> TileEntityType.Builder.create(ElectricPressTile.Elite::new, ModBlocks.ELITE_PRESS.get()),
-			() -> TileEntityType.Builder.create(ElectricPressTile.Ultimate::new, ModBlocks.ULTIMATE_PRESS.get()),
-			(id, inv) -> new ElectricPressContainer(id, inv, MachineTier.BASIC),
-			(id, inv) -> new ElectricPressContainer(id, inv, MachineTier.ADVANCED),
-			(id, inv) -> new ElectricPressContainer(id, inv, MachineTier.ELITE),
-			(id, inv) -> new ElectricPressContainer(id, inv, MachineTier.ULTIMATE)
+	public static final MachineType<PressTile, PressTile.Basic, PressTile.Advanced, PressTile.Elite, PressTile.Ultimate, PressContainer> PRESS = new MachineType<>(
+			() -> TileEntityType.Builder.create(PressTile.Basic::new, ModFactoryBlocks.PRESS.getBlock(MachineTier.BASIC)),
+			() -> TileEntityType.Builder.create(PressTile.Advanced::new, ModFactoryBlocks.PRESS.getBlock(MachineTier.ADVANCED)),
+			() -> TileEntityType.Builder.create(PressTile.Elite::new, ModFactoryBlocks.PRESS.getBlock(MachineTier.ELITE)),
+			() -> TileEntityType.Builder.create(PressTile.Ultimate::new, ModFactoryBlocks.PRESS.getBlock(MachineTier.ULTIMATE)),
+			(id, inv) -> new PressContainer(id, inv, MachineTier.BASIC),
+			(id, inv) -> new PressContainer(id, inv, MachineTier.ADVANCED),
+			(id, inv) -> new PressContainer(id, inv, MachineTier.ELITE),
+			(id, inv) -> new PressContainer(id, inv, MachineTier.ULTIMATE)
 	);
 
-	public static final MachineType<ElectricFurnaceTile, ElectricFurnaceTile.Basic, ElectricFurnaceTile.Advanced, ElectricFurnaceTile.Elite, ElectricFurnaceTile.Ultimate, ElectricFurnaceContainer> FURNACE = new MachineType<>(
-			() -> TileEntityType.Builder.create(ElectricFurnaceTile.Basic::new, ModBlocks.BASIC_FURNACE.get()),
-			() -> TileEntityType.Builder.create(ElectricFurnaceTile.Advanced::new, ModBlocks.ADVANCED_FURNACE.get()),
-			() -> TileEntityType.Builder.create(ElectricFurnaceTile.Elite::new, ModBlocks.ELITE_FURNACE.get()),
-			() -> TileEntityType.Builder.create(ElectricFurnaceTile.Ultimate::new, ModBlocks.ULTIMATE_FURNACE.get()),
-			(id, inv) -> new ElectricFurnaceContainer(id, inv, MachineTier.BASIC),
-			(id, inv) -> new ElectricFurnaceContainer(id, inv, MachineTier.ADVANCED),
-			(id, inv) -> new ElectricFurnaceContainer(id, inv, MachineTier.ELITE),
-			(id, inv) -> new ElectricFurnaceContainer(id, inv, MachineTier.ULTIMATE)
+	public static final MachineType<FurnaceTile, FurnaceTile.Basic, FurnaceTile.Advanced, FurnaceTile.Elite, FurnaceTile.Ultimate, FurnaceContainer> FURNACE = new MachineType<>(
+			() -> TileEntityType.Builder.create(FurnaceTile.Basic::new, ModFactoryBlocks.FURNACE.getBlock(MachineTier.BASIC)),
+			() -> TileEntityType.Builder.create(FurnaceTile.Advanced::new, ModFactoryBlocks.FURNACE.getBlock(MachineTier.ADVANCED)),
+			() -> TileEntityType.Builder.create(FurnaceTile.Elite::new, ModFactoryBlocks.FURNACE.getBlock(MachineTier.ELITE)),
+			() -> TileEntityType.Builder.create(FurnaceTile.Ultimate::new, ModFactoryBlocks.FURNACE.getBlock(MachineTier.ULTIMATE)),
+			(id, inv) -> new FurnaceContainer(id, inv, MachineTier.BASIC),
+			(id, inv) -> new FurnaceContainer(id, inv, MachineTier.ADVANCED),
+			(id, inv) -> new FurnaceContainer(id, inv, MachineTier.ELITE),
+			(id, inv) -> new FurnaceContainer(id, inv, MachineTier.ULTIMATE)
 	);
 
 	private final Lazy<TileEntityType<B>> basicTileEntityType;

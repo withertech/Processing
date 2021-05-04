@@ -19,7 +19,12 @@ public class EnergyStorageImplBase extends EnergyStorage implements ICapabilityP
 		super(capacity, maxReceive, maxExtract, 0);
 		this.lazy = LazyOptional.of(() -> this);
 	}
-
+	public void setCapacity(int c)
+	{
+		this.capacity = c;
+		if(this.energy > c)
+			this.energy = c;
+	}
 	@Nonnull
 	@Override
 	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side)

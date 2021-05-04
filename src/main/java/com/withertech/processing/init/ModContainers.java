@@ -1,12 +1,12 @@
 package com.withertech.processing.init;
 
 import com.withertech.processing.Processing;
-import com.withertech.processing.blocks.crusher.ElectricCrusherContainer;
-import com.withertech.processing.blocks.crusher.ElectricCrusherScreen;
-import com.withertech.processing.blocks.furnace.ElectricFurnaceContainer;
-import com.withertech.processing.blocks.furnace.ElectricFurnaceScreen;
-import com.withertech.processing.blocks.press.ElectricPressContainer;
-import com.withertech.processing.blocks.press.ElectricPressScreen;
+import com.withertech.processing.blocks.crusher.CrusherContainer;
+import com.withertech.processing.blocks.crusher.CrusherScreen;
+import com.withertech.processing.blocks.furnace.FurnaceContainer;
+import com.withertech.processing.blocks.furnace.FurnaceScreen;
+import com.withertech.processing.blocks.press.PressContainer;
+import com.withertech.processing.blocks.press.PressScreen;
 import com.withertech.processing.util.MachineTier;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.inventory.container.Container;
@@ -32,20 +32,20 @@ public final class ModContainers
 //	public static ContainerType<RefineryContainer> refinery;
 //	public static ContainerType<SolidifierContainer> solidifier;
 
-	public static final RegistryObject<ContainerType<ElectricCrusherContainer>> BASIC_CRUSHER = Registration.CONTAINERS.register("basic_crusher", () -> MachineType.CRUSHER.getContainerType(MachineTier.BASIC));
-	public static final RegistryObject<ContainerType<ElectricCrusherContainer>> ADVANCED_CRUSHER = Registration.CONTAINERS.register("advanced_crusher", () -> MachineType.CRUSHER.getContainerType(MachineTier.ADVANCED));
-	public static final RegistryObject<ContainerType<ElectricCrusherContainer>> ELITE_CRUSHER = Registration.CONTAINERS.register("elite_crusher", () -> MachineType.CRUSHER.getContainerType(MachineTier.ELITE));
-	public static final RegistryObject<ContainerType<ElectricCrusherContainer>> ULTIMATE_CRUSHER = Registration.CONTAINERS.register("ultimate_crusher", () -> MachineType.CRUSHER.getContainerType(MachineTier.ULTIMATE));
+	public static final RegistryObject<ContainerType<CrusherContainer>> BASIC_CRUSHER = Registration.CONTAINERS.register("basic_crusher", () -> MachineType.CRUSHER.getContainerType(MachineTier.BASIC));
+	public static final RegistryObject<ContainerType<CrusherContainer>> ADVANCED_CRUSHER = Registration.CONTAINERS.register("advanced_crusher", () -> MachineType.CRUSHER.getContainerType(MachineTier.ADVANCED));
+	public static final RegistryObject<ContainerType<CrusherContainer>> ELITE_CRUSHER = Registration.CONTAINERS.register("elite_crusher", () -> MachineType.CRUSHER.getContainerType(MachineTier.ELITE));
+	public static final RegistryObject<ContainerType<CrusherContainer>> ULTIMATE_CRUSHER = Registration.CONTAINERS.register("ultimate_crusher", () -> MachineType.CRUSHER.getContainerType(MachineTier.ULTIMATE));
 
-	public static final RegistryObject<ContainerType<ElectricPressContainer>> BASIC_PRESS = Registration.CONTAINERS.register("basic_press", () -> MachineType.PRESS.getContainerType(MachineTier.BASIC));
-	public static final RegistryObject<ContainerType<ElectricPressContainer>> ADVANCED_PRESS = Registration.CONTAINERS.register("advanced_press", () -> MachineType.PRESS.getContainerType(MachineTier.ADVANCED));
-	public static final RegistryObject<ContainerType<ElectricPressContainer>> ELITE_PRESS = Registration.CONTAINERS.register("elite_press", () -> MachineType.PRESS.getContainerType(MachineTier.ELITE));
-	public static final RegistryObject<ContainerType<ElectricPressContainer>> ULTIMATE_PRESS = Registration.CONTAINERS.register("ultimate_press", () -> MachineType.PRESS.getContainerType(MachineTier.ULTIMATE));
+	public static final RegistryObject<ContainerType<PressContainer>> BASIC_PRESS = Registration.CONTAINERS.register("basic_press", () -> MachineType.PRESS.getContainerType(MachineTier.BASIC));
+	public static final RegistryObject<ContainerType<PressContainer>> ADVANCED_PRESS = Registration.CONTAINERS.register("advanced_press", () -> MachineType.PRESS.getContainerType(MachineTier.ADVANCED));
+	public static final RegistryObject<ContainerType<PressContainer>> ELITE_PRESS = Registration.CONTAINERS.register("elite_press", () -> MachineType.PRESS.getContainerType(MachineTier.ELITE));
+	public static final RegistryObject<ContainerType<PressContainer>> ULTIMATE_PRESS = Registration.CONTAINERS.register("ultimate_press", () -> MachineType.PRESS.getContainerType(MachineTier.ULTIMATE));
 
-	public static final RegistryObject<ContainerType<ElectricFurnaceContainer>> BASIC_FURNACE = Registration.CONTAINERS.register("basic_furnace", () -> MachineType.FURNACE.getContainerType(MachineTier.BASIC));
-	public static final RegistryObject<ContainerType<ElectricFurnaceContainer>> ADVANCED_FURNACE = Registration.CONTAINERS.register("advanced_furnace", () -> MachineType.FURNACE.getContainerType(MachineTier.ADVANCED));
-	public static final RegistryObject<ContainerType<ElectricFurnaceContainer>> ELITE_FURNACE = Registration.CONTAINERS.register("elite_furnace", () -> MachineType.FURNACE.getContainerType(MachineTier.ELITE));
-	public static final RegistryObject<ContainerType<ElectricFurnaceContainer>> ULTIMATE_FURNACE = Registration.CONTAINERS.register("ultimate_furnace", () -> MachineType.FURNACE.getContainerType(MachineTier.ULTIMATE));
+	public static final RegistryObject<ContainerType<FurnaceContainer>> BASIC_FURNACE = Registration.CONTAINERS.register("basic_furnace", () -> MachineType.FURNACE.getContainerType(MachineTier.BASIC));
+	public static final RegistryObject<ContainerType<FurnaceContainer>> ADVANCED_FURNACE = Registration.CONTAINERS.register("advanced_furnace", () -> MachineType.FURNACE.getContainerType(MachineTier.ADVANCED));
+	public static final RegistryObject<ContainerType<FurnaceContainer>> ELITE_FURNACE = Registration.CONTAINERS.register("elite_furnace", () -> MachineType.FURNACE.getContainerType(MachineTier.ELITE));
+	public static final RegistryObject<ContainerType<FurnaceContainer>> ULTIMATE_FURNACE = Registration.CONTAINERS.register("ultimate_furnace", () -> MachineType.FURNACE.getContainerType(MachineTier.ULTIMATE));
 
 	private ModContainers()
 	{
@@ -77,20 +77,20 @@ public final class ModContainers
 //		ScreenManager.registerFactory(batteryBox, BatteryBoxScreen::new);
 //		ScreenManager.registerFactory(coalGenerator, CoalGeneratorScreen::new);
 //		ScreenManager.registerFactory(compressor, CompressorScreen::new);
-		ScreenManager.registerFactory(MachineType.CRUSHER.getContainerType(MachineTier.BASIC), ElectricCrusherScreen::new);
-		ScreenManager.registerFactory(MachineType.CRUSHER.getContainerType(MachineTier.ADVANCED), ElectricCrusherScreen::new);
-		ScreenManager.registerFactory(MachineType.CRUSHER.getContainerType(MachineTier.ELITE), ElectricCrusherScreen::new);
-		ScreenManager.registerFactory(MachineType.CRUSHER.getContainerType(MachineTier.ULTIMATE), ElectricCrusherScreen::new);
+		ScreenManager.registerFactory(MachineType.CRUSHER.getContainerType(MachineTier.BASIC), CrusherScreen::new);
+		ScreenManager.registerFactory(MachineType.CRUSHER.getContainerType(MachineTier.ADVANCED), CrusherScreen::new);
+		ScreenManager.registerFactory(MachineType.CRUSHER.getContainerType(MachineTier.ELITE), CrusherScreen::new);
+		ScreenManager.registerFactory(MachineType.CRUSHER.getContainerType(MachineTier.ULTIMATE), CrusherScreen::new);
 
-		ScreenManager.registerFactory(MachineType.PRESS.getContainerType(MachineTier.BASIC), ElectricPressScreen::new);
-		ScreenManager.registerFactory(MachineType.PRESS.getContainerType(MachineTier.ADVANCED), ElectricPressScreen::new);
-		ScreenManager.registerFactory(MachineType.PRESS.getContainerType(MachineTier.ELITE), ElectricPressScreen::new);
-		ScreenManager.registerFactory(MachineType.PRESS.getContainerType(MachineTier.ULTIMATE), ElectricPressScreen::new);
+		ScreenManager.registerFactory(MachineType.PRESS.getContainerType(MachineTier.BASIC), PressScreen::new);
+		ScreenManager.registerFactory(MachineType.PRESS.getContainerType(MachineTier.ADVANCED), PressScreen::new);
+		ScreenManager.registerFactory(MachineType.PRESS.getContainerType(MachineTier.ELITE), PressScreen::new);
+		ScreenManager.registerFactory(MachineType.PRESS.getContainerType(MachineTier.ULTIMATE), PressScreen::new);
 //		ScreenManager.registerFactory(dieselGenerator, DieselGeneratorScreen::new);
-		ScreenManager.registerFactory(MachineType.FURNACE.getContainerType(MachineTier.BASIC), ElectricFurnaceScreen::new);
-		ScreenManager.registerFactory(MachineType.FURNACE.getContainerType(MachineTier.ADVANCED), ElectricFurnaceScreen::new);
-		ScreenManager.registerFactory(MachineType.FURNACE.getContainerType(MachineTier.ELITE), ElectricFurnaceScreen::new);
-		ScreenManager.registerFactory(MachineType.FURNACE.getContainerType(MachineTier.ULTIMATE), ElectricFurnaceScreen::new);
+		ScreenManager.registerFactory(MachineType.FURNACE.getContainerType(MachineTier.BASIC), FurnaceScreen::new);
+		ScreenManager.registerFactory(MachineType.FURNACE.getContainerType(MachineTier.ADVANCED), FurnaceScreen::new);
+		ScreenManager.registerFactory(MachineType.FURNACE.getContainerType(MachineTier.ELITE), FurnaceScreen::new);
+		ScreenManager.registerFactory(MachineType.FURNACE.getContainerType(MachineTier.ULTIMATE), FurnaceScreen::new);
 //		ScreenManager.registerFactory(infuser, InfuserScreen::new);
 //		ScreenManager.registerFactory(lavaGenerator, LavaGeneratorScreen::new);
 //		ScreenManager.registerFactory(mixer, MixerScreen::new);

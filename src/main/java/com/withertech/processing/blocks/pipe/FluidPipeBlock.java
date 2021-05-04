@@ -103,7 +103,7 @@ public class FluidPipeBlock extends SixWayBlock implements IWrenchable
 	private static ConnectionType createConnection(IBlockReader worldIn, BlockPos pos, Direction side, ConnectionType current)
 	{
 		TileEntity tileEntity = worldIn.getTileEntity(pos.offset(side));
-		if (tileEntity instanceof TileFluidPipe)
+		if (tileEntity instanceof FluidPipeTile)
 		{
 			return ConnectionType.BOTH;
 		} else if (tileEntity != null)
@@ -132,7 +132,7 @@ public class FluidPipeBlock extends SixWayBlock implements IWrenchable
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
-		return new TileFluidPipe();
+		return new FluidPipeTile();
 	}
 
 	@Override
@@ -148,11 +148,11 @@ public class FluidPipeBlock extends SixWayBlock implements IWrenchable
 		if (side != null)
 		{
 			TileEntity other = world.getTileEntity(pos.offset(side));
-			if (!(other instanceof TileFluidPipe))
+			if (!(other instanceof FluidPipeTile))
 			{
 				BlockState state1 = cycleProperty(state, FACING_TO_PROPERTY_MAP.get(side));
 				world.setBlockState(pos, state1, 18);
-				NetManFluidPipe.update(world, pos);
+				FluidPipeNetMan.update(world, pos);
 				return ActionResultType.SUCCESS;
 			}
 		}
@@ -199,9 +199,9 @@ public class FluidPipeBlock extends SixWayBlock implements IWrenchable
 	@Override
 	public BlockState updatePostPlacement(@Nonnull BlockState stateIn, @Nonnull Direction facing, @Nonnull BlockState facingState, IWorld worldIn, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos)
 	{
-		if (worldIn.getTileEntity(facingPos) instanceof TileFluidPipe)
+		if (worldIn.getTileEntity(facingPos) instanceof FluidPipeTile)
 		{
-			NetManFluidPipe.update(worldIn, currentPos);
+			FluidPipeNetMan.update(worldIn, currentPos);
 		}
 
 		EnumProperty<ConnectionType> property = FACING_TO_PROPERTY_MAP.get(facing);

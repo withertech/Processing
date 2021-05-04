@@ -1,6 +1,8 @@
 package com.withertech.processing.items;
 
 import com.withertech.processing.api.IMachineUpgrade;
+import com.withertech.processing.config.Config;
+import com.withertech.processing.config.UpgradeConfig;
 import com.withertech.processing.init.Registration;
 import com.withertech.processing.registry.ItemRegistryObject;
 import com.withertech.processing.util.Constants;
@@ -12,28 +14,26 @@ import java.util.Locale;
 
 public enum MachineUpgrades implements IItemProvider, IMachineUpgrade
 {
-	PROCESSING_SPEED(Constants.UPGRADE_PROCESSING_SPEED_AMOUNT, 0.5f, "+%d%% machine processing speed"),
-	OUTPUT_CHANCE(Constants.UPGRADE_SECONDARY_OUTPUT_AMOUNT, 0.25f, "+%d%% chance of secondary outputs"),
-	ENERGY_CAPACITY(0, 0.0f, "+%d energy storage", false),
-	ENERGY_EFFICIENCY(Constants.UPGRADE_ENERGY_EFFICIENCY_AMOUNT, Constants.UPGRADE_ENERGY_EFFICIENCY_AMOUNT, "Reduces energy used per tick"),
-	RANGE(Constants.UPGRADE_RANGE_AMOUNT, 0.15f, "+%d machine work range", false);
+	PROCESSING_SPEED(new DefaultMachineUpgrade(Constants.UPGRADE_PROCESSING_SPEED_AMOUNT, 0.5f), "+%d%% machine processing speed"),
+	OUTPUT_CHANCE(new DefaultMachineUpgrade(Constants.UPGRADE_SECONDARY_OUTPUT_AMOUNT, 0.25f), "+%d%% chance of secondary outputs"),
+	ENERGY_CAPACITY(new DefaultMachineUpgrade(Constants.UPGRADE_ENERGY_CAPACITY_AMOUNT, 0.0f), "x%d energy storage", false),
+	ENERGY_EFFICIENCY(new DefaultMachineUpgrade(Constants.UPGRADE_ENERGY_EFFICIENCY_AMOUNT, Constants.UPGRADE_ENERGY_EFFICIENCY_AMOUNT), "Reduces energy used per tick"),
+	RANGE(new DefaultMachineUpgrade(Constants.UPGRADE_RANGE_AMOUNT, 0.15f), "+%d machine work range", false);
 
-	private final float upgradeValue;
-	private final float energyUsage;
+	private final DefaultMachineUpgrade upgrade;
 	private final boolean displayValueAsPercentage;
 	private final String desc;
 	@SuppressWarnings("NonFinalFieldInEnum")
 	private ItemRegistryObject<ItemMachineUpgrade> item;
 
-	MachineUpgrades(float upgradeValue, float energyUsage, String desc)
+	MachineUpgrades(DefaultMachineUpgrade upgrade, String desc)
 	{
-		this(upgradeValue, energyUsage, desc, true);
+		this(upgrade, desc, true);
 	}
 
-	MachineUpgrades(float upgradeValue, float energyUsage, String desc, boolean displayValueAsPercentage)
+	MachineUpgrades(DefaultMachineUpgrade upgrade, String desc, boolean displayValueAsPercentage)
 	{
-		this.upgradeValue = upgradeValue;
-		this.energyUsage = energyUsage;
+		this.upgrade = upgrade;
 		this.displayValueAsPercentage = displayValueAsPercentage;
 		this.desc = desc;
 	}
@@ -47,16 +47,26 @@ public enum MachineUpgrades implements IItemProvider, IMachineUpgrade
 		}
 	}
 
+	public DefaultMachineUpgrade getDefaultConfig()
+	{
+		return this.upgrade;
+	}
+
+	public UpgradeConfig getConfig()
+	{
+		return Config.getUpgradeConfig(this);
+	}
+
 	@Override
 	public float getEnergyUsageMultiplier()
 	{
-		return energyUsage;
+		return getConfig().getEnergyUsage();
 	}
 
 	@Override
 	public float getUpgradeValue()
 	{
-		return upgradeValue;
+		return getConfig().getUpgradeValue();
 	}
 
 	@Override
@@ -80,5 +90,26 @@ public enum MachineUpgrades implements IItemProvider, IMachineUpgrade
 	public Item asItem()
 	{
 		return item.get();
+	}
+
+	public static class DefaultMachineUpgrade
+	{
+		private final float upgradeValue;
+		private final float energyUsage;
+		public DefaultMachineUpgrade(float upgradeValue, float energyUsage)
+		{
+			this.upgradeValue = upgradeValue;
+			this.energyUsage = energyUsage;
+		}
+
+		public float getUpgradeValue()
+		{
+			return upgradeValue;
+		}
+
+		public float getEnergyUsage()
+		{
+			return energyUsage;
+		}
 	}
 }

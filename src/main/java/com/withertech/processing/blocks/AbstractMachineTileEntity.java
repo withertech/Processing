@@ -83,9 +83,10 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
 	};
 	protected boolean running = false;
 
-	protected AbstractMachineTileEntity(TileEntityType<?> typeIn, int inventorySize, MachineTier tier)
+	protected AbstractMachineTileEntity(TileEntityType<?> typeIn,  int inventorySize, MachineTier tier)
 	{
-		super(typeIn, inventorySize, tier.getEnergyCapacity(), 500, 0, tier);
+		super(typeIn, inventorySize , tier.getEnergyCapacity(), 500, 0, tier);
+		this.getEnergyImpl().setCapacity(this.getMaxEnergyUpgrades());
 	}
 
 	@Override
@@ -144,6 +145,12 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
 		return tier.getProcessingSpeed() * (1f + speedUpgrades * Constants.UPGRADE_PROCESSING_SPEED_AMOUNT);
 	}
 
+	protected int getMaxEnergyUpgrades()
+	{
+		int capacityUpgrades = getUpgradeCount(MachineUpgrades.ENERGY_CAPACITY);
+		return tier.getEnergyCapacity() * ((capacityUpgrades > 0)?capacityUpgrades * Constants.UPGRADE_ENERGY_CAPACITY_AMOUNT:1);
+	}
+
 	public abstract boolean isIngredient(ItemStack stack);
 
 	/**
@@ -198,7 +205,7 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
 	public void tick()
 	{
 		if (world == null || world.isRemote) return;
-
+		getEnergyImpl().setCapacity(getMaxEnergyUpgrades());
 		R recipe = getRecipe();
 		if (recipe != null && canMachineRun(recipe))
 		{

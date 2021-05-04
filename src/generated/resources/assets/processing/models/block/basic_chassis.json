@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_top",
-  "textures": {
-    "side": "processing:block/basic_package",
-    "top": "processing:block/basic_package_top"
-  }
-}

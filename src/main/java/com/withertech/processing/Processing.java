@@ -3,6 +3,10 @@ package com.withertech.processing;
 import com.withertech.processing.config.Config;
 import com.withertech.processing.event.Greetings;
 import com.withertech.processing.init.*;
+import com.withertech.processing.items.ChassisBlockItem;
+import com.withertech.processing.items.FactoryBlockItem;
+import com.withertech.processing.items.ResourceBlockItem;
+import com.withertech.processing.items.ResourceItem;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.entity.player.PlayerEntity;
@@ -28,7 +32,6 @@ import software.bernie.geckolib3.GeckoLib;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Comparator;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Processing.MODID)
@@ -38,51 +41,6 @@ public class Processing
 	public static final String MODID = "processing";
 	// Directly reference a log4j logger.
 	public static final Logger LOGGER = LogManager.getLogger();
-	static Comparator<ItemStack> sorter = (o1, o2) -> o1.getDisplayName().getString().compareToIgnoreCase(o2.getDisplayName().getString());
-	public static final ItemGroup MACHINES_ITEM_GROUP = new ItemGroup(MODID + ".machines")
-	{
-		@Override
-		public boolean hasSearchBar()
-		{
-			return true;
-		}
-
-		@Override
-		public void fill(NonNullList<ItemStack> items)
-		{
-			super.fill(items);
-			items.sort(sorter);
-		}
-
-		@Nonnull
-		@Override
-		public ItemStack createIcon()
-		{
-			return new ItemStack(ModItems.WRENCH.get());
-		}
-	};
-	public static final ItemGroup MATERIALS_ITEM_GROUP = new ItemGroup(MODID + ".materials")
-	{
-		@Override
-		public boolean hasSearchBar()
-		{
-			return true;
-		}
-
-		@Override
-		public void fill(NonNullList<ItemStack> items)
-		{
-			super.fill(items);
-			items.sort(sorter);
-		}
-
-		@Nonnull
-		@Override
-		public ItemStack createIcon()
-		{
-			return new ItemStack(ModMetals.COPPER.getIngot().get());
-		}
-	};
 
 	public Processing()
 	{

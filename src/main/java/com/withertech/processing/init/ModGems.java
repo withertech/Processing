@@ -1,7 +1,9 @@
 package com.withertech.processing.init;
 
-import com.withertech.processing.Processing;
-import com.withertech.processing.blocks.BlockMetal;
+import com.withertech.processing.blocks.MetalBlock;
+import com.withertech.processing.items.ResourceBlockItem;
+import com.withertech.processing.items.ResourceItem;
+import com.withertech.processing.items.ResourceItemType;
 import com.withertech.processing.registry.BlockRegistryObject;
 import com.withertech.processing.registry.ItemRegistryObject;
 import net.minecraft.block.AbstractBlock;
@@ -9,7 +11,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.OreBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
@@ -87,7 +88,7 @@ public enum ModGems
 				String name = metal.oreName + "_ore";
 				metal.ore = new BlockRegistryObject<>(Registration.BLOCKS.register(name, metal.oreSupplier));
 				Registration.ITEMS.register(name, () ->
-						new BlockItem(metal.ore.get(), new Item.Properties().group(Processing.MACHINES_ITEM_GROUP)));
+						new ResourceBlockItem(metal.ore.get(), new Item.Properties().group(ModGroups.MATERIALS_ITEM_GROUP), ResourceItemType.ORE));
 			}
 		}
 		for (ModGems metal : values())
@@ -97,7 +98,7 @@ public enum ModGems
 				String name = metal.getName() + "_block";
 				metal.storageBlock = new BlockRegistryObject<>(Registration.BLOCKS.register(name, metal.storageBlockSupplier));
 				Registration.ITEMS.register(name, () ->
-						new BlockItem(metal.storageBlock.get(), new Item.Properties().group(Processing.MACHINES_ITEM_GROUP)));
+						new ResourceBlockItem(metal.storageBlock.get(), new Item.Properties().group(ModGroups.MATERIALS_ITEM_GROUP), ResourceItemType.STORAGE));
 			}
 		}
 	}
@@ -257,7 +258,7 @@ public enum ModGems
 
 		Builder storageBlock()
 		{
-			this.storageBlock = BlockMetal::new;
+			this.storageBlock = MetalBlock::new;
 			this.storageBlockTag = blockTag("storage_blocks/" + name);
 			return this;
 		}
@@ -270,7 +271,7 @@ public enum ModGems
 
 		Builder dust()
 		{
-			this.dust = () -> new Item(new Item.Properties().group(Processing.MACHINES_ITEM_GROUP));
+			this.dust = () -> new ResourceItem(new Item.Properties().group(ModGroups.MATERIALS_ITEM_GROUP), ResourceItemType.DUST);
 			this.dustTag = itemTag("dusts/" + name);
 			return this;
 		}
@@ -283,7 +284,7 @@ public enum ModGems
 
 		Builder gem()
 		{
-			this.gem = () -> new Item(new Item.Properties().group(Processing.MACHINES_ITEM_GROUP));
+			this.gem = () -> new ResourceItem(new Item.Properties().group(ModGroups.MATERIALS_ITEM_GROUP), ResourceItemType.GEM);
 			this.gemTag = itemTag("gems/" + name);
 			return this;
 		}

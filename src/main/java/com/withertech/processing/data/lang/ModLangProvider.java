@@ -3,14 +3,12 @@ package com.withertech.processing.data.lang;
 import com.withertech.processing.init.*;
 import com.withertech.processing.items.MachineUpgrades;
 import com.withertech.processing.util.MachineTier;
-import com.withertech.processing.util.TextUtil;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.data.LanguageProvider;
 import org.apache.commons.lang3.text.WordUtils;
 
-import java.awt.*;
+import java.util.Arrays;
+import java.util.Locale;
 
 @SuppressWarnings("deprecation")
 public class ModLangProvider extends LanguageProvider
@@ -72,7 +70,7 @@ public class ModLangProvider extends LanguageProvider
 		add("config.processing.world", "World");
 		add("config.processing.world.ores", "Ores");
 		add("config.processing.world.ores.master", "Master Switch");
-		add("config.processing.world.ores.master.desc", "Set to 'false' to completely disable ore generation from this mod, ignoring all other settings.");
+		add("config.processing.world.ores.master.desc", "Completely Disable Ore Generation");
 		for (ModOres ore : ModOres.values())
 		{
 			add("config.processing.world.ores." + ore.getName(), WordUtils.capitalize(ore.getName()));
@@ -108,32 +106,29 @@ public class ModLangProvider extends LanguageProvider
 		{
 			add(upgrade.asItem(), WordUtils.capitalize(upgrade.getName().replace("_", " ")));
 			add(upgrade.asItem().getTranslationKey() + ".desc", upgrade.getDesc());
+
+			add("config.processing.machines.upgrades." + upgrade.getName(), WordUtils.capitalize(upgrade.getName().replaceAll("_", " ")));
+			add("config.processing.machines.upgrades." + upgrade.getName() + ".upgradeValue", "Upgrade Value");
+			add("config.processing.machines.upgrades." + upgrade.getName() + ".upgradeValue.desc", "Magnitude of upgrade's effect");
+			add("config.processing.machines.upgrades." + upgrade.getName() + ".energyUsage", "Energy Usage");
+			add("config.processing.machines.upgrades." + upgrade.getName() + ".energyUsage.desc", "Energy Usage Multiplier");
 		}
 
 		add("item.processing.machine_upgrade.energy", "%s%% energy used");
 
 		add(ModBlocks.FLUID_PIPE.get(), "Fluid Pipe");
 		add(ModBlocks.FLUID_TANK.get(), "Fluid Tank");
-
 		add(ModBlocks.BASIC_CHASSIS.get(), "Basic Chassis");
 		add(ModBlocks.ADVANCED_CHASSIS.get(), "Advanced Chassis");
 		add(ModBlocks.ELITE_CHASSIS.get(), "Elite Chassis");
 		add(ModBlocks.ULTIMATE_CHASSIS.get(), "Ultimate Chassis");
-
-		add(ModBlocks.BASIC_CRUSHER.get(), "Basic Electric Crusher");
-		add(ModBlocks.ADVANCED_CRUSHER.get(), "Advanced Electric Crusher");
-		add(ModBlocks.ELITE_CRUSHER.get(), "Elite Electric Crusher");
-		add(ModBlocks.ULTIMATE_CRUSHER.get(), "Ultimate Electric Crusher");
-
-		add(ModBlocks.BASIC_PRESS.get(), "Basic Electric Press");
-		add(ModBlocks.ADVANCED_PRESS.get(), "Advanced Electric Press");
-		add(ModBlocks.ELITE_PRESS.get(), "Elite Electric Press");
-		add(ModBlocks.ULTIMATE_PRESS.get(), "Ultimate Electric Press");
-
-		add(ModBlocks.BASIC_FURNACE.get(), "Basic Electric Furnace");
-		add(ModBlocks.ADVANCED_FURNACE.get(), "Advanced Electric Furnace");
-		add(ModBlocks.ELITE_FURNACE.get(), "Elite Electric Furnace");
-		add(ModBlocks.ULTIMATE_FURNACE.get(), "Ultimate Electric Furnace");
+		for (ModFactoryBlocks blocks : ModFactoryBlocks.values())
+		{
+			for (MachineTier tier : MachineTier.values())
+			{
+				add(blocks.getBlock(tier), WordUtils.capitalize(tier.getName()) + " " + WordUtils.capitalize(blocks.getName()));
+			}
+		}
 
 		add(ModItems.PLATE_PRESS.get(), "Plate Press");
 		add(ModItems.ROD_PRESS.get(), "Rod Press");
@@ -145,6 +140,7 @@ public class ModLangProvider extends LanguageProvider
 
 		add("itemGroup.processing.machines", "Processing: Machines");
 		add("itemGroup.processing.materials", "Processing: Materials");
+		add("itemGroup.processing.misc", "Processing: Misc");
 
 		add("message.processing.tank", "@aFluid: %s");
 

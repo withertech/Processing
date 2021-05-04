@@ -87,7 +87,7 @@ public class RecipePressing implements IRecipe<IInventory>
 	@Override
 	public boolean matches(IInventory inv, @Nonnull World worldIn)
 	{
-		return this.ingredient.test(inv.getStackInSlot(0));
+		return this.ingredient.test(inv.getStackInSlot(0)) && this.press.test(inv.getStackInSlot(1));
 	}
 
 	@Nonnull

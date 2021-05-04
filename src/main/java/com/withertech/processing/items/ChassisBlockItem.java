@@ -17,6 +17,11 @@ public class ChassisBlockItem extends BlockItem
 		this.tier = blockIn.getTier();
 	}
 
+	public MachineTier getTier()
+	{
+		return tier;
+	}
+
 	@Override
 	public ITextComponent getDisplayName(ItemStack stack)
 	{

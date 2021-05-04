@@ -31,7 +31,7 @@ public enum MachineTier
 		return this.name().toLowerCase(Locale.ROOT);
 	}
 
-	public DefaultMachineTier getDefaultTier()
+	public DefaultMachineTier getDefaultConfig()
 	{
 		return this.tier;
 	}

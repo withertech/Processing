@@ -5,10 +5,7 @@ import com.withertech.processing.api.ConnectionType;
 import com.withertech.processing.blocks.AbstractMachineBlock;
 import com.withertech.processing.blocks.ChassisBlock;
 import com.withertech.processing.blocks.pipe.FluidPipeBlock;
-import com.withertech.processing.init.ModBlocks;
-import com.withertech.processing.init.ModGems;
-import com.withertech.processing.init.ModMetals;
-import com.withertech.processing.init.Registration;
+import com.withertech.processing.init.*;
 import com.withertech.processing.util.MachineTier;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
@@ -37,10 +34,10 @@ public class ModBlockStateProvider extends BlockStateProvider
 	@Override
 	protected void registerStatesAndModels()
 	{
-		Registration.BLOCKS.getEntries().stream()
-				.map(RegistryObject::get)
-				.filter(block -> block instanceof AbstractMachineBlock)
-				.forEach(block -> tieredHorizontalBlock(block, ((AbstractMachineBlock) block).getTier()));
+		Arrays.stream(ModFactoryBlocks.values()).forEach(factory ->
+		{
+			Arrays.stream(MachineTier.values()).map(factory::getBlock).forEach( block -> tieredHorizontalBlock(block, block.getTier()));
+		});
 
 		Registration.BLOCKS.getEntries().stream()
 				.map(RegistryObject::get)

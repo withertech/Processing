@@ -13,11 +13,11 @@ public class TierConfig
 
 	public TierConfig(MachineTier tier, ForgeConfigSpec.Builder builder)
 	{
-		this.upgradeSlots = builder.comment("Number of upgrade slots for tier").defineInRange(tier.getName() + ".upgradeSlots", tier.getDefaultTier().getUpgradeSlots(), 0, 9);
-		this.energyCapacity = builder.comment("Max energy storage for tier").defineInRange(tier.getName() + ".energyCapacity", tier.getDefaultTier().getEnergyCapacity(), 0, 1_000_000_000);
-		this.storageMultiplier = builder.comment("Input slot max stack size multiplier for tier").defineInRange(tier.getName() + ".storageMultiplier", tier.getDefaultTier().getStorageMultiplier(), 1, 64);
-		this.operationsPerTick = builder.comment("Operations per cycle for tier").defineInRange(tier.getName() + ".operationsPerTick", tier.getDefaultTier().getOperationsPerTick(), 1, 64);
-		this.processingSpeed = builder.comment("Base processing speed for tier").defineInRange(tier.getName() + ".processingSpeed", tier.getDefaultTier().getProcessingSpeed(), 0.0f, 1000.0f);
+		this.upgradeSlots = builder.comment("Number of upgrade slots for tier").defineInRange(tier.getName() + ".upgradeSlots", tier.getDefaultConfig().getUpgradeSlots(), 0, 9);
+		this.energyCapacity = builder.comment("Max energy storage for tier").defineInRange(tier.getName() + ".energyCapacity", tier.getDefaultConfig().getEnergyCapacity(), 0, 1_000_000_000);
+		this.storageMultiplier = builder.comment("Input slot max stack size multiplier for tier").defineInRange(tier.getName() + ".storageMultiplier", tier.getDefaultConfig().getStorageMultiplier(), 1, 64);
+		this.operationsPerTick = builder.comment("Operations per cycle for tier").defineInRange(tier.getName() + ".operationsPerTick", tier.getDefaultConfig().getOperationsPerTick(), 1, 64);
+		this.processingSpeed = builder.comment("Base processing speed for tier").defineInRange(tier.getName() + ".processingSpeed", tier.getDefaultConfig().getProcessingSpeed(), 0.0f, 1000.0f);
 	}
 
 	public int getUpgradeSlots()

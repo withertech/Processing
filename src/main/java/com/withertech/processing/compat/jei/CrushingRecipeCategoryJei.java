@@ -2,10 +2,11 @@ package com.withertech.processing.compat.jei;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.datafixers.util.Pair;
-import com.withertech.processing.blocks.crusher.ElectricCrusherScreen;
+import com.withertech.processing.blocks.crusher.CrusherScreen;
 import com.withertech.processing.crafting.recipe.RecipeCrushing;
-import com.withertech.processing.init.ModBlocks;
+import com.withertech.processing.init.ModFactoryBlocks;
 import com.withertech.processing.util.Constants;
+import com.withertech.processing.util.MachineTier;
 import com.withertech.processing.util.TextRenderUtils;
 import com.withertech.processing.util.TextUtil;
 import mezz.jei.api.constants.VanillaTypes;
@@ -43,9 +44,9 @@ public class CrushingRecipeCategoryJei implements IRecipeCategory<RecipeCrushing
 
 	public CrushingRecipeCategoryJei(IGuiHelper guiHelper)
 	{
-		background = guiHelper.createDrawable(ElectricCrusherScreen.JEI_TEXTURE, GUI_START_X, GUI_START_Y, GUI_WIDTH, GUI_HEIGHT);
-		icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.BASIC_CRUSHER.get()));
-		arrow = guiHelper.drawableBuilder(ElectricCrusherScreen.JEI_TEXTURE, 176, 14, 24, 17)
+		background = guiHelper.createDrawable(CrusherScreen.JEI_TEXTURE, GUI_START_X, GUI_START_Y, GUI_WIDTH, GUI_HEIGHT);
+		icon = guiHelper.createDrawableIngredient(new ItemStack(ModFactoryBlocks.CRUSHER.getItem(MachineTier.BASIC)));
+		arrow = guiHelper.drawableBuilder(CrusherScreen.JEI_TEXTURE, 176, 14, 24, 17)
 				.buildAnimated(200, IDrawableAnimated.StartDirection.LEFT, false);
 		localizedName = TextUtil.translate("jei", "category.crushing").getString();
 	}

@@ -1,10 +1,11 @@
 package com.withertech.processing.compat.jei;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.withertech.processing.blocks.press.ElectricPressScreen;
+import com.withertech.processing.blocks.press.PressScreen;
 import com.withertech.processing.crafting.recipe.RecipePressing;
-import com.withertech.processing.init.ModBlocks;
+import com.withertech.processing.init.ModFactoryBlocks;
 import com.withertech.processing.util.Constants;
+import com.withertech.processing.util.MachineTier;
 import com.withertech.processing.util.TextUtil;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
@@ -35,9 +36,9 @@ public class PressingRecipeCategoryJei implements IRecipeCategory<RecipePressing
 
 	public PressingRecipeCategoryJei(IGuiHelper guiHelper)
 	{
-		background = guiHelper.createDrawable(ElectricPressScreen.JEI_TEXTURE, GUI_START_X, GUI_START_Y, GUI_WIDTH, GUI_HEIGHT);
-		icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.BASIC_PRESS.get()));
-		arrow = guiHelper.drawableBuilder(ElectricPressScreen.JEI_TEXTURE, 176, 14, 24, 17)
+		background = guiHelper.createDrawable(PressScreen.JEI_TEXTURE, GUI_START_X, GUI_START_Y, GUI_WIDTH, GUI_HEIGHT);
+		icon = guiHelper.createDrawableIngredient(new ItemStack(ModFactoryBlocks.PRESS.getItem(MachineTier.BASIC)));
+		arrow = guiHelper.drawableBuilder(PressScreen.JEI_TEXTURE, 176, 14, 24, 17)
 				.buildAnimated(200, IDrawableAnimated.StartDirection.LEFT, false);
 		localizedName = TextUtil.translate("jei", "category.pressing").getString();
 	}

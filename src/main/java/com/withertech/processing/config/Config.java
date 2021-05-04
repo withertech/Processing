@@ -2,6 +2,7 @@ package com.withertech.processing.config;
 
 import com.withertech.processing.Processing;
 import com.withertech.processing.init.ModOres;
+import com.withertech.processing.items.MachineUpgrades;
 import com.withertech.processing.util.MachineTier;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
@@ -29,6 +30,7 @@ public final class Config
 	private static final ForgeConfigSpec.BooleanValue oreWorldGenMasterSwitch;
 	private static final Map<ModOres, OreConfig> oreConfigs = new EnumMap<>(ModOres.class);
 	private static final Map<MachineTier, TierConfig> tierConfigs = new EnumMap<>(MachineTier.class);
+	private static final Map<MachineUpgrades, UpgradeConfig> upgradeConfigs = new EnumMap<>(MachineUpgrades.class);
 
 	static
 	{
@@ -53,6 +55,9 @@ public final class Config
 			builder.push("machines");
 			builder.push("tiers");
 			Arrays.stream(MachineTier.values()).forEach(tier -> tierConfigs.put(tier, new TierConfig(tier, builder)));
+			builder.pop();
+			builder.push("upgrades");
+			Arrays.stream(MachineUpgrades.values()).forEach(upgrade -> upgradeConfigs.put(upgrade, new UpgradeConfig(upgrade, builder)));
 			builder.pop(2);
 
 
@@ -133,7 +138,7 @@ public final class Config
 							.setMin(0)
 							.setMax(9)
 							.setSaveConsumer(value::setUpgradeSlots)
-							.setDefaultValue(key.getDefaultTier().getUpgradeSlots())
+							.setDefaultValue(key.getDefaultConfig().getUpgradeSlots())
 							.build(),
 					entryBuilder
 							.startIntField(new TranslationTextComponent("config.processing.machines.tiers." + key.getName() + ".energyCapacity"), value.getEnergyCapacity())
@@ -141,7 +146,7 @@ public final class Config
 							.setMin(0)
 							.setMax(1_000_000_000)
 							.setSaveConsumer(value::setEnergyCapacity)
-							.setDefaultValue(key.getDefaultTier().getEnergyCapacity())
+							.setDefaultValue(key.getDefaultConfig().getEnergyCapacity())
 							.build(),
 					entryBuilder
 							.startIntField(new TranslationTextComponent("config.processing.machines.tiers." + key.getName() + ".storageMultiplier"), value.getStorageMultiplier())
@@ -149,7 +154,7 @@ public final class Config
 							.setMin(0)
 							.setMax(64)
 							.setSaveConsumer(value::setStorageMultiplier)
-							.setDefaultValue(key.getDefaultTier().getStorageMultiplier())
+							.setDefaultValue(key.getDefaultConfig().getStorageMultiplier())
 							.build(),
 					entryBuilder
 							.startIntField(new TranslationTextComponent("config.processing.machines.tiers." + key.getName() + ".operationsPerTick"), value.getOperationsPerTick())
@@ -157,7 +162,7 @@ public final class Config
 							.setMin(0)
 							.setMax(64)
 							.setSaveConsumer(value::setOperationsPerTick)
-							.setDefaultValue(key.getDefaultTier().getOperationsPerTick())
+							.setDefaultValue(key.getDefaultConfig().getOperationsPerTick())
 							.build(),
 					entryBuilder
 							.startFloatField(new TranslationTextComponent("config.processing.machines.tiers." + key.getName() + ".processingSpeed"), value.getProcessingSpeed())
@@ -165,12 +170,37 @@ public final class Config
 							.setMin(0.0f)
 							.setMax(1000.0f)
 							.setSaveConsumer(value::setProcessingSpeed)
-							.setDefaultValue(key.getDefaultTier().getProcessingSpeed())
+							.setDefaultValue(key.getDefaultConfig().getProcessingSpeed())
 							.build()
 			));
 			tiers.add(tier.build());
 		});
 		machines.addEntry(tiers.build());
+		SubCategoryBuilder upgrades = entryBuilder.startSubCategory(new TranslationTextComponent("config.processing.machines.upgrades"));
+		upgradeConfigs.forEach((key, value) ->
+		{
+			SubCategoryBuilder upgrade = entryBuilder.startSubCategory(new TranslationTextComponent("config.processing.machines.upgrades." + key.getName()));
+			upgrade.addAll(Arrays.asList(
+					entryBuilder
+							.startFloatField(new TranslationTextComponent("config.processing.machines.upgrades." + key.getName() + ".upgradeValue"), value.getUpgradeValue())
+							.setTooltip(new TranslationTextComponent("config.processing.machines.upgrades." + key.getName() + ".upgradeValue.desc"))
+							.setMin(-1000.0f)
+							.setMax(1000.0f)
+							.setSaveConsumer(value::setUpgradeValue)
+							.setDefaultValue(key.getDefaultConfig().getUpgradeValue())
+							.build(),
+					entryBuilder
+							.startFloatField(new TranslationTextComponent("config.processing.machines.upgrades." + key.getName() + ".energyUsage"), value.getEnergyUsage())
+							.setTooltip(new TranslationTextComponent("config.processing.machines.upgrades." + key.getName() + ".energyUsage.desc"))
+							.setMin(-1000.0f)
+							.setMax(1000.0f)
+							.setSaveConsumer(value::setEnergyUsage)
+							.setDefaultValue(key.getDefaultConfig().getEnergyUsage())
+							.build()
+			));
+			upgrades.add(upgrade.build());
+		});
+		machines.addEntry(upgrades.build());
 		builder.transparentBackground();
 		builder.setSavingRunnable(commonSpec::save);
 		return builder;
@@ -209,6 +239,11 @@ public final class Config
 	public static TierConfig getTierConfig(MachineTier tier)
 	{
 		return tierConfigs.get(tier);
+	}
+
+	public static UpgradeConfig getUpgradeConfig(MachineUpgrades upgrade)
+	{
+		return upgradeConfigs.get(upgrade);
 	}
 
 	public static void init()

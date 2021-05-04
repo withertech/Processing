@@ -1,10 +1,8 @@
 package com.withertech.processing.data.recipe;
 
 import com.withertech.processing.Processing;
-import com.withertech.processing.init.ModBlocks;
-import com.withertech.processing.init.ModItems;
-import com.withertech.processing.init.ModMetals;
-import com.withertech.processing.init.ModTags;
+import com.withertech.processing.init.*;
+import com.withertech.processing.util.MachineTier;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.*;
 import net.minecraft.item.Item;
@@ -134,17 +132,17 @@ public class ModRecipeProvider extends RecipeProvider
 
 	public static PressingRecipeBuilder pressingPlate(ITag<Item> ingot, IItemProvider plate)
 	{
-		return PressingRecipeBuilder.pressing(ingot, plate, ModTags.Items.PLATE_PRESS, PRESSING_PLATE_TIME);
+		return PressingRecipeBuilder.pressing(ingot, plate, ModItems.PLATE_PRESS.get(), PRESSING_PLATE_TIME);
 	}
 
 	public static PressingRecipeBuilder pressingRod(ITag<Item> ingot, IItemProvider rod)
 	{
-		return PressingRecipeBuilder.pressing(ingot, rod, ModTags.Items.ROD_PRESS, PRESSING_PLATE_TIME);
+		return PressingRecipeBuilder.pressing(ingot, rod, ModItems.ROD_PRESS.get(), PRESSING_PLATE_TIME);
 	}
 
 	public static PressingRecipeBuilder pressingGear(ITag<Item> ingot, IItemProvider gear)
 	{
-		return PressingRecipeBuilder.pressing(ingot, gear, ModTags.Items.GEAR_PRESS, PRESSING_PLATE_TIME);
+		return PressingRecipeBuilder.pressing(ingot, gear, ModItems.GEAR_PRESS.get(), PRESSING_PLATE_TIME);
 	}
 
 	public static CrushingRecipeBuilder crushingIngot(ITag<Item> ingot, IItemProvider dust)
@@ -333,7 +331,7 @@ public class ModRecipeProvider extends RecipeProvider
 				.addCriterion("has_parent", hasItem(ModBlocks.ELITE_CHASSIS.get()))
 				.build(consumer, Processing.getId("chassis/ultimate_chassis"));
 
-		ShapedRecipeBuilder.shapedRecipe(ModBlocks.BASIC_FURNACE.get(), 1)
+		ShapedRecipeBuilder.shapedRecipe(ModFactoryBlocks.FURNACE.getItem(MachineTier.BASIC), 1)
 				.patternLine("#%#")
 				.patternLine("$%$")
 				.patternLine("#*#")
@@ -345,7 +343,7 @@ public class ModRecipeProvider extends RecipeProvider
 				.addCriterion("has_copper", hasItem(ModMetals.COPPER.getIngotTag().get()))
 				.build(consumer, Processing.getId("furnace/basic_upgrade"));
 
-		ShapedRecipeBuilder.shapedRecipe(ModBlocks.BASIC_FURNACE.get(), 1)
+		ShapedRecipeBuilder.shapedRecipe(ModFactoryBlocks.FURNACE.getItem(MachineTier.BASIC), 1)
 				.patternLine(" % ")
 				.patternLine("$@$")
 				.patternLine(" * ")
@@ -358,21 +356,21 @@ public class ModRecipeProvider extends RecipeProvider
 				.addCriterion("has_parent", hasItem(ModBlocks.BASIC_CHASSIS.get()))
 				.build(consumer, Processing.getId("furnace/basic_chassis"));
 
-		ShapedRecipeBuilder.shapedRecipe(ModBlocks.ADVANCED_FURNACE.get(), 1)
+		ShapedRecipeBuilder.shapedRecipe(ModFactoryBlocks.FURNACE.getItem(MachineTier.ADVANCED), 1)
 				.patternLine("#%#")
 				.patternLine("$@$")
 				.patternLine("#*#")
-				.key('@', ModBlocks.BASIC_FURNACE.get())
+				.key('@', ModFactoryBlocks.FURNACE.getItem(MachineTier.BASIC))
 				.key('#', ModMetals.SILVER.getPlateTag().get())
 				.key('%', Tags.Items.DUSTS_REDSTONE)
 				.key('$', Items.COAL)
 				.key('*', ModMetals.GOLD.getIngotTag().get())
 				.addCriterion("has_silver", hasItem(ModMetals.SILVER.getPlateTag().get()))
 				.addCriterion("has_gold", hasItem(ModMetals.GOLD.getIngotTag().get()))
-				.addCriterion("has_parent", hasItem(ModBlocks.BASIC_FURNACE.get()))
+				.addCriterion("has_parent", hasItem(ModFactoryBlocks.FURNACE.getItem(MachineTier.BASIC)))
 				.build(consumer, Processing.getId("furnace/advanced_upgrade"));
 
-		ShapedRecipeBuilder.shapedRecipe(ModBlocks.ADVANCED_FURNACE.get(), 1)
+		ShapedRecipeBuilder.shapedRecipe(ModFactoryBlocks.FURNACE.getItem(MachineTier.ADVANCED), 1)
 				.patternLine(" % ")
 				.patternLine("$@$")
 				.patternLine(" * ")
@@ -385,21 +383,21 @@ public class ModRecipeProvider extends RecipeProvider
 				.addCriterion("has_parent", hasItem(ModBlocks.ADVANCED_CHASSIS.get()))
 				.build(consumer, Processing.getId("furnace/advanced_chassis"));
 
-		ShapedRecipeBuilder.shapedRecipe(ModBlocks.ELITE_FURNACE.get(), 1)
+		ShapedRecipeBuilder.shapedRecipe(ModFactoryBlocks.FURNACE.getItem(MachineTier.ELITE), 1)
 				.patternLine("#%#")
 				.patternLine("$@$")
 				.patternLine("#*#")
-				.key('@', ModBlocks.ADVANCED_FURNACE.get())
+				.key('@', ModFactoryBlocks.FURNACE.getItem(MachineTier.ADVANCED))
 				.key('#', ModMetals.INVAR.getPlateTag().get())
 				.key('%', Tags.Items.STORAGE_BLOCKS_REDSTONE)
 				.key('$', Tags.Items.STORAGE_BLOCKS_COAL)
 				.key('*', ModMetals.ALUMINUM.getIngotTag().get())
 				.addCriterion("has_invar", hasItem(ModMetals.INVAR.getPlateTag().get()))
 				.addCriterion("has_aluminum", hasItem(ModMetals.ALUMINUM.getIngotTag().get()))
-				.addCriterion("has_parent", hasItem(ModBlocks.ADVANCED_FURNACE.get()))
+				.addCriterion("has_parent", hasItem(ModFactoryBlocks.FURNACE.getItem(MachineTier.ADVANCED)))
 				.build(consumer, Processing.getId("furnace/elite_upgrade"));
 
-		ShapedRecipeBuilder.shapedRecipe(ModBlocks.ELITE_FURNACE.get(), 1)
+		ShapedRecipeBuilder.shapedRecipe(ModFactoryBlocks.FURNACE.getItem(MachineTier.ELITE), 1)
 				.patternLine(" % ")
 				.patternLine("$@$")
 				.patternLine(" * ")
@@ -412,21 +410,21 @@ public class ModRecipeProvider extends RecipeProvider
 				.addCriterion("has_parent", hasItem(ModBlocks.ELITE_CHASSIS.get()))
 				.build(consumer, Processing.getId("furnace/elite_chassis"));
 
-		ShapedRecipeBuilder.shapedRecipe(ModBlocks.ULTIMATE_FURNACE.get(), 1)
+		ShapedRecipeBuilder.shapedRecipe(ModFactoryBlocks.FURNACE.getItem(MachineTier.ULTIMATE), 1)
 				.patternLine("#%#")
 				.patternLine("$@$")
 				.patternLine("#*#")
-				.key('@', ModBlocks.ELITE_FURNACE.get())
+				.key('@', ModFactoryBlocks.FURNACE.getItem(MachineTier.ELITE))
 				.key('#', ModMetals.ELECTRUM.getPlateTag().get())
 				.key('%', Tags.Items.STORAGE_BLOCKS_REDSTONE)
 				.key('$', Tags.Items.STORAGE_BLOCKS_COAL)
 				.key('*', ModMetals.PLATINUM.getIngotTag().get())
 				.addCriterion("has_electrum", hasItem(ModMetals.ELECTRUM.getPlateTag().get()))
 				.addCriterion("has_platinum", hasItem(ModMetals.PLATINUM.getIngotTag().get()))
-				.addCriterion("has_parent", hasItem(ModBlocks.ELITE_FURNACE.get()))
+				.addCriterion("has_parent", hasItem(ModFactoryBlocks.FURNACE.getItem(MachineTier.ELITE)))
 				.build(consumer, Processing.getId("furnace/ultimate_upgrade"));
 
-		ShapedRecipeBuilder.shapedRecipe(ModBlocks.ULTIMATE_FURNACE.get(), 1)
+		ShapedRecipeBuilder.shapedRecipe(ModFactoryBlocks.FURNACE.getItem(MachineTier.ULTIMATE), 1)
 				.patternLine(" % ")
 				.patternLine("$@$")
 				.patternLine(" * ")
@@ -439,7 +437,7 @@ public class ModRecipeProvider extends RecipeProvider
 				.addCriterion("has_parent", hasItem(ModBlocks.ULTIMATE_CHASSIS.get()))
 				.build(consumer, Processing.getId("furnace/ultimate_chassis"));
 
-		ShapedRecipeBuilder.shapedRecipe(ModBlocks.BASIC_CRUSHER.get(), 1)
+		ShapedRecipeBuilder.shapedRecipe(ModFactoryBlocks.CRUSHER.getItem(MachineTier.BASIC), 1)
 				.patternLine("#%#")
 				.patternLine("$%$")
 				.patternLine("#*#")
@@ -451,7 +449,7 @@ public class ModRecipeProvider extends RecipeProvider
 				.addCriterion("has_copper", hasItem(ModMetals.COPPER.getIngotTag().get()))
 				.build(consumer, Processing.getId("crusher/basic_upgrade"));
 
-		ShapedRecipeBuilder.shapedRecipe(ModBlocks.BASIC_CRUSHER.get(), 1)
+		ShapedRecipeBuilder.shapedRecipe(ModFactoryBlocks.CRUSHER.getItem(MachineTier.BASIC), 1)
 				.patternLine(" % ")
 				.patternLine("$@$")
 				.patternLine(" * ")
@@ -464,21 +462,21 @@ public class ModRecipeProvider extends RecipeProvider
 				.addCriterion("has_parent", hasItem(ModBlocks.BASIC_CHASSIS.get()))
 				.build(consumer, Processing.getId("crusher/basic_chassis"));
 
-		ShapedRecipeBuilder.shapedRecipe(ModBlocks.ADVANCED_CRUSHER.get(), 1)
+		ShapedRecipeBuilder.shapedRecipe(ModFactoryBlocks.CRUSHER.getItem(MachineTier.ADVANCED), 1)
 				.patternLine("#%#")
 				.patternLine("$@$")
 				.patternLine("#*#")
-				.key('@', ModBlocks.BASIC_CRUSHER.get())
+				.key('@', ModFactoryBlocks.CRUSHER.getItem(MachineTier.BASIC))
 				.key('#', ModMetals.SILVER.getPlateTag().get())
 				.key('%', Tags.Items.DUSTS_REDSTONE)
 				.key('$', Items.FLINT)
 				.key('*', ModMetals.GOLD.getIngotTag().get())
 				.addCriterion("has_silver", hasItem(ModMetals.SILVER.getPlateTag().get()))
 				.addCriterion("has_gold", hasItem(ModMetals.GOLD.getIngotTag().get()))
-				.addCriterion("has_parent", hasItem(ModBlocks.BASIC_CRUSHER.get()))
+				.addCriterion("has_parent", hasItem(ModFactoryBlocks.CRUSHER.getItem(MachineTier.BASIC)))
 				.build(consumer, Processing.getId("crusher/advanced_upgrade"));
 
-		ShapedRecipeBuilder.shapedRecipe(ModBlocks.ADVANCED_CRUSHER.get(), 1)
+		ShapedRecipeBuilder.shapedRecipe(ModFactoryBlocks.CRUSHER.getItem(MachineTier.ADVANCED), 1)
 				.patternLine(" % ")
 				.patternLine("$@$")
 				.patternLine(" * ")
@@ -491,21 +489,21 @@ public class ModRecipeProvider extends RecipeProvider
 				.addCriterion("has_parent", hasItem(ModBlocks.ADVANCED_CHASSIS.get()))
 				.build(consumer, Processing.getId("crusher/advanced_chassis"));
 
-		ShapedRecipeBuilder.shapedRecipe(ModBlocks.ELITE_CRUSHER.get(), 1)
+		ShapedRecipeBuilder.shapedRecipe(ModFactoryBlocks.CRUSHER.getItem(MachineTier.ELITE), 1)
 				.patternLine("#%#")
 				.patternLine("$@$")
 				.patternLine("#*#")
-				.key('@', ModBlocks.ADVANCED_CRUSHER.get())
+				.key('@', ModFactoryBlocks.CRUSHER.getItem(MachineTier.ADVANCED))
 				.key('#', ModMetals.INVAR.getPlateTag().get())
 				.key('%', Tags.Items.STORAGE_BLOCKS_REDSTONE)
 				.key('$', Tags.Items.OBSIDIAN)
 				.key('*', ModMetals.ALUMINUM.getIngotTag().get())
 				.addCriterion("has_invar", hasItem(ModMetals.INVAR.getPlateTag().get()))
 				.addCriterion("has_aluminum", hasItem(ModMetals.ALUMINUM.getIngotTag().get()))
-				.addCriterion("has_parent", hasItem(ModBlocks.ADVANCED_CRUSHER.get()))
+				.addCriterion("has_parent", hasItem(ModFactoryBlocks.CRUSHER.getItem(MachineTier.ADVANCED)))
 				.build(consumer, Processing.getId("crusher/elite_upgrade"));
 
-		ShapedRecipeBuilder.shapedRecipe(ModBlocks.ELITE_CRUSHER.get(), 1)
+		ShapedRecipeBuilder.shapedRecipe(ModFactoryBlocks.CRUSHER.getItem(MachineTier.ELITE), 1)
 				.patternLine(" % ")
 				.patternLine("$@$")
 				.patternLine(" * ")
@@ -518,21 +516,21 @@ public class ModRecipeProvider extends RecipeProvider
 				.addCriterion("has_parent", hasItem(ModBlocks.ELITE_CHASSIS.get()))
 				.build(consumer, Processing.getId("crusher/elite_chassis"));
 
-		ShapedRecipeBuilder.shapedRecipe(ModBlocks.ULTIMATE_CRUSHER.get(), 1)
+		ShapedRecipeBuilder.shapedRecipe(ModFactoryBlocks.CRUSHER.getItem(MachineTier.ULTIMATE), 1)
 				.patternLine("#%#")
 				.patternLine("$@$")
 				.patternLine("#*#")
-				.key('@', ModBlocks.ELITE_CRUSHER.get())
+				.key('@', ModFactoryBlocks.CRUSHER.getItem(MachineTier.ELITE))
 				.key('#', ModMetals.ELECTRUM.getPlateTag().get())
 				.key('%', Tags.Items.STORAGE_BLOCKS_REDSTONE)
 				.key('$', Tags.Items.OBSIDIAN)
 				.key('*', ModMetals.PLATINUM.getIngotTag().get())
 				.addCriterion("has_electrum", hasItem(ModMetals.ELECTRUM.getPlateTag().get()))
 				.addCriterion("has_platinum", hasItem(ModMetals.PLATINUM.getIngotTag().get()))
-				.addCriterion("has_parent", hasItem(ModBlocks.ELITE_CRUSHER.get()))
+				.addCriterion("has_parent", hasItem(ModFactoryBlocks.CRUSHER.getItem(MachineTier.ELITE)))
 				.build(consumer, Processing.getId("crusher/ultimate_upgrade"));
 
-		ShapedRecipeBuilder.shapedRecipe(ModBlocks.ULTIMATE_CRUSHER.get(), 1)
+		ShapedRecipeBuilder.shapedRecipe(ModFactoryBlocks.CRUSHER.getItem(MachineTier.ULTIMATE), 1)
 				.patternLine(" % ")
 				.patternLine("$@$")
 				.patternLine(" * ")

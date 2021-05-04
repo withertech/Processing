@@ -125,9 +125,9 @@ public class FluidTankBlock extends Block
 		}
 		TileEntity tile = worldIn.getTileEntity(pos);
 
-		if (tile instanceof TileFluidTank)
+		if (tile instanceof FluidTankTile)
 		{
-			return ((TileFluidTank) tile).activate(player, handIn);
+			return ((FluidTankTile) tile).activate(player, handIn);
 		}
 		return ActionResultType.FAIL;
 	}
@@ -142,7 +142,7 @@ public class FluidTankBlock extends Block
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
-		return new TileFluidTank();
+		return new FluidTankTile();
 	}
 
 }
